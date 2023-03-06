@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="description" content="">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <!-- The above 4 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+
+    <!-- Title -->
+    <title>TP1 - CMS</title>
+
+    <!-- Favicon -->
+    <link rel="icon" href="../img/core-img/favicon.ico">
+
+    <!-- Stylesheet -->
+    <link rel="stylesheet" href="../vendor/css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <script src="https://kit.fontawesome.com/yourcode.js" crossorigin="anonymous"></script>
+
+</head>
+
+<body>
+    <body>
+        <!-- ##### Header Area Start ##### -->
+        <header class="header-area">
+            <!-- Navbar Area -->
+            <div class="newsbox-main-menu">
+                <div class="classy-nav-container breakpoint-off">
+                    <div class="container-fluid">
+                        <!-- Menu -->
+                        <nav class="classy-navbar justify-content-between" id="newsboxNav">
+    
+                            <!-- Nav brand -->
+                            <a href="/" class="nav-brand"><h1><span class="logo_gris">Article</span><span class="logo_rouge">CMS</span> </h1></a>
+                            
+                            <!-- Navbar Toggler -->
+                            <div class="classy-navbar-toggler">
+                                <span class="navbarToggler"><span></span><span></span><span></span></span>
+                            </div>
+    
+                            <!-- Menu -->
+                            <div class="classy-menu">
+    
+                                <!-- Close Button -->
+                                <div class="classycloseIcon">
+                                    <div class="cross-wrap"><span class="top"></span><span class="bottom"></span></div>
+                                </div>
+    
+                                <!-- Nav Start -->
+                                <div class="classynav">
+                                    <ul>
+                                        <li><a class="lien_a" href="/admin"> 
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="currentColor" class="bi bi-gear-wide-connected iconesvg" viewBox="0 0 16 16">
+                                                    <path d="M7.068.727c.243-.97 1.62-.97 1.864 0l.071.286a.96.96 0 0 0 1.622.434l.205-.211c.695-.719 1.888-.03 1.613.931l-.08.284a.96.96 0 0 0 1.187 1.187l.283-.081c.96-.275 1.65.918.931 1.613l-.211.205a.96.96 0 0 0 .434 1.622l.286.071c.97.243.97 1.62 0 1.864l-.286.071a.96.96 0 0 0-.434 1.622l.211.205c.719.695.03 1.888-.931 1.613l-.284-.08a.96.96 0 0 0-1.187 1.187l.081.283c.275.96-.918 1.65-1.613.931l-.205-.211a.96.96 0 0 0-1.622.434l-.071.286c-.243.97-1.62.97-1.864 0l-.071-.286a.96.96 0 0 0-1.622-.434l-.205.211c-.695.719-1.888.03-1.613-.931l.08-.284a.96.96 0 0 0-1.186-1.187l-.284.081c-.96.275-1.65-.918-.931-1.613l.211-.205a.96.96 0 0 0-.434-1.622l-.286-.071c-.97-.243-.97-1.62 0-1.864l.286-.071a.96.96 0 0 0 .434-1.622l-.211-.205c-.719-.695-.03-1.888.931-1.613l.284.08a.96.96 0 0 0 1.187-1.186l-.081-.284c-.275-.96.918-1.65 1.613-.931l.205.211a.96.96 0 0 0 1.622-.434l.071-.286zM12.973 8.5H8.25l-2.834 3.779A4.998 4.998 0 0 0 12.973 8.5zm0-1a4.998 4.998 0 0 0-7.557-3.779l2.834 3.78h4.723zM5.048 3.967c-.03.021-.058.043-.087.065l.087-.065zm-.431.355A4.984 4.984 0 0 0 3.002 8c0 1.455.622 2.765 1.615 3.678L7.375 8 4.617 4.322zm.344 7.646.087.065-.087-.065z"/>
+                                                </svg> 
+                                                Page Administrateur
+                                            </a>
+                                        </li>
+                                        <li></li>
+                                        <li></li>
+                                    </ul>
+                                </div>
+                                <!-- Nav End -->
+    
+                            </div>
+                        </nav>
+                    </div>
+                </div>
+            </div>
+        </header>
+        <!-- ##### Header Area End ##### -->
+    
+    
+        <!-- ##### Intro News Area Start ##### -->
+        <section class="intro-news-area section-padding-100-0 mb-70">
+            <div class="container">
+                <div class="row justify-content-center">
+                    <!-- Intro News Tabs Area -->
+                    <div class="col-12 col-lg-8">
+                        <div class="intro-news-tab">
+                            <div class="tab-content">
+                                <div>
+                                    <div class="row">
+                                        <div class="col-12 col-sm-12">
+                                            {% block content %}{% endblock %}
+                                        </div> 
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Sidebar Widget -->
+                    <div class="col-12 col-sm-9 col-md-6 col-lg-4">
+                        <div class="sidebar-area">
+
+                            <!-- Newsletter Widget -->
+                            <div class="single-widget-area newsletter-widget mb-30">
+                                <h4>Rechercher des articles </h4>
+                                <form action="/recherche" method="post">
+                                    <input type="search" name="nl-search" id="nlsearch" placeholder="Entrez vos Mots clés">
+                                    <button type="submit" class="btn newsbox-btn w-100">Rechercher</button>
+                                </form>
+                                <p class="mt-30">Le texte entré dans ce champ va être recherché dans tous les titres et paragraphes connus du CMS.</p>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <!-- ##### Intro News Area End ##### -->
+    
+    
+        <!-- ##### Footer Area Start ##### -->
+        <footer class="footer-area">
+            <!-- Footer Logo -->
+            <div class="footer-logo mb-100">
+                <a href="/" class="nav-brand"><h1><span class="logo_gris">Article</span><span class="logo_rouge">CMS</span> </h1></a>      
+            </div>
+            <!-- Footer Content -->
+            <div class="container">
+                <div class="row">
+                    <div class="col-12">
+                        <div class="footer-content text-center">
+                            <p class="mb-15">TP1 Dans le cadre du cours INF5190 - par Charifi Imene - CHAI18608701 </p>
+    
+                            <!-- Copywrite Text -->
+                            <p class="copywrite-text"><a href="#">
+    <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
+    Copyright &copy;<script>document.write(new Date().getFullYear());</script> All rights reserved | This template is made with <i class="fa fa-heart-o" aria-hidden="true"></i> by <a href="https://colorlib.com" target="_blank">Colorlib</a>
+    <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. --></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </footer>
+    <!-- ##### Footer Area Start ##### -->
+
+    <!-- ##### All Javascript Script ##### -->
+    <!-- jQuery-2.2.4 js -->
+    <script src="../vendor/jquery/jquery-2.2.4.min.js"></script>
+    <!-- Popper js -->
+    <script src="../vendor/bootstrap/js/popper.min.js"></script>
+    <!-- Bootstrap js -->
+    <script src="../vendor/bootstrap/js/bootstrap.min.js"></script>
+    <!-- All Plugins js -->
+    <script src="../vendor/plugins/plugins.js"></script>
+    <!-- Active js -->
+    <!-- <script src="vendor/active.js"></script> -->
+</body>
+
+</html>
