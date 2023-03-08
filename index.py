@@ -8,10 +8,14 @@ import uuid
 from database import Database
 from datetime import datetime, date
 import re
+from flask_json_schema import JsonSchema
+from flask_json_schema import JsonValidationError
+import json
+import urllib.request
 
 
 app = Flask(__name__, static_url_path="", static_folder="static")
-
+schema = JsonSchema(app)
 
 def get_db():
     db = getattr(g, '_database', None)
@@ -25,6 +29,17 @@ def close_connection(exception):
     db = getattr(g, '_database', None)
     if db is not None:
         db.disconnect()
+
+
+@app.errorhandler(JsonValidationError)
+def validation_error(e):
+    errors = [validation_error.message for validation_error in e.errors]
+    return jsonify({'error': e.message, 'errors': errors}), 400
+
+
+@app.route('/doc')
+def documentation():
+    return render_template('doc.html')
 
 
 # La fonction verifier_chaine_caractere verifie si la chaine de
@@ -104,148 +119,21 @@ def get_article_jour(articles):
     return liste_article
 
 
+def telecharger_donnees():
+    url = "https://data.montreal.ca/dataset/05a9e718-6810-4e73-8bb9-5955efeb91a0/resource/7f939a08-be8a-45e1-b208-d8744dca8fc6/download/violations.csv"
+
+    requete = urllib.request.urlopen(url)
+    donnees_csv = requete.read()
+
+    encodage_csv = donnees_csv.decode('utf-8')
+
+    fichier_csv = open("donnees/donnees.csv", "w", encoding="utf-8")
+    fichier_csv.write(encodage_csv)
+    fichier_csv.close()
+
+
 @app.route('/', methods=['GET'])
 def page_accueil():
-    date_now = date.today()
-    articles = get_db().get_cinq_articles()
-    articles_date_jour = get_article_jour(articles)
-    return render_template('accueil.html', articles=articles_date_jour), 200
+    doc_xml = telecharger_donnees()
+    return render_template('accueil.html')
 
-
-@app.route('/admin', methods=['GET'])
-def page_admin():
-    articles = get_db().get_articles()
-    return render_template('admin.html', articles=articles), 200
-
-
-@app.route('/admin-nouveau', methods=['GET'])
-def page_nouveau_article():
-    return render_template('ajout_article.html'), 200
-
-
-@app.route('/envoyer', methods=['POST'])
-def donnees_formulaire():
-    titre = request.form['titre']
-    auteur = request.form['auteur']
-    date = request.form['date_publication']
-    texte_article = request.form['article']
-    identifiant = request.form['id_article']
-    print(identifiant)
-
-    donnees_entrees = {}
-    donnees_entrees["titre"] = titre
-    donnees_entrees["auteur"] = auteur
-    donnees_entrees["date"] = date
-    donnees_entrees["paragraphe"] = texte_article
-    donnees_entrees["identifiant"] = identifiant
-
-    if (titre == "" or auteur == "" or date == "" or texte_article == ""
-       or identifiant == ""):
-        return render_template("ajout_article.html",
-                               error="Tous les champs sont obligatoires"), 400
-    elif (not verifier_chaine_caractere(titre)):
-        return render_template("ajout_article.html",
-                               donnees_entrees=donnees_entrees,
-                               error="Le titre de l'article "
-                               "doit etre des chaines de "
-                               "caracteres alphanumériques"), 400
-    elif (not verifier_chaine_caractere(auteur)):
-        return render_template("ajout_article.html",
-                               donnees_entrees=donnees_entrees,
-                               error="L'auteur de l'article "
-                               "doit etre des chaines de "
-                               "caracteres alphanumériques"), 400
-    elif (not verifier_format_date(date)):
-        return render_template("ajout_article.html",
-                               donnees_entrees=donnees_entrees,
-                               error="La date doit etre sous "
-                               "le format suivant : aaaa-mm-jj"), 400
-    elif (not verifier_chaine_caractere(identifiant)):
-        return render_template("ajout_article.html",
-                               donnees_entrees=donnees_entrees,
-                               error="L'identifiant de l'article "
-                               "doit etre des chaines de "
-                               "caracteres alphanumériques"), 400
-    elif (not verifier_date(date)):
-        return render_template("ajout_article.html",
-                               donnees_entrees=donnees_entrees,
-                               error="La date doit etre celle "
-                               "d'aujourd'hui ou du future"), 400
-    elif (not verifier_texte_article(texte_article)):
-        return render_template("ajout_article.html",
-                               donnees_entrees=donnees_entrees,
-                               error="Le contenu de l'article ne doit "
-                               "pas dépasser un paragraphe (pas plus "
-                               "de 500 caracteres)"), 400
-    else:
-        get_db().insert_article(titre, auteur, identifiant, date,
-                                texte_article)
-        return redirect('/confirmation')
-
-
-@app.route('/article/<identifiant>', methods=['GET'])
-def article(identifiant):
-    article = get_db().get_article(identifiant)
-    if article is None:
-        return redirect('/erreur'), 404
-    else:
-        return render_template('article.html', article=article), 200
-
-
-@app.route('/modifier-article/<identifiant>', methods=['GET', 'POST'])
-def page_modification_article(identifiant):
-    article = get_db().get_article(identifiant)
-
-    if request.method == "GET":
-        if article is None:
-            return redirect('/erreur'), 404
-        else:
-            return render_template("modif_article.html", article=article), 200
-    else:
-        titre = request.form["titre"]
-        paragraphe = request.form["article"]
-
-        if titre == "" or paragraphe == "":
-            return render_template("modif_article.html", article=article,
-                                   error="Tous les champs sont "
-                                   "obligatoires"), 400
-        elif (not verifier_chaine_caractere(titre)):
-            return render_template("modif_article.html", article=article,
-                                   error="Le titre de l'article doit etre "
-                                   "des chaines de caracteres "
-                                   "alphanumériques"), 400
-        elif (not verifier_texte_article(paragraphe)):
-            return render_template("modif_article.html", article=article,
-                                   error="Le contenu de l'article ne doit "
-                                   "pas dépasser un paragraphe "
-                                   "(pas plus de 500 caracteres)"), 400
-        else:
-            get_db().maj_article(identifiant, titre, paragraphe)
-            return redirect('/confirmation')
-
-
-@app.route('/confirmation')
-def confirmer():
-    return render_template('confirmation.html')
-
-
-@app.route('/erreur')
-def erreur():
-    return render_template('404.html'), 404
-
-
-@app.route('/recherche', methods=['POST'])
-def donnees_recherche():
-    mot_cle = request.form['nl-search']
-    if mot_cle == "":
-        return render_template("articles.html",
-                               error="Le champ de recherche est "
-                               "obligatoire"), 400
-    elif (not verifier_chaine_caractere(mot_cle)):
-        return render_template("articles.html",
-                               error="Les motifs de recherche "
-                               "doivent être des chaines de "
-                               "caracteres alphanumériques"), 400
-    else:
-        articles = get_db().search_articles(mot_cle)
-        return render_template('articles.html', articles=articles), 200
