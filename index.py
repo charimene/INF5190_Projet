@@ -12,6 +12,8 @@ from flask_json_schema import JsonSchema
 from flask_json_schema import JsonValidationError
 import json
 import urllib.request
+import csv
+import xml.etree.ElementTree as et
 
 
 app = Flask(__name__, static_url_path="", static_folder="static")
@@ -122,7 +124,7 @@ def get_article_jour(articles):
 def telecharger_donnees():
     url = "https://data.montreal.ca/dataset/05a9e718-6810-4e73-8bb9-5955efeb91a0/resource/7f939a08-be8a-45e1-b208-d8744dca8fc6/download/violations.csv"
 
-    requete = urllib.request.urlopen(url)
+    requete = urllib.request.urlopen(url)  
     donnees_csv = requete.read()
 
     encodage_csv = donnees_csv.decode('utf-8')
@@ -132,8 +134,23 @@ def telecharger_donnees():
     fichier_csv.close()
 
 
+def convertir_csv2xml():
+    with open('donnees/donnees.csv', newline='') as csv_ligne:
+        lignes = csv.DictReader(csv_ligne)
+        racine = et.Element("data")
+
+        for ligne in lignes:
+            elt = et.SubElement(racine, "row")
+            for balise, valeur in ligne.items():
+                champ_elt = et.SubElement(elt, balise)
+                champ_elt.text = valeur
+
+    donnees_xml = et.ElementTree(racine)
+    donnees_xml.write("donnees/donnees.xml", encoding="UTF-8", xml_declaration=True)
+
+
 @app.route('/', methods=['GET'])
 def page_accueil():
     doc_xml = telecharger_donnees()
+    convertir_csv2xml()
     return render_template('accueil.html')
-
