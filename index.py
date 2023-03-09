@@ -135,18 +135,18 @@ def telecharger_donnees():
 
 
 def convertir_csv2xml():
-    with open('donnees/donnees.csv', newline='') as csv_ligne:
-        lignes = csv.DictReader(csv_ligne)
-        racine = et.Element("data")
+    fichier_csv = open("donnees/donnees.csv", newline='')
+    lignes = csv.DictReader(fichier_csv)
+    racine_fichier = et.Element("poursuites")
+        
+    for ligne in lignes:
+        poursuite = et.SubElement(racine_fichier, "poursuite")
+        for cle_balise, val in ligne.items():
+            champ = et.SubElement(poursuite, cle_balise)
+            champ.text = val
 
-        for ligne in lignes:
-            elt = et.SubElement(racine, "row")
-            for balise, valeur in ligne.items():
-                champ_elt = et.SubElement(elt, balise)
-                champ_elt.text = valeur
-
-    donnees_xml = et.ElementTree(racine)
-    donnees_xml.write("donnees/donnees.xml", encoding="UTF-8", xml_declaration=True)
+    fichier_xml = et.ElementTree(racine_fichier)
+    fichier_xml.write("donnees/donnees.xml", encoding="UTF-8", xml_declaration=True)
 
 
 @app.route('/', methods=['GET'])
