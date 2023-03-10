@@ -149,8 +149,18 @@ def convertir_csv2xml():
     fichier_xml.write("donnees/donnees.xml", encoding="UTF-8", xml_declaration=True)
 
 
+def inserer_donnees_db():
+    fichier_xml = et.parse("donnees/donnees.xml")
+    racine = fichier_xml.getroot()
+    for i in racine.findall("poursuite"):
+        id_poursuite=i.find("id_poursuite").text
+        nom = i.find("etablissement").text
+        print("********** "+id_poursuite+" -- "+ nom+" ***********")
+
+
 @app.route('/', methods=['GET'])
 def page_accueil():
-    doc_xml = telecharger_donnees()
+    telecharger_donnees()
     convertir_csv2xml()
+    inserer_donnees_db()
     return render_template('accueil.html')
