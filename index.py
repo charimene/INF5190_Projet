@@ -199,7 +199,7 @@ def inserer_donnees_db():
             poursuite_db = get_db().save_poursuite(poursuite)
          
 # Le bout de code de la fonction construire_db() qui s'execute une seule fois au debut de
-# démarrage de     
+# démarrage de l'application    
 @app.before_first_request
 def construire_db():
     telecharger_donnees()
