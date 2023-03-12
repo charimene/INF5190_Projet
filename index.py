@@ -198,7 +198,8 @@ def inserer_donnees_db():
             poursuite = Poursuite(id_poursuite, date_poursuite, date_jugement, motif, montant, id_etablismnt)
             poursuite_db = get_db().save_poursuite(poursuite)
          
-        
+# Le bout de code de la fonction construire_db() qui s'execute une seule fois au debut de
+# démarrage de     
 @app.before_first_request
 def construire_db():
     telecharger_donnees()
