@@ -161,6 +161,16 @@ def etablsmnt_existe(id_etablismnt):
     return resultat
 
 
+# cette fonction teste si l'id de la poursuite passé en parametre existe deja dans notre DB
+# Si l'id de la poursuite existe dans notre DB, la fonction retourne True, sinon ca retourne false
+def poursuite_existe(id_poursuite):
+    resultat = False
+    poursuite = get_db().get_poursuite(id_poursuite)
+    if poursuite is not None:
+        resultat = True
+    return resultat
+
+
 def inserer_donnees_db():
     fichier_xml = et.parse("donnees/donnees.xml")
     racine = fichier_xml.getroot()
@@ -182,8 +192,9 @@ def inserer_donnees_db():
             etablissement = Etablissement(id_etablismnt, nom, proprietaire, adresse, ville, statut)
             etablssmnt_db = get_db().save_etablissmnt(etablissement)
 
-        poursuite = Poursuite(id_poursuite, date_poursuite, date_jugement, motif, montant, id_etablismnt)
-        poursuite_db = get_db().save_poursuite(poursuite)
+        if not poursuite_existe(id_poursuite):
+            poursuite = Poursuite(id_poursuite, date_poursuite, date_jugement, motif, montant, id_etablismnt)
+            poursuite_db = get_db().save_poursuite(poursuite)
          
         
         

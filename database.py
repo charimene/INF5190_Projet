@@ -83,6 +83,20 @@ class Database:
                     "ville": etablissement[4], "statut": etablissement[5]}
 
 
+    def get_poursuite(self, id_poursuite):
+        cursor = self.get_connection().cursor()
+        cursor.execute("select id, date_poursuite, date_jugement, "
+                       "motif, montant, id_etablsmnt from poursuite "
+                       "where id = ?", (id_poursuite,))
+        poursuite = cursor.fetchone()
+        if poursuite is None:
+            return None
+        else:
+            return {"id": poursuite[0], "date_poursuite": poursuite[1],
+                    "date_jugement": poursuite[2], "motif": poursuite[3],
+                    "montant": poursuite[4], "id_etablsmnt": poursuite[5]}
+        
+
     def get_article(self, identifiant):
         cursor = self.get_connection().cursor()
         cursor.execute("select titre, identifiant, auteur, "
