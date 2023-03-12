@@ -11,9 +11,12 @@ import re
 from flask_json_schema import JsonSchema
 from flask_json_schema import JsonValidationError
 import json
+
 import urllib.request
 import csv
 import xml.etree.ElementTree as et
+from etablissement import Etablissement
+from poursuite import Poursuite
 
 
 app = Flask(__name__, static_url_path="", static_folder="static")
@@ -148,19 +151,47 @@ def convertir_csv2xml():
     fichier_xml = et.ElementTree(racine_fichier)
     fichier_xml.write("donnees/donnees.xml", encoding="UTF-8", xml_declaration=True)
 
+# cette fonction teste si l'id de l'etablissement passé en parametre existe deja dans notre DB
+# Si l'id de l'etablissement existe dans notre DB, la fonction retourne True, sinon ca retourne false
+def etablsmnt_existe(id_etablismnt):
+    resultat = False
+    etablissement = get_db().get_etablissement(id_etablismnt)
+    if etablissement is not None:
+        resultat = True
+    return resultat
+
 
 def inserer_donnees_db():
     fichier_xml = et.parse("donnees/donnees.xml")
     racine = fichier_xml.getroot()
     for i in racine.findall("poursuite"):
-        id_poursuite=i.find("id_poursuite").text
+        id_etablismnt=i.find("business_id").text
         nom = i.find("etablissement").text
-        print("********** "+id_poursuite+" -- "+ nom+" ***********")
+        proprietaire = i.find("proprietaire").text
+        adresse = i.find("adresse").text
+        ville = i.find("ville").text
+        statut = i.find("statut").text
+        
+        id_poursuite=i.find("id_poursuite").text
+        date_poursuite = i.find("date").text
+        date_jugement = i.find("date_jugement").text
+        motif=i.find("description").text
+        montant = i.find("montant").text
+        
+        if not etablsmnt_existe(id_etablismnt):
+            etablissement = Etablissement(id_etablismnt, nom, proprietaire, adresse, ville, statut)
+            etablssmnt_db = get_db().save_etablissmnt(etablissement)
 
+        poursuite = Poursuite(id_poursuite, date_poursuite, date_jugement, motif, montant, id_etablismnt)
+        poursuite_db = get_db().save_poursuite(poursuite)
+         
+        
+        
 
 @app.route('/', methods=['GET'])
 def page_accueil():
     telecharger_donnees()
     convertir_csv2xml()
     inserer_donnees_db()
-    return render_template('accueil.html')
+    eta = get_db().get_etablissements()
+    return render_template('accueil.html', etas=eta), 200

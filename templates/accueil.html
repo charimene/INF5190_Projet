@@ -13,23 +13,25 @@
             <div class="tab-content">
                 <div>
                     <div class="row">
-                        {% if not articles %}
-                            <p>Aucun article trouvé.</p>
+                        {% if not etas %}
+                            <p>Aucun etablissement trouvé.</p>
                         {% else %}
-                            {% for article in articles %}
+                            {% for eta in etas %}
                                 <div class="col-12 col-sm-12 cadre">
                                     <div class="single-blog-post d-flex style-4 mb-30">
                                         <div class="blog-content">
-                                            <a href="/article/{{article.id}}" class="post-title">{{ article.titre }}</a>
-                                            <span class="post-date">{{ article.date }} Par {{ article.auteur }}</span>
+                                            <a href="" class="post-title">{{ eta.id }}</a>
+                                            <span class="post-date">{{ eta.nom }} Par {{ eta.proprietaire }}</span>
                                         </div>
                                         <div>
                                             <div class="row">
                                                 <div class="col-3 col-sm-3">
-                                                    <a href="/article/{{article.id}}" class="texte_min_article"><img src="img/20.jpg" alt=""></a>
+                                                    <a href="" class="texte_min_article"><img src="img/20.jpg" alt=""></a>
                                                 </div>
                                                 <div class="col-9 col-sm-9">
-                                                    <p>{{ article.article[0:200]}} ...</p>
+                                                    <p>{{ eta.adresse}} ...</p>
+                                                    <p>{{ eta.ville}} ...</p>
+                                                    <p>{{ eta.statut}} ...</p>
                                                 </div>
                                             </div>                 
                                         </div>
