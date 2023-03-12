@@ -188,6 +188,8 @@ def inserer_donnees_db():
         motif=i.find("description").text
         montant = i.find("montant").text
         
+        # on vient ajouter le meme établissement qu'une seule fois dans la table etblissement de base de donnees
+        # il existe surement plusieurs poursuites associées au meme établissement.
         if not etablsmnt_existe(id_etablismnt):
             etablissement = Etablissement(id_etablismnt, nom, proprietaire, adresse, ville, statut)
             etablssmnt_db = get_db().save_etablissmnt(etablissement)
@@ -197,12 +199,16 @@ def inserer_donnees_db():
             poursuite_db = get_db().save_poursuite(poursuite)
          
         
-        
-
-@app.route('/', methods=['GET'])
-def page_accueil():
+@app.before_first_request
+def construire_db():
     telecharger_donnees()
     convertir_csv2xml()
     inserer_donnees_db()
+
+@app.route('/', methods=['GET'])
+def page_accueil():
+    # telecharger_donnees()
+    # convertir_csv2xml()
+    # inserer_donnees_db()
     eta = get_db().get_etablissements()
     return render_template('accueil.html', etas=eta), 200
