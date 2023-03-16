@@ -10,6 +10,8 @@ from datetime import datetime, date
 import re
 from flask_json_schema import JsonSchema
 from flask_json_schema import JsonValidationError
+# from schemas import donnees_insert_schema
+# from .schemas import person_update_schema
 import json
 
 import urllib.request
@@ -140,10 +142,15 @@ def telecharger_donnees():
 def convertir_csv2xml():
     fichier_csv = open("donnees/donnees.csv", newline='')
     lignes = csv.DictReader(fichier_csv)
-    racine_fichier = et.Element("poursuites")
-        
+    # racine du fichier par la balise library qui sert a valider le fichier xml créé par le fichier
+    # xsd : valider.xsd
+    racine_fichier = et.Element("library")
+    racine_fichier.set("xmlns:xsi", "http://www.w3.org/2001/XMLSchema-instance")   
+    racine_fichier.set("xsi:noNamespaceSchemaLocation", "valider.xsd")
+
+    poursuites = et.SubElement(racine_fichier, "poursuites")
     for ligne in lignes:
-        poursuite = et.SubElement(racine_fichier, "poursuite")
+        poursuite = et.SubElement(poursuites, "poursuite")
         for cle_balise, val in ligne.items():
             champ = et.SubElement(poursuite, cle_balise)
             champ.text = val
@@ -213,3 +220,5 @@ def page_accueil():
     # inserer_donnees_db()
     eta = get_db().get_etablissements()
     return render_template('accueil.html', etas=eta), 200
+    #nbr = get_db().nbr_poursuite()
+    # return render_template('accueil.html'), 200

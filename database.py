@@ -97,6 +97,13 @@ class Database:
                     "montant": poursuite[4], "id_etablsmnt": poursuite[5]}
         
 
+    def nbr_poursuite(self):
+        cursor = self.get_connection().cursor()
+        nbr = cursor.execute("SELECT COUNT(*) FROM poursuite")
+        print("dfsdgdd "+str(nbr))
+        return nbr
+
+
     def get_article(self, identifiant):
         cursor = self.get_connection().cursor()
         cursor.execute("select titre, identifiant, auteur, "

@@ -12,7 +12,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-person_insert_schema = {
+donnees_insert_schema = {
     'type': 'object',
     'required': ['firstname', 'lastname', 'age'],
     'properties': {
