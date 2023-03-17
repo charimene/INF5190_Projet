@@ -51,12 +51,26 @@
 
             <!-- Newsletter Widget -->
             <div class="single-widget-area newsletter-widget mb-30">
-                <h4>Rechercher des articles </h4>
+                <h4>Rechercher des contrevenants </h4>
                 <form action="/recherche" method="post">
                     <input type="search" name="nl-search" id="nlsearch" placeholder="Entrez vos Mots clés">
+                    <div class="form-group">
+                        <label for="filter">Filtrer par:</label> <br><br>
+                        <div class="btn-group" data-toggle="buttons">
+                          <label class="btn btn-default active">
+                            <input type="radio" name="options" id="option1" autocomplete="off" checked> Nom d’établissement
+                          </label>
+                          <label class="btn btn-default">
+                            <input type="radio" name="options" id="option2" autocomplete="off"> Propriétaire
+                          </label>
+                          <label class="btn btn-default">
+                            <input type="radio" name="options" id="option3" autocomplete="off"> Rue
+                          </label>
+                        </div>
+                    </div>
                     <button type="submit" class="btn newsbox-btn w-100">Rechercher</button>
                 </form>
-                <p class="mt-30">Le texte entré dans ce champ va être recherché dans tous les titres et paragraphes connus du CMS.</p>
+                <p class="mt-30">Vous devez choisir le filtre que vous voulez appliquer sur la recherche que vous voulez effectuer.</p>
             </div>
 
         </div>
