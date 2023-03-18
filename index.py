@@ -213,6 +213,7 @@ def construire_db():
     convertir_csv2xml()
     inserer_donnees_db()
 
+
 @app.route('/', methods=['GET'])
 def page_accueil():
     # telecharger_donnees()
@@ -222,3 +223,28 @@ def page_accueil():
     return render_template('accueil.html', etas=eta), 200
     #nbr = get_db().nbr_poursuite()
     # return render_template('accueil.html'), 200
+
+
+@app.route('/recherche', methods=['POST'])
+def donnees_recherche():
+    mot_cle = request.form['nl-search']
+    filtre = request.form['options']
+
+    if mot_cle == "":
+        return render_template("resultats.html",
+                               error="Le champ de recherche est "
+                               "obligatoire"), 400
+    # elif (not verifier_chaine_caractere(mot_cle)):
+    #     return render_template("resultats.html",
+    #                            error="Les motifs de recherche "
+    #                            "doivent être des chaines de "
+    #                            "caracteres alphanumériques"), 400
+    elif (filtre == "nom"):
+        contravenants = get_db().search_contravenant_par_nom(mot_cle)
+        return render_template('resultats.html', resultats=contravenants), 200
+    elif (filtre == "proprietaire"):
+        contravenants = get_db().search_contravenant_par_proprietaire(mot_cle)
+        return render_template('resultats.html', resultats=contravenants), 200
+    elif (filtre == "rue"):
+        contravenants = get_db().search_contravenant_par_rue(mot_cle)
+        return render_template('resultats.html', resultats=contravenants), 200

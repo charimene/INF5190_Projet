@@ -104,36 +104,35 @@ class Database:
         return nbr
 
 
-    def get_article(self, identifiant):
-        cursor = self.get_connection().cursor()
-        cursor.execute("select titre, identifiant, auteur, "
-                       "date_publication, paragraphe from article "
-                       "where identifiant = ?", (identifiant,))
-        article = cursor.fetchone()
-        if article is None:
-            return None
-        else:
-            return {"titre": article[0], "id": article[1],
-                    "auteur": article[2], "date": article[3],
-                    "article": article[4]}
-        
-
-    def maj_article(self, identifiant, titre, paragraphe):
-        connection = self.get_connection()
-        connection.execute("update article set titre = ?, paragraphe =? "
-                           "where identifiant = ?",
-                           (titre, paragraphe, identifiant))
-        connection.commit()
-
-    def search_articles(self, mot_cle):
+    def search_contravenant_par_proprietaire(self, mot_cle):
         motif_recherche = "%"+str(mot_cle)+"%"
         cursor = self.get_connection().cursor()
-        cursor.execute("select titre, identifiant, date_publication from "
-                       "article where titre like ? or paragraphe like ?",
-                       (motif_recherche, motif_recherche))
-        articles = cursor.fetchall()
-        return [{"titre": article[0], "id": article[1], "date": article[2]}
-                for article in articles]
+        cursor.execute("select id, nom, proprietaire, adresse, ville, statut from etablissement where proprietaire like ?",(motif_recherche,))
+        resultats = cursor.fetchall()
+        return [{"id": res[0], "nom": res[1],
+                 "proprietaire": res[2], "adresse": res[3],
+                 "ville": res[4], "statut": res[5]} for res in resultats]
+    
+
+
+    def search_contravenant_par_nom(self, mot_cle):
+        motif_recherche = "%"+str(mot_cle)+"%"
+        cursor = self.get_connection().cursor()
+        cursor.execute("select id, nom, proprietaire, adresse, ville, statut from etablissement where nom like ?",(motif_recherche,))
+        resultats = cursor.fetchall()
+        return [{"id": res[0], "nom": res[1],
+                 "proprietaire": res[2], "adresse": res[3],
+                 "ville": res[4], "statut": res[5]} for res in resultats]
+    
+
+    def search_contravenant_par_rue(self, mot_cle):
+        motif_recherche = "%"+str(mot_cle)+"%"
+        cursor = self.get_connection().cursor()
+        cursor.execute("select id, nom, proprietaire, adresse, ville, statut from etablissement where adresse like ?",(motif_recherche,))
+        resultats = cursor.fetchall()
+        return [{"id": res[0], "nom": res[1],
+                 "proprietaire": res[2], "adresse": res[3],
+                 "ville": res[4], "statut": res[5]} for res in resultats]
 
 
     def get_cinq_articles(self):
@@ -157,3 +156,24 @@ class Database:
         connection.commit()
 
     
+    def get_article(self, identifiant):
+        cursor = self.get_connection().cursor()
+        cursor.execute("select titre, identifiant, auteur, "
+                       "date_publication, paragraphe from article "
+                       "where identifiant = ?", (identifiant,))
+        article = cursor.fetchone()
+        if article is None:
+            return None
+        else:
+            return {"titre": article[0], "id": article[1],
+                    "auteur": article[2], "date": article[3],
+                    "article": article[4]}
+        
+
+    def maj_article(self, identifiant, titre, paragraphe):
+        connection = self.get_connection()
+        connection.execute("update article set titre = ?, paragraphe =? "
+                           "where identifiant = ?",
+                           (titre, paragraphe, identifiant))
+        connection.commit()
+
