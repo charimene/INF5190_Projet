@@ -9,7 +9,6 @@ Cette fonctionnalité sert a chercher des contravenants selon:
 - le nom de leurs établissements.
 - le nom de leurs propriétaires.
 - la rue de leurs établissements(adresse).
-
 ## A3
 
 ## A4
