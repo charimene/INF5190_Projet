@@ -18,15 +18,20 @@
                         {% endif %}
                     
                         {% if not resultats %}
-                            <p>Aucun résultat trouvé.</p>
+                            <p>Aucun résultat trouvé.</p> 
                         {% else %}
                             {% for resultat in resultats %}
-                            
                                 <div class="col-12 col-sm-12 cadre">
                                     <div class="single-blog-post d-flex style-4 mb-30">
                                         <div class="blog-content">
-                                            <a href="" class="post-title">{{ resultat.nom }}</a>
-                                            <span class="post-date">{{ resultat.ville}}</span>
+                                            <strong>Nom de l'établissement : {{ resultat.nom_e }}</strong> <br>
+                                            <span class="post-date"><strong>Id de l'établissement : </strong>{{ resultat.id_e }} - <strong>Id de la poursuite :</strong>{{ resultat.id_p }}</span> <br>
+                                            <span class="post-date"><strong>Proprietaire : </strong>{{ resultat.proprietaire }}</span> <br>
+                                            <span class="post-date"><strong>Adresse : </strong>{{ resultat.adresse }}, {{ resultat.ville }} </span> <br>
+                                            <span class="post-date"><strong>Statut : </strong>{{ resultat.statut }}</span> <br>
+                                            <span class="post-date"><strong>Date de poursuite : </strong>{{ resultat.date_p }} - <strong>Date de jugement :</strong> {{ resultat.date_jug }}</span> <br>
+                                            <span class="post-date"><strong>Description : </strong>{{ resultat.motif }}</span> <br>
+                                            <span class="post-date"><strong>Montant : </strong>{{ resultat.montant }}</span> <br>
                                         </div>
                                     </div>
                                 </div>

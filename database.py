@@ -107,32 +107,40 @@ class Database:
     def search_contravenant_par_proprietaire(self, mot_cle):
         motif_recherche = "%"+str(mot_cle)+"%"
         cursor = self.get_connection().cursor()
-        cursor.execute("select id, nom, proprietaire, adresse, ville, statut from etablissement where proprietaire like ?",(motif_recherche,))
+        cursor.execute("select * from etablissement, poursuite where etablissement.id = poursuite.id_etablsmnt and proprietaire like ?",(motif_recherche,))
+        
         resultats = cursor.fetchall()
-        return [{"id": res[0], "nom": res[1],
+        return [{"id_e": res[0], "nom_e": res[1],
                  "proprietaire": res[2], "adresse": res[3],
-                 "ville": res[4], "statut": res[5]} for res in resultats]
+                 "ville": res[4], "statut": res[5], "id_p": res[6], "date_p": res[7],
+                 "date_jug": res[8], "motif": res[9],
+                 "montant": res[10]} for res in resultats]
     
-
 
     def search_contravenant_par_nom(self, mot_cle):
         motif_recherche = "%"+str(mot_cle)+"%"
         cursor = self.get_connection().cursor()
-        cursor.execute("select id, nom, proprietaire, adresse, ville, statut from etablissement where nom like ?",(motif_recherche,))
+        cursor.execute("select * from etablissement, poursuite where etablissement.id = poursuite.id_etablsmnt and nom like ?",(motif_recherche,))
+        
         resultats = cursor.fetchall()
-        return [{"id": res[0], "nom": res[1],
+        return [{"id_e": res[0], "nom_e": res[1],
                  "proprietaire": res[2], "adresse": res[3],
-                 "ville": res[4], "statut": res[5]} for res in resultats]
+                 "ville": res[4], "statut": res[5], "id_p": res[6], "date_p": res[7],
+                 "date_jug": res[8], "motif": res[9],
+                 "montant": res[10]} for res in resultats]
     
 
     def search_contravenant_par_rue(self, mot_cle):
         motif_recherche = "%"+str(mot_cle)+"%"
         cursor = self.get_connection().cursor()
-        cursor.execute("select id, nom, proprietaire, adresse, ville, statut from etablissement where adresse like ?",(motif_recherche,))
+        cursor.execute("select * from etablissement, poursuite where etablissement.id = poursuite.id_etablsmnt and adresse like ?",(motif_recherche,))
+        
         resultats = cursor.fetchall()
-        return [{"id": res[0], "nom": res[1],
+        return [{"id_e": res[0], "nom_e": res[1],
                  "proprietaire": res[2], "adresse": res[3],
-                 "ville": res[4], "statut": res[5]} for res in resultats]
+                 "ville": res[4], "statut": res[5], "id_p": res[6], "date_p": res[7],
+                 "date_jug": res[8], "motif": res[9],
+                 "montant": res[10]} for res in resultats]
 
 
     def get_cinq_articles(self):

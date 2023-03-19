@@ -9,7 +9,7 @@ Cette fonctionnalité sert a chercher des contravenants selon:
 - le nom de leurs établissements.
 - le nom de leurs propriétaires.
 - la rue de leurs établissements(adresse).
-Dans la conception de la base de données, j'ai 2 tables, une pour les établissements, une pour les poursuites, c'est pourquoi si je fais entrer un motif de recherche je recois une seule fois le nom du'un contrevenants qui lui associé a une ou plusieurs poursuites.
+
 ## A3
 
 ## A4
