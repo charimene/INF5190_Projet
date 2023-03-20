@@ -100,9 +100,11 @@ class Database:
         if poursuite is None:
             return None
         else: #a fixer
-            return {"id": poursuite[0], "date_poursuite": poursuite[1],
-                    "date_jugement": poursuite[2], "motif": poursuite[3],
-                    "montant": poursuite[4], "id_etablsmnt": poursuite[5]}
+            return Poursuite(poursuite[0], poursuite[1], poursuite[2],
+                       poursuite[3], poursuite[4], poursuite[5])
+            # return {"id": poursuite[0], "date_poursuite": poursuite[1],
+            #         "date_jugement": poursuite[2], "motif": poursuite[3],
+            #         "montant": poursuite[4], "id_etablsmnt": poursuite[5]}
         
 
     def nbr_poursuite(self):
