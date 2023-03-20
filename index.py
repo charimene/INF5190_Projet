@@ -3,16 +3,19 @@ from flask import render_template
 from flask import g
 from flask import redirect
 from flask import request
+from flask import jsonify
 import hashlib
 import uuid
 from database import Database
-from datetime import datetime, date
+from datetime import datetime, date, timedelta
 import re
 from flask_json_schema import JsonSchema
 from flask_json_schema import JsonValidationError
 # from schemas import donnees_insert_schema
 # from .schemas import person_update_schema
 import json
+# import sched
+# import time
 
 import urllib.request
 import csv
@@ -23,6 +26,16 @@ from poursuite import Poursuite
 
 app = Flask(__name__, static_url_path="", static_folder="static")
 schema = JsonSchema(app)
+
+
+# Le bout de code de la fonction construire_db() qui s'execute une seule fois au debut de
+# démarrage de l'application    
+@app.before_first_request
+def construire_db():
+    telecharger_donnees()
+    convertir_csv2xml()
+    inserer_donnees_db()
+
 
 def get_db():
     db = getattr(g, '_database', None)
@@ -204,16 +217,8 @@ def inserer_donnees_db():
         if not poursuite_existe(id_poursuite):
             poursuite = Poursuite(id_poursuite, date_poursuite, date_jugement, motif, montant, id_etablismnt)
             poursuite_db = get_db().save_poursuite(poursuite)
-         
-# Le bout de code de la fonction construire_db() qui s'execute une seule fois au debut de
-# démarrage de l'application    
-@app.before_first_request
-def construire_db():
-    telecharger_donnees()
-    convertir_csv2xml()
-    inserer_donnees_db()
 
-
+            
 @app.route('/', methods=['GET'])
 def page_accueil():
     # telecharger_donnees()
@@ -248,3 +253,35 @@ def donnees_recherche():
     elif (filtre == "rue"):
         contravenants = get_db().search_contravenant_par_rue(mot_cle)
         return render_template('resultats.html', resultats=contravenants), 200
+    
+
+@app.route('/contrevenants', methods=["GET"])
+def get_contrevenants():
+    # obtenir les dates passées en parametres
+    contrevenants_liste=[]
+    date_du = request.args.get('du')
+    date_au = request.args.get('au')
+    # normaliser les dates recues en parametres selon leur format en DB
+    date_du = date_du.replace('-', "")
+    date_au = date_au.replace('-', "")
+    # convertir les dates en chaine de caracteres en type date pour pouvoir les comparer
+    datedu = datetime.strptime(date_du, '%Y%m%d')
+    dateau = datetime.strptime(date_au, '%Y%m%d')
+
+    contrevenants = get_db().get_poursuites()
+    # for c in contrevenants:
+    #     # recupere la date de la poursuite
+    #     date_poursuite = c['date_poursuite']
+    #     # converitr la daete de la poursuite en type date
+    #     datec = datetime.strptime(date_poursuite, '%Y%m%d')
+
+    #     # comparer les dates et ajouter celle qui est entre les 2 dates passées en parmetres
+    #     if(datec >= datedu and datec<= dateau):
+    #         contrevenants_liste.append(c)
+
+    #if len(contrevenants_liste) == 0:
+    if contrevenants is None:
+        return "", 404
+    else:
+        return jsonify([contrevenant.asDictionary() for contrevenant in contrevenants])
+

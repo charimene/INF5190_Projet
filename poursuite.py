@@ -21,3 +21,11 @@ class Poursuite:
         self.motif = motif
         self.montant = montant
         self.id_etablsmnt = id_etablsmnt
+    
+    def asDictionary(self):
+        return {"id": self.id,
+                "date_poursuite": self.date_poursuite,
+                "date_jugement": self.date_jugement,
+                "description": self.motif,
+                "montant": self.montant,
+                "id_etablissement": self.id_etablsmnt}

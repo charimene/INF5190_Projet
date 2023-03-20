@@ -22,8 +22,10 @@ class Etablissement:
         self.ville = ville
         self.statut = statut
 
-    # def asDictionary(self):
-    #     return {"id": self.id,
-    #             "lastname": self.lastname,
-    #             "firstname": self.firstname,
-    #             "age": self.age}
+    def asDictionary(self):
+        return {"id": self.id,
+                "nom": self.nom,
+                "proprietaire": self.proprietaire,
+                "adresse": self.adresse,
+                "ville": self.ville,
+                "statut": self.statut}

@@ -1,87 +1,78 @@
 #%RAML 1.0
-title: Example of REST API for INF5190
+title: Fonction A4 - Service REST
 mediaType: application/json
 types:
-  NewPerson:
-    properties:
-      lastname:
-        type: string
-        required: true
-      firstname:
-        type: string
-        required: true
-      age:
-        type: number
-        required: true
-  ExistingPerson:
+  Contravenant:
     properties:
       id:
         type: string
         required: true
-      lastname:
+      nom:
         type: string
         required: true
-      firstname:
+      proprietaire:
         type: string
         required: true
-      age:
+      adresse:
+        type: string
+        required: true
+      ville:
+        type: string
+        required: true
+      statut:
+        type: string
+        required: true
+      poursuites :
+        type: Poursuite[]
+        required: true
+  Poursuite:
+    properties:
+      id:
+        type: string
+        required: true
+      date_poursuite:
+        type: string
+        required: true
+      date_jugement:
+        type: string
+        required: true
+      description:
+        type: string
+        required: true
+      montant: 
         type: number
         required: true
 /api:
-  /person:
+  /contrevenants:
     get:
-      description: Extract the data of all the persons.
+      description: Avoir la liste des contravenants qui ont obtenu des contraventions entre 2 dates.
+      parametre_requete: 
+        du:
+          type: text
+          required: true
+          description: Date de début pour la recherche (format: YYYY-MM-DD)
+        au:
+          type: text
+          required: true
+          description: Date de fin pour la recherche (format: YYYY-MM-DD) 
       responses:
         200:
           body:
             application/json:
-              type: ExistingPerson[]
-    post:
-      description: Create a new person.
-      body:
-        application/json:
-          type: NewPerson
-          example:
-            lastname: Jackson
-            firstname: Michael
-            age: 54
-      responses:
-        201:
-          description: The person was successfully created.
-          body:
-            application/json:
-              type: ExistingPerson
+              type: Contravenant[]
               example:
-                id: 5
-                lastname: Jackson
-                firstname: Michael
-                age: 54
-    /{id}:
-      get:
-        description: Extract the data of one person, specified by it's id.
-        responses:
-          200:
-            body:
-              application/json:
-                type: ExistingPerson
-          404:
-            description: The specified identifier does not exist.
-      put:
-        description: Modify the data of one person, specified by it's id. It is not possible to change the id.
-        body:
-          application/json:
-            type: ExistingPerson
-        responses:
-          200:
-            body:
-              application/json:
-                type: ExistingPerson
-          404:
-            description: The specified identifier does not exist.
-      delete:
-        description: Delete completely the data of a person, specified by it's id.
-        responses:
-          200:
-            description: The person was deleted successfully.
-          404:
-            description: The specified identifier does not exist.
+                id: 219
+                nom: BOULANGERIE ET PATISSERIE LASALLE R.D.P. INC.
+                properietaire: BOULANGERIE ET PATISSERIE LASALLE R.D.P. INC.
+                adresse: 8591 Boul. Maurice-Duplessis, Montréal, Québec
+                ville: Montréal
+                statut: Ouvert
+                poursuites:[
+                  {
+                    id: 2645
+                    date_poursuite: 20150514
+                    date_jugement: 20160329
+                    description: Le produit altérable à la chaleur à l'exception des fruits et légumes frais entiers doit être refroidi sans retard et maintenu constamment à une température interne et ambiante ne dépassant pas 4C jusqu'à sa livraison au consommateur, sauf pendant le temps requis pour l'application d'un procédé de fabrication ou d'un traitement reconnu en industrie alimentaire et qui exige une plus haute température.
+                    montant: 1000
+                  }
+                ]
