@@ -6,9 +6,10 @@ les fonctionnalitées de A1 sont executées lors de l'appel de la route principa
 - Lecture apartir du fichier XML et extraction de donnees de chaque poursuite et les inserer dans les 2 tables qui constituent la base de données.
 ## A2
 Cette fonctionnalité sert a chercher des contravenants selon:
-- le nom de leurs établissements.
+- le nom de leurs établissements. 
 - le nom de leurs propriétaires.
 - la rue de leurs établissements(adresse).
+L'interface permet de choisir la préférence de l'utilisateur (recherche par Nom est placée par defaut).
 ## A4
 Cette fonctionnalité offre un service REST qui permet de faire un GET pour avoir les poursuites qui ont été faites entre deux dates spécidiées dans les parametres de l'URL.
 Exemple :
