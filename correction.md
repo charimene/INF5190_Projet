@@ -9,6 +9,9 @@ Cette fonctionnalité sert a chercher des contravenants selon:
 - le nom de leurs établissements.
 - le nom de leurs propriétaires.
 - la rue de leurs établissements(adresse).
-## A3
-
 ## A4
+Cette fonctionnalité offre un service REST qui permet de faire un GET pour avoir les poursuites qui ont été faites entre deux dates spécidiées dans les parametres de l'URL.
+Exemple :
+        GET /contrevenants?du=2020-05-08&au=2022-05-15
+
+- Pour cette fonctionnalité, je cherche les poursuites qui ont "date_poursuite" entre les dates données dans l'url.

@@ -218,7 +218,7 @@ def inserer_donnees_db():
             poursuite = Poursuite(id_poursuite, date_poursuite, date_jugement, motif, montant, id_etablismnt)
             poursuite_db = get_db().save_poursuite(poursuite)
 
-            
+
 @app.route('/', methods=['GET'])
 def page_accueil():
     # telecharger_donnees()
@@ -262,26 +262,30 @@ def get_contrevenants():
     date_du = request.args.get('du')
     date_au = request.args.get('au')
     # normaliser les dates recues en parametres selon leur format en DB
+    # on eneleve les - 
     date_du = date_du.replace('-', "")
     date_au = date_au.replace('-', "")
     # convertir les dates en chaine de caracteres en type date pour pouvoir les comparer
     datedu = datetime.strptime(date_du, '%Y%m%d')
-    dateau = datetime.strptime(date_au, '%Y%m%d')
+    dateau = datetime.strptime(date_au, "%Y%m%d")
+    date_du_parametre = datedu.date()
+    date_au_parametre = dateau.date()
 
     contrevenants = get_db().get_poursuites()
-    # for c in contrevenants:
-    #     # recupere la date de la poursuite
-    #     date_poursuite = c['date_poursuite']
-    #     # converitr la daete de la poursuite en type date
-    #     datec = datetime.strptime(date_poursuite, '%Y%m%d')
+    for c in contrevenants:
+        # recupere la date de la poursuite  
+        date_poursuite = c.date_poursuite
 
-    #     # comparer les dates et ajouter celle qui est entre les 2 dates passées en parmetres
-    #     if(datec >= datedu and datec<= dateau):
-    #         contrevenants_liste.append(c)
+        # converitr la daete de la poursuite en type date
+        datec = datetime.strptime(date_poursuite, "%Y%m%d")
+        date_c = datec.date()
+        
+        # comparer les dates et ajouter celle qui est entre les 2 dates passées en parmetres
+        if date_c > date_du_parametre and date_c <= date_au_parametre:
+            contrevenants_liste.append(c)
 
-    #if len(contrevenants_liste) == 0:
-    if contrevenants is None:
+    if len(contrevenants_liste) == 0:
         return "", 404
     else:
-        return jsonify([contrevenant.asDictionary() for contrevenant in contrevenants])
+        return jsonify([contrevenant.asDictionary() for contrevenant in contrevenants_liste])
 
