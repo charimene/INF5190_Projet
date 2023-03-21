@@ -14,18 +14,29 @@
 
 
 class Poursuite:
-    def __init__(self, id, date_poursuite, date_jugement, motif, montant, id_etablsmnt):
+    def __init__(self, id, id_etablsmnt, nom_etablsmnt, proprietaire, adresse, ville, statut, date_poursuite, date_jugement, motif, montant):
         self.id = id
+        self.id_etablsmnt = id_etablsmnt
+        self.nom_etablsmnt = nom_etablsmnt
+        self.proprietaire = proprietaire
+        self.adresse = adresse
+        self.ville = ville
+        self.statut = statut
         self.date_poursuite = date_poursuite
         self.date_jugement = date_jugement
         self.motif = motif
         self.montant = montant
-        self.id_etablsmnt = id_etablsmnt
-    
+
+
     def asDictionary(self):
         return {"id": self.id,
+                "id_etablsmnt": self.id_etablsmnt,
+                "nom_etablsmnt": self.nom_etablsmnt,
+                "proprietaire": self.proprietaire,
+                "adresse": self.adresse,
+                "ville": self.ville,
+                "statut": self.statut,
                 "date_poursuite": self.date_poursuite,
                 "date_jugement": self.date_jugement,
-                "description": self.motif,
-                "montant": self.montant,
-                "id_etablissement": self.id_etablsmnt}
+                "motif": self.motif,
+                "montant": self.montant}

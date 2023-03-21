@@ -7,21 +7,21 @@
 
             <!-- Intro News Filter -->
             <div class="intro-news-filter d-flex justify-content-between">
-                <h6>Articles</h6>
+                <h6>Poursuites</h6>
             </div>
 
             <div class="tab-content">
                 <div>
                     <div class="row">
-                        {% if not etas %}
+                        {% if not poursuites %}
                             <p>Aucun etablissement trouvé.</p>
                         {% else %}
-                            {% for eta in etas %}
+                            {% for poursuite in poursuites %}
                                 <div class="col-12 col-sm-12 cadre">
                                     <div class="single-blog-post d-flex style-4 mb-30">
                                         <div class="blog-content">
-                                            <a href="" class="post-title">{{ eta.id }}</a>
-                                            <span class="post-date">{{ eta.nom }} Par {{ eta.proprietaire }}</span>
+                                            <a href="" class="post-title">{{ poursuite.id }}</a>
+                                            <span class="post-date">{{ poursuite.id }} Par {{ poursuite[0]}}</span>
                                         </div>
                                         <div>
                                             <div class="row">
@@ -29,9 +29,9 @@
                                                     <a href="" class="texte_min_article"><img src="img/20.jpg" alt=""></a>
                                                 </div>
                                                 <div class="col-9 col-sm-9">
-                                                    <p>{{ eta.adresse}} ...</p>
-                                                    <p>{{ eta.ville}} ...</p>
-                                                    <p>{{ eta.statut}} ...</p>
+                                                    <p>{{ poursuite[0]}} ...</p>
+                                                    <p>{{ poursuite[0]}} ...</p>
+                                                    <p>{{ poursuite[0]}} ...</p>
                                                 </div>
                                             </div>                 
                                         </div>

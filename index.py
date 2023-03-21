@@ -20,8 +20,9 @@ import json
 import urllib.request
 import csv
 import xml.etree.ElementTree as et
-from etablissement import Etablissement
+# from etablissement import Etablissement
 from poursuite import Poursuite
+
 
 
 app = Flask(__name__, static_url_path="", static_folder="static")
@@ -79,64 +80,64 @@ def verifier_chaine_caractere(chaine):
 
 # La fonction verifier_date verifie si la chaine passee en parametre est
 # une date correcte selon le format aaaa-mm-jj
-def verifier_format_date(chaine):
-    expression_valide = r"^\d{4}\-(0?[1-9]|1[012])\-(0?[1-9]|[12][0-9]|3[01])$"
-    regex = re.compile(expression_valide)
-    if regex.match(chaine) is not None:
-        resultat = True
-    else:
-        resultat = False
+# def verifier_format_date(chaine):
+#     expression_valide = r"^\d{4}\-(0?[1-9]|1[012])\-(0?[1-9]|[12][0-9]|3[01])$"
+#     regex = re.compile(expression_valide)
+#     if regex.match(chaine) is not None:
+#         resultat = True
+#     else:
+#         resultat = False
 
-    return resultat
+#     return resultat
 
 
 # La fonction verifier_date verifie si la chaine passee en parametre
 # est une date actuelle ou future
-def verifier_date(chaine):
-    date_obj = datetime.strptime(chaine, "%Y-%m-%d")
-    date = date_obj.date()
-    date_systeme = date.today()
-    if (date < date_systeme):
-        resultat = False
-    else:
-        resultat = True
-    return resultat
+# def verifier_date(chaine):
+#     date_obj = datetime.strptime(chaine, "%Y-%m-%d")
+#     date = date_obj.date()
+#     date_systeme = date.today()
+#     if (date < date_systeme):
+#         resultat = False
+#     else:
+#         resultat = True
+#     return resultat
 
 
 # La fonction verifier_texte_article verifie si l'article ne
 # depasse pas les 500 caracteres
-def verifier_texte_article(article):
-    if (len(article) > 500):
-        resultat = False
-    else:
-        resultat = True
-    return resultat
+# def verifier_texte_article(article):
+#     if (len(article) > 500):
+#         resultat = False
+#     else:
+#         resultat = True
+#     return resultat
 
 
 # La fonction verifier_date verifie si la chaine passee en parametre
 # est une date du jour ou d'avant
-def verifier_date_si_actuelle_ou_passee(chaine):
-    date_obj = datetime.strptime(chaine, "%Y-%m-%d")
-    date = date_obj.date()
-    date_systeme = date.today()
-    if (date > date_systeme):
-        resultat = False
-    else:
-        resultat = True
-    return resultat
+# def verifier_date_si_actuelle_ou_passee(chaine):
+#     date_obj = datetime.strptime(chaine, "%Y-%m-%d")
+#     date = date_obj.date()
+#     date_systeme = date.today()
+#     if (date > date_systeme):
+#         resultat = False
+#     else:
+#         resultat = True
+#     return resultat
 
 
 # La fonction prend en paramètres une liste d'articles et parcourt
 # cette dernière pour ne retourner que les articles qui ont été
 # publiés à la date du jour ou avant.
-def get_article_jour(articles):
-    liste_article = []
-    for article in articles:
-        if verifier_date_si_actuelle_ou_passee(article["date"]):
-            liste_article.append(article)
-        if len(liste_article) == 5:
-            break
-    return liste_article
+# def get_article_jour(articles):
+#     liste_article = []
+#     for article in articles:
+#         if verifier_date_si_actuelle_ou_passee(article["date"]):
+#             liste_article.append(article)
+#         if len(liste_article) == 5:
+#             break
+#     return liste_article
 
 
 def telecharger_donnees():
@@ -171,14 +172,14 @@ def convertir_csv2xml():
     fichier_xml = et.ElementTree(racine_fichier)
     fichier_xml.write("donnees/donnees.xml", encoding="UTF-8", xml_declaration=True)
 
-# cette fonction teste si l'id de l'etablissement passé en parametre existe deja dans notre DB
-# Si l'id de l'etablissement existe dans notre DB, la fonction retourne True, sinon ca retourne false
-def etablsmnt_existe(id_etablismnt):
-    resultat = False
-    etablissement = get_db().get_etablissement(id_etablismnt)
-    if etablissement is not None:
-        resultat = True
-    return resultat
+# # cette fonction teste si l'id de  passé en parametre existe deja dans notre DB
+# # Si l'id de l'etablissement existe dans notre DB, la fonction retourne True, sinon ca retourne false
+# def contre_existe(id_contrevenant):
+#     resultat = False
+#     contrevenant = get_db().get_contrevenant(id_contrevenant)
+#     if contrevenant is not None:
+#         resultat = True
+#     return resultat
 
 
 # cette fonction teste si l'id de la poursuite passé en parametre existe deja dans notre DB
@@ -194,7 +195,8 @@ def poursuite_existe(id_poursuite):
 def inserer_donnees_db():
     fichier_xml = et.parse("donnees/donnees.xml")
     racine = fichier_xml.getroot()
-    for i in racine.findall("poursuite"):
+    poursuites = racine[0]
+    for i in poursuites.findall("poursuite"):
         id_etablismnt=i.find("business_id").text
         nom = i.find("etablissement").text
         proprietaire = i.find("proprietaire").text
@@ -210,12 +212,13 @@ def inserer_donnees_db():
         
         # on vient ajouter le meme établissement qu'une seule fois dans la table etblissement de base de donnees
         # il existe surement plusieurs poursuites associées au meme établissement.
-        if not etablsmnt_existe(id_etablismnt):
-            etablissement = Etablissement(id_etablismnt, nom, proprietaire, adresse, ville, statut)
-            etablssmnt_db = get_db().save_etablissmnt(etablissement)
+        # if not etablsmnt_existe(id_etablismnt):
+        #     etablissement = Etablissement(id_etablismnt, nom, proprietaire, adresse, ville, statut)
+        #     etablssmnt_db = get_db().save_etablissmnt(etablissement)
 
         if not poursuite_existe(id_poursuite):
-            poursuite = Poursuite(id_poursuite, date_poursuite, date_jugement, motif, montant, id_etablismnt)
+            poursuite = Poursuite(id_poursuite, id_etablismnt, nom, proprietaire, adresse, ville, 
+                                  statut, date_poursuite, date_jugement, motif, montant)
             poursuite_db = get_db().save_poursuite(poursuite)
 
 
@@ -224,8 +227,9 @@ def page_accueil():
     # telecharger_donnees()
     # convertir_csv2xml()
     # inserer_donnees_db()
-    eta = get_db().get_etablissements()
-    return render_template('accueil.html', etas=eta), 200
+    poursuites = get_db().get_poursuites()
+    longueur = len(poursuites)
+    return render_template('accueil.html', poursuites=poursuites), 200
     #nbr = get_db().nbr_poursuite()
     # return render_template('accueil.html'), 200
 
@@ -257,8 +261,8 @@ def donnees_recherche():
 
 @app.route('/contrevenants', methods=["GET"])
 def get_contrevenants():
-    # obtenir les dates passées en parametres
     contrevenants_liste=[]
+    # récuperer les dates passées en parametres
     date_du = request.args.get('du')
     date_au = request.args.get('au')
     # normaliser les dates recues en parametres selon leur format en DB
@@ -271,9 +275,10 @@ def get_contrevenants():
     date_du_parametre = datedu.date()
     date_au_parametre = dateau.date()
 
+    # contrevenants = get_db().get_poursuites()
     contrevenants = get_db().get_poursuites()
     for c in contrevenants:
-        # recupere la date de la poursuite  
+        # recuperer la date de la poursuite  
         date_poursuite = c.date_poursuite
 
         # converitr la daete de la poursuite en type date
@@ -281,7 +286,7 @@ def get_contrevenants():
         date_c = datec.date()
         
         # comparer les dates et ajouter celle qui est entre les 2 dates passées en parmetres
-        if date_c > date_du_parametre and date_c <= date_au_parametre:
+        if date_c >= date_du_parametre and date_c <= date_au_parametre:
             contrevenants_liste.append(c)
 
     if len(contrevenants_liste) == 0:

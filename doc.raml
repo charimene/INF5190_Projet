@@ -2,9 +2,12 @@
 title: Fonction A4 - Service REST
 mediaType: application/json
 types:
-  Contravenant:
+  Poursuite:
     properties:
       id:
+        type: string
+        required: true
+      id_etablsmnt:
         type: string
         required: true
       nom:
@@ -20,14 +23,6 @@ types:
         type: string
         required: true
       statut:
-        type: string
-        required: true
-      poursuites :
-        type: Poursuite[]
-        required: true
-  Poursuite:
-    properties:
-      id:
         type: string
         required: true
       date_poursuite:
@@ -59,20 +54,20 @@ types:
         200:
           body:
             application/json:
-              type: Contravenant[]
+              type: Poursuite[]
               example:
-                id: 219
-                nom: BOULANGERIE ET PATISSERIE LASALLE R.D.P. INC.
-                properietaire: BOULANGERIE ET PATISSERIE LASALLE R.D.P. INC.
-                adresse: 8591 Boul. Maurice-Duplessis, Montréal, Québec
-                ville: Montréal
-                statut: Ouvert
-                poursuites:[
+                [
                   {
-                    id: 2645
-                    date_poursuite: 20150514
-                    date_jugement: 20160329
-                    description: Le produit altérable à la chaleur à l'exception des fruits et légumes frais entiers doit être refroidi sans retard et maintenu constamment à une température interne et ambiante ne dépassant pas 4C jusqu'à sa livraison au consommateur, sauf pendant le temps requis pour l'application d'un procédé de fabrication ou d'un traitement reconnu en industrie alimentaire et qui exige une plus haute température.
-                    montant: 1000
+                    "adresse": "2101 Av. Dollard, Local 33, LaSalle, Québec",
+                    "date_jugement": "20221109",
+                    "date_poursuite": "20220309",
+                    "id": 8512,
+                    "id_etablsmnt": 123679,
+                    "montant": 500,
+                    "motif": "Les personnes affectées à la préparation des produits, au lavage ou au nettoyage du matériel et de l'équipement doivent: porter un bonnet ou une résille propre qui recouvre entièrement les cheveux; porter un couvre-barbe propre qui recouvre entièrement la barbe.",
+                    "nom_etablsmnt": "DEJEUNER MICKAEL",
+                    "proprietaire": "9344-4131 QUEBEC INC.",
+                    "statut": "Fermé",
+                    "ville": "LaSalle"
                   }
                 ]

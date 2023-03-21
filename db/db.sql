@@ -1,19 +1,13 @@
-create table etablissement (
+create table poursuite(
   id integer primary key,
-  nom varchar(200),
+  id_etablsmnt integer,
+  nom_etablsmnt varchar(200),
   proprietaire varchar(200),
   adresse varchar(300),
   ville varchar(100),
-  statut varchar(100)
-);
-
-create table poursuite (
-  id integer primary key,
+  statut varchar(100),
   date_poursuite text,
   date_jugement text,
   motif varchar(500),
-  montant float,
-  id_etablsmnt integer,
-  foreign key (id_etablsmnt) references etablissement(id)
+  montant float
 );
-
