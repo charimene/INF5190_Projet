@@ -4,41 +4,18 @@
     <!-- Intro News Tabs Area -->
     <div class="col-12 col-lg-8">
         <div class="intro-news-tab">
-
             <!-- Intro News Filter -->
             <div class="intro-news-filter d-flex justify-content-between">
-                <h6>Poursuites</h6>
+                <h6>Résultats</h6>
             </div>
 
             <div class="tab-content">
                 <div>
                     <div class="row">
-                        {% if not poursuites %}
-                            <p>Aucun etablissement trouvé.</p>
-                        {% else %}
-                            {% for poursuite in poursuites %}
-                                <div class="col-12 col-sm-12 cadre">
-                                    <div class="single-blog-post d-flex style-4 mb-30">
-                                        <div class="blog-content">
-                                            <a href="" class="post-title">{{ poursuite.id }}</a>
-                                            <span class="post-date">{{ poursuite.id }} Par {{ poursuite[0]}}</span>
-                                        </div>
-                                        <div>
-                                            <div class="row">
-                                                <div class="col-3 col-sm-3">
-                                                    <a href="" class="texte_min_article"><img src="img/20.jpg" alt=""></a>
-                                                </div>
-                                                <div class="col-9 col-sm-9">
-                                                    <p>{{ poursuite[0]}} ...</p>
-                                                    <p>{{ poursuite[0]}} ...</p>
-                                                    <p>{{ poursuite[0]}} ...</p>
-                                                </div>
-                                            </div>                 
-                                        </div>
-                                    </div>
-                                </div>
-                            {% endfor %}
-                        {% endif %}
+                        <span id="erreur" class="erreur_class"></span>
+                        <div id="section_resultat">
+                            <!-- <span id="erreur" class="erreur_class"></span> -->
+                        </div>
                     </div>
                 </div>
             </div>
@@ -73,7 +50,18 @@
                 <p class="mt-30">Vous devez choisir le filtre que vous voulez appliquer sur la recherche que vous voulez effectuer.</p>
             </div>
 
+            <div class="single-widget-area newsletter-widget mb-30">
+                <h4>Recherche par Date </h4>
+                <form id="recherche_dates">
+                    <input type="search" name="du" id="date_du" placeholder="Date de début">
+                    <input type="search" name="au" id="date_au" placeholder="Date de Fin">
+                    <button type="submit" class="btn newsbox-btn w-100">Rechercher</button>
+                </form>
+                <p class="mt-30">Veuillez fournir deux dates afin d'identifier les contrevenants qui sont survenues entre ces deux dates.</p>
+            </div>
+
         </div>
     </div>
 </div>
+<script src="vendor/js/script.js"></script>
 {% endblock %}

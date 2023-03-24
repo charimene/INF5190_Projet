@@ -227,9 +227,9 @@ def page_accueil():
     # telecharger_donnees()
     # convertir_csv2xml()
     # inserer_donnees_db()
-    poursuites = get_db().get_poursuites()
-    longueur = len(poursuites)
-    return render_template('accueil.html', poursuites=poursuites), 200
+    # poursuites = get_db().get_poursuites()
+    # longueur = len(poursuites)
+    return render_template('accueil.html'), 200
     #nbr = get_db().nbr_poursuite()
     # return render_template('accueil.html'), 200
 
@@ -265,6 +265,7 @@ def get_contrevenants():
     # récuperer les dates passées en parametres
     date_du = request.args.get('du')
     date_au = request.args.get('au')
+
     # normaliser les dates recues en parametres selon leur format en DB
     # on eneleve les - 
     date_du = date_du.replace('-', "")
@@ -294,3 +295,8 @@ def get_contrevenants():
     else:
         return jsonify([contrevenant.asDictionary() for contrevenant in contrevenants_liste])
 
+
+# @app.route('/rechercheDate', methods=['POST'])
+# def donnees_recherche_par_date():
+#     date_du = request.form['date_du']
+#     date_au = request.form['date_au']

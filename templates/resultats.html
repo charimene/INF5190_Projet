@@ -13,6 +13,10 @@
             <div class="tab-content">
                 <div>
                     <div class="row">
+                        <span id="erreur" class="erreur_class"></span>
+                        <div id="section_resultat">
+                            
+                        
                         {% if error %}
                             <p class="erreur_class">{{error}}.</p>
                         {% endif %}
@@ -37,6 +41,7 @@
                                 </div>
                             {% endfor %}
                         {% endif %}
+                        </div>
                     </div>
                 </div>
             </div>
@@ -71,7 +76,18 @@
                 <p class="mt-30">Vous devez choisir le filtre que vous voulez appliquer sur la recherche que vous voulez effectuer.</p>
             </div>
 
+            <div class="single-widget-area newsletter-widget mb-30">
+                <h4>Recherche par Date </h4>
+                <form id="recherche_dates">
+                    <input type="search" name="du" id="date_du" placeholder="Date de début">
+                    <input type="search" name="au" id="date_au" placeholder="Date de Fin">
+                    <button type="submit" class="btn newsbox-btn w-100">Rechercher</button>
+                </form>
+                <p class="mt-30">Veuillez fournir deux dates afin d'identifier les contrevenants qui sont survenues entre ces deux dates.</p>
+            </div>
+
         </div>
     </div>
 </div>
+<script src="vendor/js/script.js"></script>
 {% endblock %}
