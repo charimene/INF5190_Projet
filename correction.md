@@ -1,3 +1,7 @@
+# Interface de l'application Web
+- Un sidebar qui comporte les petits formulaires qui servent a chercher des contrevenants (fonctionnalitées A2 et A5)
+- Le résultat des recherches sera affichés dans le corps de la page en question. 
+
 # Fonctionnalités developpées:
 ## A1
 les fonctionnalitées de A1 sont executées lors de l'appel de la route principale de l'application "/".
@@ -16,3 +20,11 @@ Exemple :
         GET /contrevenants?du=2020-05-08&au=2022-05-15
 
 - Pour cette fonctionnalité, je cherche les poursuites qui ont "date_poursuite" entre les dates données dans l'url.
+
+## A5
+Cette fonctionnalité offre un formulaire qui permet l'introduction de 2 dates (date debut et date fin) entre lesquelles l'application cherches tous les contrevenants qui ont eu des poursuites dans cette période la.
+
+- Si on soumet le formulaire sans introduire de dates, un message d'erreur sera affichée.
+- Si on soumet des données qui ne sont pas de dates (avec le format YYYY-MM-AA), une erreur sera affichée.
+
+-Le submit de ce formulaire de recherche permet de renvoyer les resultats de recherche en json qui seront recupérés soit par le YARC soit sur le corps de la page web.
