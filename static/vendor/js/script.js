@@ -1,4 +1,3 @@
-// --------------------
 function validerDate(date){
     if(date.match(/^\d{4}\-(0?[1-9]|1[012])\-(0?[1-9]|[12][0-9]|3[01])$/g)){
         return true;
@@ -7,6 +6,66 @@ function validerDate(date){
     }
 }
 
+
+function nbr_occurence(json_donnees, id_etablissement){
+    const donnees = JSON.parse(json_donnees);
+    var nbr =0;
+    for (var i = 0; i < donnees.length; i++) {
+        if (donnees[i].id_etablsmnt === id_etablissement) {
+            nbr++;
+        }
+      }
+    return nbr; 
+}
+
+
+function calculer_nbr_occurences(json_donnees){
+    var resultat_dictionnaire = {}; // un dictionnaire qui contient pour chaque id etablissemtnn son nom et le nbr de fois qu'il apparait dans les resultats
+    var donnees = JSON.parse(json_donnees);
+    var nouveau ={};
+    // print(json_donnees.length)
+    for (var i = 0; i < donnees.length; i++) {
+        id_etablissement = donnees[i].id_etablsmnt;
+        nbr = nbr_occurence(json_donnees, id_etablissement);
+        donnees[i].nbr = nbr // on ajoute l'attribut nbr dans nos données json qui contient le nbr d'occurence pour chaque etablissemnt de la liste des resultats.
+    }
+    return JSON.stringify(donnees);
+}
+
+
+function afficherEnTableau(donneesAvecNbr){
+    var contrevenants = JSON.parse(donneesAvecNbr);
+    var tableau = document.createElement('table');
+
+    var enteteTab = tableau.insertRow();
+    var colonneNom = enteteTab.insertCell();
+    var colonneNbr = enteteTab.insertCell();
+    colonneNom.textContent = "Nom de l'établissement";
+    colonneNbr.textContent = 'Nombre de poursuites';
+
+
+    for (var i = 0; i < contrevenants.length; i++) {
+        nom = contrevenants[i].nom_etablsmnt;
+        nbr = contrevenants[i].nbr;
+
+        ligne = tableau.insertRow();
+        ligne_nom = row.insertCell();
+        ligne_nbr = row.insertCell();
+
+        ligne_nom.textContent = nom;
+        ligne_nbr.textContent = nbr;
+    }
+    espace_resultat = document.getElementById('section_resultat');
+    espace_resultat.appendChild(table);
+    // contrevenants.forEach(c => {
+    //     var ligne = tableau.insertRow();
+    //     var nom = row.insertCell();
+    //     var nbr = row.insertCell();
+    //     nom.textContent = c.nom;
+    //     nbr.textContent = c.age;
+    // });
+
+}
 
 document.getElementById("recherche_dates").addEventListener("submit", function(event) {
     event.preventDefault();
@@ -23,26 +82,29 @@ document.getElementById("recherche_dates").addEventListener("submit", function(e
     if ((au === "")  ||  (du === "")) {
         section_res.innerHTML = "";
         erreur.innerHTML = "date début et date de fin sont requises !";
-    } else if(!date_du_valide ||  !date_au_valide){
+    }else if(!date_du_valide ||  !date_au_valide){
         section_res.innerHTML = "";
         erreur.innerHTML = "Il faut saisir des dates correctes sous format YYYY-MM-JJ !";
-
     }else{
         const xhr = new XMLHttpRequest();
-        // l'URL a retourner
-        const url = "/contrevenants?du=" + du + "&au=" + au;
+        var donnee_json;
+        const url = "/contrevenants?du=" + du + "&au=" + au; // l'URL a retourner
         xhr.open('GET', url, true); 
         xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded'); 
 
         xhr.onreadystatechange = function() {
-            if (xhr.readyState === XMLHttpRequest.DONE) { // Vérifie si la requête est terminée
-                if (xhr.status === 200) { // Vérifie si la requête a réussi
-                    section_res.innerHTML = xhr.responseText;
+            if (xhr.readyState === XMLHttpRequest.DONE) { // verifie si la requete est terminee
+                if (xhr.status === 200) { // verifie si la requête a reussi
+                    donnee_json = xhr.responseText; // resultaat de la requete
+                    donneesAvecNbr= calculer_nbr_occurences(donnee_json);
+                    afficherEnTableau(donneesAvecNbr);
+                    // section_res.innerHTML = donneesF;
+                    
                 } else {
                     erreur.innerHTML = "Un problème est survenu au niveau du serveur";
                 }
             }
-            };
-            xhr.send();
+        };
+        xhr.send();
     }
   });
