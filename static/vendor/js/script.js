@@ -32,39 +32,37 @@ function calculer_nbr_occurences(json_donnees){
     return JSON.stringify(donnees);
 }
 
-
+// fonction qui affiche les donnees dans un tableau html 
 function afficherEnTableau(donneesAvecNbr){
     var contrevenants = JSON.parse(donneesAvecNbr);
-    var tableau = document.createElement('table');
 
-    var enteteTab = tableau.insertRow();
+    espace_resultat = document.getElementById('section_resultat');
+    
+    var tableau = document.createElement('table'); // creation d'une balise table
+    var entete = document.createElement('thead'); // creation de la baslise thead (balise enfant de table)
+    tableau.appendChild(entete);
+
+    var enteteTab = entete.insertRow();
     var colonneNom = enteteTab.insertCell();
     var colonneNbr = enteteTab.insertCell();
     colonneNom.textContent = "Nom de l'établissement";
     colonneNbr.textContent = 'Nombre de poursuites';
 
+    var corps = document.createElement('tbody'); // creation de la baslise tbody (balise enfant de table)
+    tableau.appendChild(corps);
 
     for (var i = 0; i < contrevenants.length; i++) {
         nom = contrevenants[i].nom_etablsmnt;
         nbr = contrevenants[i].nbr;
 
-        ligne = tableau.insertRow();
-        ligne_nom = row.insertCell();
-        ligne_nbr = row.insertCell();
+        ligne = corps.insertRow();
+        ligne_nom = ligne.insertCell();
+        ligne_nbr = ligne.insertCell();
 
         ligne_nom.textContent = nom;
         ligne_nbr.textContent = nbr;
     }
-    espace_resultat = document.getElementById('section_resultat');
-    espace_resultat.appendChild(table);
-    // contrevenants.forEach(c => {
-    //     var ligne = tableau.insertRow();
-    //     var nom = row.insertCell();
-    //     var nbr = row.insertCell();
-    //     nom.textContent = c.nom;
-    //     nbr.textContent = c.age;
-    // });
-
+    espace_resultat.appendChild(tableau);
 }
 
 document.getElementById("recherche_dates").addEventListener("submit", function(event) {
@@ -98,7 +96,7 @@ document.getElementById("recherche_dates").addEventListener("submit", function(e
                     donnee_json = xhr.responseText; // resultaat de la requete
                     donneesAvecNbr= calculer_nbr_occurences(donnee_json);
                     afficherEnTableau(donneesAvecNbr);
-                    // section_res.innerHTML = donneesF;
+                    // section_res.innerHTML = donneesAvecNbr;
                     
                 } else {
                     erreur.innerHTML = "Un problème est survenu au niveau du serveur";

@@ -27,4 +27,6 @@ Cette fonctionnalité offre un formulaire qui permet l'introduction de 2 dates (
 - Si on soumet le formulaire sans introduire de dates, un message d'erreur sera affichée.
 - Si on soumet des données qui ne sont pas de dates (avec le format YYYY-MM-AA), une erreur sera affichée.
 
--Le submit de ce formulaire de recherche permet de renvoyer les resultats de recherche en json qui seront recupérés soit par le YARC soit sur le corps de la page web.
+-Le submit de ce formulaire de recherche permet de renvoyer les resultats de recherche "Nom de l'établissement avec le nombre de son appartition dans les resultats" sur la meme page courante dans un tableau.
+
+** Si on fait la recherhce apartir de la page d'accueil, les resultats s'afficheront dans la corps vide de la page. par contre si on lance une recherche apartir de la page resultat qui contient déja des resultats d'une autre recherche, les nouveaux resultats de recherche pas date viendront s'ajouter en bas de la page. (j'ai pas voulu nettoyer la page avant d'afficher mes nouveaux resultat juste pour montrer le travail qui se fait de la requete asynchrone et que la page courante s'actualise pas.)
