@@ -116,16 +116,7 @@ document.getElementById("recherche_nom").addEventListener("submit", function(eve
     var section_res = document.getElementById("section_resultat");
     var erreur = document.getElementById("erreur");
 
-    // var nom_etablissement = document.getElementById("nom_etablissement").value;
-
-    // // Pour récuperer la valeur qui change du select qui represente le nom d'un établissement.
-    // document.getElementById("recherche_etablsmnt").addEventListener("change", function(event) {
-    //     option_choisie = event.target;
-    //     valeur_option_choisie = option_choisie.value;
-    // });
-
     var option_choisie = document.getElementById('recherche_etablsmnt').value;
-    // var valeur_option_choisie = option_choisie.value;
 
     if (option_choisie === ""){
         section_res.innerHTML = "";

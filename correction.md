@@ -36,8 +36,12 @@ Cette fonctionnalité offre un formulaire qui permet l'introduction de 2 dates (
         Exemple : http://127.0.0.1:5000/poursuites?nom=restaurant%20fiore
         http://127.0.0.1:5000/poursuites?nom=RESTAURANT%20CHUAN%20XIANG%20QING
 
-        problemee avec # $ / "
+        * problemee avec # $ / "
 
         GET /poursuites?nom=3%20AMIGOS%20%20RESTO/BAR
 
         GET /poursuites?nom=ELIE%20%22OR%20CAFE%22
+
+        * affichage html   
+
+        * documentation REST   ---- OK

@@ -71,3 +71,36 @@ types:
                     "ville": "LaSalle"
                   }
                 ]
+        404:
+          description: pas de contrevenants.
+  /poursuites:
+    get:
+      description: Avoir la liste des poursuites qui ont été faites pour l'établissement en parametre.
+      parametre_requete: 
+        nom:
+          type: text
+          required: true
+          description: Le nom de l'établissement pour lequel on veut afficher les poursuites qu'il a subi.
+      responses:
+        200:
+          body:
+            application/json:
+              type: Poursuite[]
+              example:
+                [
+                  {
+                    "adresse": "2101 Av. Dollard, Local 33, LaSalle, Québec",
+                    "date_jugement": "20221109",
+                    "date_poursuite": "20220309",
+                    "id": 8512,
+                    "id_etablsmnt": 123679,
+                    "montant": 500,
+                    "motif": "Les personnes affectées à la préparation des produits, au lavage ou au nettoyage du matériel et de l'équipement doivent: porter un bonnet ou une résille propre qui recouvre entièrement les cheveux; porter un couvre-barbe propre qui recouvre entièrement la barbe.",
+                    "nom_etablsmnt": "DEJEUNER MICKAEL",
+                    "proprietaire": "9344-4131 QUEBEC INC.",
+                    "statut": "Fermé",
+                    "ville": "LaSalle"
+                  }
+                ]
+        404:
+          description: pas de poursuite.
