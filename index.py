@@ -305,7 +305,7 @@ def get_poursuites():
 
     # valider l'argument passé en parametre
     if(verifier_chaine_caractere(nom_etablissement)):
-        poursuites = get_db().get_poursuites(nom_etablissement)
+        poursuites = get_db().get_poursuites_etablissement(nom_etablissement)
         if poursuites is None:
             return "", 404
         else:

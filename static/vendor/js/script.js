@@ -110,37 +110,37 @@ document.getElementById("recherche_dates").addEventListener("submit", function(e
 
 
   // fonction qui fait une requete AJAx (A6) pour chercher les contrevenants par noms d'établissements
-document.getElementById("recherche_nom").addEventListener("submit", function(event) {
-    event.preventDefault();
+// document.getElementById("recherche_nom").addEventListener("submit", function(event) {
+//     event.preventDefault();
 
-    var section_res = document.getElementById("section_resultat");
-    var erreur = document.getElementById("erreur");
+//     var section_res = document.getElementById("section_resultat");
+//     var erreur = document.getElementById("erreur");
 
-    var id_etablissement = document.getElementById("id_etablissement").value;
+//     var id_etablissement = document.getElementById("id_etablissement").value;
 
-    if (id_etablissement === ""){
-        section_res.innerHTML = "";
-        erreur.innerHTML = "Nom d'établissement est requise !";
-    }else{ // a ajuuuuuuuuuuuusteerrrrrrrrrrrrrr
-        const xhr = new XMLHttpRequest();
-        var donnee_json;
-        const url = "/contrevenants?du=" + du + "&au=" + au; // l'URL a retourner
-        xhr.open('GET', url, true); 
-        xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded'); 
+//     if (id_etablissement === ""){
+//         section_res.innerHTML = "";
+//         erreur.innerHTML = "Nom d'établissement est requise !";
+//     }else{ // a ajuuuuuuuuuuuusteerrrrrrrrrrrrrr
+//         const xhr = new XMLHttpRequest();
+//         var donnee_json;
+//         const url = "/contrevenants?du=" + du + "&au=" + au; // l'URL a retourner
+//         xhr.open('GET', url, true); 
+//         xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded'); 
 
-        xhr.onreadystatechange = function() {
-            if (xhr.readyState === XMLHttpRequest.DONE) { // verifie si la requete est terminee
-                if (xhr.status === 200) { // verifie si la requête a reussi
-                    donnee_json = xhr.responseText; // resultaat de la requete
-                    donneesAvecNbr= calculer_nbr_occurences(donnee_json);
-                    afficherEnTableau(donneesAvecNbr);
-                    // section_res.innerHTML = donneesAvecNbr;
+//         xhr.onreadystatechange = function() {
+//             if (xhr.readyState === XMLHttpRequest.DONE) { // verifie si la requete est terminee
+//                 if (xhr.status === 200) { // verifie si la requête a reussi
+//                     donnee_json = xhr.responseText; // resultaat de la requete
+//                     donneesAvecNbr= calculer_nbr_occurences(donnee_json);
+//                     afficherEnTableau(donneesAvecNbr);
+//                     // section_res.innerHTML = donneesAvecNbr;
                     
-                } else {
-                    erreur.innerHTML = "Un problème est survenu au niveau du serveur";
-                }
-            }
-        };
-        xhr.send();
-    }
-  });
+//                 } else {
+//                     erreur.innerHTML = "Un problème est survenu au niveau du serveur";
+//                 }
+//             }
+//         };
+//         xhr.send();
+//     }
+//   });

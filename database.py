@@ -105,9 +105,10 @@ class Database:
         cursor = self.get_connection().cursor()
         cursor.execute("select distinct id_etablsmnt, nom_etablsmnt from poursuite")
         etablissements = cursor.fetchall()
-        return [{"id": etablsmnt[0], "nom": etablsmnt[1]} for etablsmnt in etablissements]
+        return [{"nom": etablsmnt[0]} for etablsmnt in etablissements]
     
-    def get_poursuites(self, nom_etablissement):
+    #fonction qui retourne les poursuite d'un etablissement donné
+    def get_poursuites_etablissement(self, nom_etablissement):
         cursor = self.get_connection().cursor()
         cursor.execute("select id, id_etablsmnt, nom_etablsmnt, proprietaire,"
                        "adresse, ville, statut, date_poursuite, date_jugement,"
