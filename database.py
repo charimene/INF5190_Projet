@@ -15,7 +15,6 @@
 
 import sqlite3
 from datetime import datetime, date
-# from etablissement import Etablissement
 from poursuite import Poursuite
 
 class Database:
@@ -103,10 +102,11 @@ class Database:
 
     def get_etablissements(self):
         cursor = self.get_connection().cursor()
-        cursor.execute("select distinct id_etablsmnt, nom_etablsmnt from poursuite")
+        cursor.execute("select distinct nom_etablsmnt from poursuite")
         etablissements = cursor.fetchall()
         return [{"nom": etablsmnt[0]} for etablsmnt in etablissements]
     
+
     #fonction qui retourne les poursuite d'un etablissement donné
     def get_poursuites_etablissement(self, nom_etablissement):
         cursor = self.get_connection().cursor()

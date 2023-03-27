@@ -76,10 +76,10 @@
                     <div class="form-group">
                         <select class="form-control" id="recherche_etablsmnt">
                             {% if not etablissements_liste %}
-                                <option value="{{ aucun }}">Auncun</option>
+                                <option value="">Auncun</option>
                             {% else %}
                                 {% for etablsmnt in etablissements_liste %}
-                                    <option id="id_etablissement" value="{{ etablsmnt.nom }}">{{ etablsmnt.nom }}</option>
+                                    <option value="{{ etablsmnt.nom }}">{{ etablsmnt.nom }}</option>
                                 {% endfor %}
                             {% endif %}
                         </select>
