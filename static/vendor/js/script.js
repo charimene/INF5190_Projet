@@ -48,7 +48,7 @@ function afficherEnTableau(donneesAvecNbr){
     colonneNom.textContent = "Nom de l'établissement";
     colonneNbr.textContent = 'Nombre de poursuites';
 
-    var corps = document.createElement('tbody'); // creation de la baslise tbody (balise enfant de table)
+    var corps = document.createElement('tbody'); // creation de la balise tbody (balise enfant de table)
     tableau.appendChild(corps);
 
     for (var i = 0; i < contrevenants.length; i++) {
@@ -133,8 +133,9 @@ document.getElementById("recherche_nom").addEventListener("submit", function(eve
                 if (xhr.status === 200) { // verifie si la requête a reussi
                     donnee_json = xhr.responseText; // resultaat de la requete
                     // donneesAvecNbr= calculer_nbr_occurences(donnee_json);
-                    // afficherEnTableau(donneesAvecNbr);
-                    section_res.innerHTML = donnee_json;
+                    section_res.innerHTML = "";
+                    afficherPoursuitesEnHTML(donnee_json);
+                    //section_res.innerHTML = donnee_json;
                     
                 } else {
                     erreur.innerHTML = "Un problème est survenu au niveau du serveur";
@@ -144,3 +145,100 @@ document.getElementById("recherche_nom").addEventListener("submit", function(eve
         xhr.send();
     }
   });
+
+
+// fonction qui affiche les resultats des poursuites dans une page HTML.
+function afficherPoursuitesEnHTML(donnee_json){
+    var poursuites = JSON.parse(donnee_json);
+
+    espace_resultat = document.getElementById('section_resultat');
+    
+
+    for (var i = 0; i < poursuites.length; i++) {
+        id_poursuite = poursuites[i].id;
+        nom_etablissement = poursuites[i].nom_etablsmnt;
+        id_etablissement = poursuites[i].id_etablsmnt;
+        proprietaire = poursuites[i].proprietaire;
+        adresse = poursuites[i].adresse;
+        ville = poursuites[i].ville;
+        statut = poursuites[i].statut;
+        date_poursuite = poursuites[i].date_poursuite;
+        date_jugement = poursuites[i].date_jugement;
+        description = poursuites[i].motif;
+        montant = poursuites[i].montant;
+
+
+        // ici je renprends le html de la page resultat.
+        var div = document.createElement('div'); // <div class="col-12 col-sm-12 cadre">
+        div.setAttribute('class', 'col-12 col-sm-12 cadre');
+
+        var sous_div = document.createElement('div'); // <div class="single-blog-post d-flex style-4 mb-30">
+        sous_div.setAttribute('class', 'single-blog-post d-flex style-4 mb-30');
+
+        var sous_div2 = document.createElement('div'); // <div class="blog-content">
+        sous_div2.setAttribute('class', 'blog-content');
+
+        div.appendChild(sous_div);
+        sous_div.appendChild(sous_div2);
+
+
+        // Pour chaque ligne on crée le span suivant : <span class="post-date">
+        var span0 = document.createElement('span'); 
+        span0.setAttribute('class', 'post-date');
+        span0.innerHTML = "<strong>Nom de l'établissement: </strong>"+nom_etablissement +"<br>";
+        sous_div2.appendChild(span0);
+
+        var span1 = document.createElement('span'); 
+        span1.setAttribute('class', 'post-date');
+        span1.innerHTML = "<strong>Id poursuite: </strong>"+id_poursuite +"<br>";
+        sous_div2.appendChild(span1);
+
+        var span2 = document.createElement('span'); 
+        span2.setAttribute('class', 'post-date');
+        span2.innerHTML = "<strong>Id établissement: </strong>"+id_etablissement+"<br>";
+        sous_div2.appendChild(span2);
+
+        var span3 = document.createElement('span'); 
+        span3.setAttribute('class', 'post-date');
+        span3.innerHTML = "<strong>Propriétaire:</strong> "+proprietaire+"<br>";
+        sous_div2.appendChild(span3);
+
+        var span4 = document.createElement('span'); 
+        span4.setAttribute('class', 'post-date');
+        span4.innerHTML = "<strong>Adresse: </strong>"+adresse+"<br>";
+        sous_div2.appendChild(span4);
+
+        var span5 = document.createElement('span'); 
+        span5.setAttribute('class', 'post-date');
+        span5.innerHTML = "<strong>Ville: </strong>"+ville+"<br>";
+        sous_div2.appendChild(span5);
+
+        var span6 = document.createElement('span'); 
+        span6.setAttribute('class', 'post-date');
+        span6.innerHTML = "<strong>Statut: </strong>"+statut+"<br>";
+        sous_div2.appendChild(span6);
+
+        var span7 = document.createElement('span'); 
+        span7.setAttribute('class', 'post-date');
+        span7.innerHTML = "<strong>Date de poursuite:</strong> "+date_poursuite+"<br>";
+        sous_div2.appendChild(span7);
+
+        var span8 = document.createElement('span'); 
+        span8.setAttribute('class', 'post-date');
+        span8.innerHTML = "<strong>Date de jugement: </strong>"+date_jugement+"<br>";
+        sous_div2.appendChild(span8);
+
+        var span9 = document.createElement('span'); 
+        span9.setAttribute('class', 'post-date');
+        span9.innerHTML ="<strong>Description: </strong>"+description+"<br>";
+        sous_div2.appendChild(span9);
+
+        var span10 = document.createElement('span'); 
+        span10.setAttribute('class', 'post-date');
+        span10.innerHTML ="<strong>Montant: </strong>"+montant+"<br>";
+        sous_div2.appendChild(span10);
+
+        espace_resultat.appendChild(div);
+    }
+    
+}

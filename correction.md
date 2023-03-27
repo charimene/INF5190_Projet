@@ -42,6 +42,6 @@ Cette fonctionnalité offre un formulaire qui permet l'introduction de 2 dates (
 
         GET /poursuites?nom=ELIE%20%22OR%20CAFE%22
 
-        * affichage html   
+        * affichage html   ----- ok
 
         * documentation REST   ---- OK
