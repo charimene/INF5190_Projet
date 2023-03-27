@@ -24,7 +24,6 @@ import xml.etree.ElementTree as et
 from poursuite import Poursuite
 
 
-
 app = Flask(__name__, static_url_path="", static_folder="static")
 schema = JsonSchema(app)
 
@@ -56,6 +55,11 @@ def close_connection(exception):
 def validation_error(e):
     errors = [validation_error.message for validation_error in e.errors]
     return jsonify({'error': e.message, 'errors': errors}), 400
+
+
+def noms_etablissements():
+    etablissements = get_db().get_etablissements()
+    return etablissements
 
 
 @app.route('/doc')
@@ -224,12 +228,9 @@ def inserer_donnees_db():
 
 @app.route('/', methods=['GET'])
 def page_accueil():
-    # telecharger_donnees()
-    # convertir_csv2xml()
-    # inserer_donnees_db()
-    # poursuites = get_db().get_poursuites()
-    # longueur = len(poursuites)
-    return render_template('accueil.html'), 200
+    # variable qui contient les noms des établissemnts qui ont fait l'objet de poursuites.
+    etablissements_liste = noms_etablissements()
+    return render_template('accueil.html', etablissements_liste=etablissements_liste), 200
     #nbr = get_db().nbr_poursuite()
     # return render_template('accueil.html'), 200
 
@@ -300,3 +301,4 @@ def get_contrevenants():
 # def donnees_recherche_par_date():
 #     date_du = request.form['date_du']
 #     date_au = request.form['date_au']
+

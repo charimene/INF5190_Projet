@@ -60,6 +60,35 @@
                 <p class="mt-30">Veuillez fournir deux dates afin d'identifier les contrevenants qui sont survenues entre ces deux dates.</p>
             </div>
 
+            <div class="single-widget-area newsletter-widget mb-30">
+                <h4>Recherche par Date </h4>
+                <form id="recherche_dates">
+                    <input type="search" name="du" id="date_du" placeholder="Date de début">
+                    <input type="search" name="au" id="date_au" placeholder="Date de Fin">
+                    <button type="submit" class="btn newsbox-btn w-100">Rechercher</button>
+                </form>
+                <p class="mt-30">Veuillez fournir deux dates afin d'identifier les contrevenants qui sont survenues entre ces deux dates.</p>
+            </div>
+
+            <div class="single-widget-area newsletter-widget mb-30">
+                <h4>Recherche par établissements </h4>
+                <form id="recherche_dates">
+                    <div class="form-group">
+                        <select class="form-control" id="recherche_etablsmnt">
+                            {% if not etablissements_liste %}
+                                <option value="{{ aucun }}">Auncun</option>
+                            {% else %}
+                                {% for etablsmnt in etablissements_liste %}
+                                    <option value="{{ etablsmnt.nom }}">{{ etablsmnt.nom }}</option>
+                                {% endfor %}
+                            {% endif %}
+                        </select>
+                      </div>
+                    <button type="submit" class="btn newsbox-btn w-100">Rechercher</button>
+                </form>
+                <p class="mt-30">Veuillez fournir deux dates afin d'identifier les contrevenants qui sont survenues entre ces deux dates.</p>
+            </div>
+
         </div>
     </div>
 </div>

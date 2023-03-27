@@ -105,6 +105,22 @@ class Database:
                  "ville": res[5], "statut": res[6], "date_p": res[7],
                  "date_jug": res[8], "motif": res[9],
                  "montant": res[10]} for res in resultats]
+    
+
+    def get_etablissements(self):
+        cursor = self.get_connection().cursor()
+        cursor.execute("select distinct nom_etablsmnt from poursuite")
+        etablissements = cursor.fetchall()
+        return [{"nom": etablsmnt[0]} for etablsmnt in etablissements]
+    
+        # [Etablissement(eta[0], eta[1], eta[2],
+        #                eta[3], eta[4], eta[5]) for eta in etablissements]
+    
+            # [{"id": etablsmnt[0], "nom": etablsmnt[1],
+            #      "proprietaire": etablsmnt[2], "adresse": etablsmnt[3],
+            #      "ville": etablsmnt[4], "statut": etablsmnt[5]} for etablsmnt in etablissements]
+        
+
 
 
     # def get_poursuites_etablismnt(self):
