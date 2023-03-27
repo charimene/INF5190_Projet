@@ -72,7 +72,7 @@ def documentation():
 # apostrophes, des lettres à accents, et le signe ":"
 # j'interdis tous les caracteres spéciaux et la ponctuation
 def verifier_chaine_caractere(chaine):
-    expression_valide = r"^[\w\s\-\':]+$"
+    expression_valide = r"^[\w\s\-\':().]+$"
     regex = re.compile(expression_valide)
     if regex.match(chaine) is not None:
         resultat = True
@@ -283,7 +283,7 @@ def get_contrevenants():
         # recuperer la date de la poursuite  
         date_poursuite = c.date_poursuite
 
-        # converitr la daete de la poursuite en type date
+        # converitr la date de la poursuite en type date
         datec = datetime.strptime(date_poursuite, "%Y%m%d")
         date_c = datec.date()
         
@@ -297,8 +297,24 @@ def get_contrevenants():
         return jsonify([contrevenant.asDictionary() for contrevenant in contrevenants_liste])
 
 
+@app.route('/poursuites', methods=["GET"])
+def get_poursuites():
+    contrevenants_liste=[]
+    # récuperer le nom passé en parametres
+    nom_etablissement = request.args.get('nom')
+
+    # valider l'argument passé en parametre
+    if(verifier_chaine_caractere(nom_etablissement)):
+        poursuites = get_db().get_poursuites(nom_etablissement)
+        if poursuites is None:
+            return "", 404
+        else:
+            return jsonify([poursuite.asDictionary() for poursuite in poursuites])
+
+
 # @app.route('/rechercheDate', methods=['POST'])
 # def donnees_recherche_par_date():
 #     date_du = request.form['date_du']
 #     date_au = request.form['date_au']
+
 

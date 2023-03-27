@@ -32,3 +32,6 @@ Cette fonctionnalité offre un formulaire qui permet l'introduction de 2 dates (
 ** Si on fait la recherhce apartir de la page d'accueil, les resultats s'afficheront dans la corps vide de la page. par contre si on lance une recherche apartir de la page resultat qui contient déja des resultats d'une autre recherche, les nouveaux resultats de recherche pas date viendront s'ajouter en bas de la page. (j'ai pas voulu nettoyer la page avant d'afficher mes nouveaux resultat juste pour montrer le travail qui se fait de la requete asynchrone et que la page courante s'actualise pas.)
 
 ## A6
+
+        Exemple : http://127.0.0.1:5000/poursuites?nom=restaurant%20fiore
+        http://127.0.0.1:5000/poursuites?nom=RESTAURANT%20CHUAN%20XIANG%20QING
