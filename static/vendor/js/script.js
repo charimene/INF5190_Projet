@@ -116,12 +116,15 @@ document.getElementById("recherche_nom").addEventListener("submit", function(eve
     var section_res = document.getElementById("section_resultat");
     var erreur = document.getElementById("erreur");
 
-    var option_choisie = document.getElementById('recherche_etablsmnt').value;
+    var option_choisi = document.getElementById('recherche_etablsmnt').value;
 
-    if (option_choisie === ""){
+    if (option_choisi === ""){
         section_res.innerHTML = "";
         erreur.innerHTML = "Nom d'établissement est requise !";
     }else{ 
+        // faire encodeURIComponent pour ne pas interpreter certains caracteres speciaux comme
+        // des séparateurs d'url comme le & et /
+        option_choisie = encodeURIComponent(option_choisi);
         const xhr = new XMLHttpRequest();
         var donnee_json;
         const url = "/poursuites?nom=" + option_choisie; // l'URL a retourner

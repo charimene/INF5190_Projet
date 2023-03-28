@@ -32,14 +32,27 @@ Cette fonctionnalité offre un formulaire qui permet l'introduction de 2 dates (
 ** Si on fait la recherhce apartir de la page d'accueil, les resultats s'afficheront dans la corps vide de la page. par contre si on lance une recherche apartir de la page resultat qui contient déja des resultats d'une autre recherche, les nouveaux resultats de recherche pas date viendront s'ajouter en bas de la page. (j'ai pas voulu nettoyer la page avant d'afficher mes nouveaux resultat juste pour montrer le travail qui se fait de la requete asynchrone et que la page courante s'actualise pas.)
 
 ## A6
+Cette fonctionnalité permeet la recherche des poursuites apartir d'une liste prédeterminée de noms d'établissement (le 3e formulaire "Recherche par nom" dans la sidebar), elle permeet a l'utilisateur de choisir un nom d'établissement et d'afficher toutes les poursuites qui ont touché cet etablissement.
+cette fonctionnalité appelle une requete Ajax asynchrne pour retourner le resultat.
+Précision: 
+        - la majorité des nom d'établissement contiennent des espaces vides entre les mots et des caracteres spéciaux comme &, #, / qui ont une interpretation bien spéciale dans une URL.
+        Donc, dans mon traitement et lorsque je recupere le nom de mon établissement et a l'aide de la fonction : encodeURIComponent, les caracteres spéciaux seront remplacés par le code ASCII ce qui permet une imterpretation correcte du nom de l'établissement.
 
-        Exemple : http://127.0.0.1:5000/poursuites?nom=restaurant%20fiore
-        http://127.0.0.1:5000/poursuites?nom=RESTAURANT%20CHUAN%20XIANG%20QING
+Exemple :
+1- Dans l'application YARC, les espaces vides seront automatiquement remplacés par %20 :
+C'est à dire l'url : http://127.0.0.1:5000/poursuites?nom=restaurant fiore
+est equivalente à l'url : http://127.0.0.1:5000/poursuites?nom=restaurant%20fiore
 
-        * problemee avec # $ / "
+2- Dans l'application YARC, les caracteres spéciaux sont pas interprétés automatiquement comme des chaines de caracteres faisant partie du nom de l'établissement :
+par exemple avec l'url : http://127.0.0.1:5000/poursuites?nom=A & W     
+ca ne retourne pas ce qu'on attendrait mais si on remplace le caractere & par son code ascii comme ceci :
+        http://127.0.0.1:5000/poursuites?nom=A %26 W
+ca va nous retourner les poursuites qu'on voudrait avoir.
 
-        GET /poursuites?nom=3%20AMIGOS%20%20RESTO/BAR
+* un autre exemple avec le caractere "#" dans le nom ""BUFFALO BILL #6"":
+        http://127.0.0.1:5000/poursuites?nom=BUFFALO%20BILL%20%236
 
-        GET /poursuites?nom=ELIE%20%22OR%20CAFE%22
+* Un autre exemple avec le caractere "/" pour le nom : "CAFE NAPOLITAN / BAR SHENANIGANS"
+        http://127.0.0.1:5000/poursuites?nom=CAFE%20NAPOLITAN%20%2F%20BAR%20SHENANIGANS
 
-        * ajouter return 500 en cas derrreur serveur dans doc RAML
+3- Juste pour précision : tous ces traitements se font automatiqument en javascript quand on lance une recherche par nom, c'est a dire tous les caracteres spéciaux vont etre interpretés correctement avec du javascript.
