@@ -72,7 +72,7 @@ def documentation():
 # apostrophes, des lettres à accents, et le signe ":"
 # j'interdis tous les caracteres spéciaux et la ponctuation
 def verifier_chaine_caractere(chaine):
-    expression_valide = r"^[\w\s\-\':().]+$"
+    expression_valide = r"^[\w\s\-\':().#$&]+$"
     regex = re.compile(expression_valide)
     if regex.match(chaine) is not None:
         resultat = True

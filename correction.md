@@ -42,6 +42,4 @@ Cette fonctionnalité offre un formulaire qui permet l'introduction de 2 dates (
 
         GET /poursuites?nom=ELIE%20%22OR%20CAFE%22
 
-        * affichage html   ----- ok
-
-        * documentation REST   ---- OK
+        * ajouter return 500 en cas derrreur serveur dans doc RAML

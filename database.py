@@ -102,7 +102,7 @@ class Database:
 
     def get_etablissements(self):
         cursor = self.get_connection().cursor()
-        cursor.execute("select distinct nom_etablsmnt from poursuite")
+        cursor.execute("select distinct nom_etablsmnt from poursuite order by nom_etablsmnt")
         etablissements = cursor.fetchall()
         return [{"nom": etablsmnt[0]} for etablsmnt in etablissements]
     
