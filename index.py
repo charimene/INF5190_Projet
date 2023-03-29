@@ -265,17 +265,20 @@ def get_liste_etablissements():
 @app.route('/nbr_infractions_etablissements_xml', methods=['GET'])
 def get_liste_etablissements_xml():
     etablissements = get_liste_etablissements() 
-    json_data = etablissements.json
+    if(etablissements is None):
+        return "", 404
+    else:
+        json_data = etablissements.json
 
-    racine = et.Element('etablissements')
+        racine = et.Element('etablissements')
 
-    for item in json_data:
-        etablissement = et.SubElement(racine, "etablissement")
-        nbr_balise = et.SubElement(etablissement, "nombre")
-        nbr_balise.text = str(item['nombre'])
-        nom_balise = et.SubElement(etablissement, "nom")
-        nom_balise.text = str(item["nom"])
+        for item in json_data:
+            etablissement = et.SubElement(racine, "etablissement")
+            nbr_balise = et.SubElement(etablissement, "nombre")
+            nbr_balise.text = str(item['nombre'])
+            nom_balise = et.SubElement(etablissement, "nom")
+            nom_balise.text = str(item["nom"])
 
-    etablissements_xml = et.tostring(racine, encoding='UTF-8', xml_declaration=True)
-    
-    return etablissements_xml
+        etablissements_xml = et.tostring(racine, encoding='UTF-8', xml_declaration=True)
+        
+        return etablissements_xml, 200

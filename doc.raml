@@ -108,6 +108,7 @@ types:
     get:
       description: 
         Avoir la liste des établissements et le nombre de poursuites qu'ils ont eu. la liste retournée est ordonnée par ordre décroissant selon le nbr de poursuites.
+        Les données sont retournées en format json.
       responses:
         200:
           body:
@@ -128,6 +129,31 @@ types:
                     "nom": "BUFFALO BILL WINGS"
                   }
                 ]
+        404:
+          description: pas d'établissements.
+        500:
+          description: problème au niveau du serveur.
+  /nbr_infractions_etablissements_xml:
+    get:
+      description: 
+        Avoir la liste des établissements et le nombre de poursuites qu'ils ont eu. la liste retournée est ordonnée par ordre décroissant selon le nbr de poursuites.
+        Les données snt retournée en format XML.
+      responses:
+        200:
+          body:
+            application/xml:
+              example:
+                <?xml version='1.0' encoding='UTF-8'?>
+                <etablissements>
+                  <etablissement>
+                    <nombre>19</nombre>
+                    <nom>SUPER MARCHE TROPIC</nom>  
+                    </etablissement>
+                  <etablissement>
+                    <nombre>19</nombre>
+                    <nom>SUPER MARCHE TROPIC</nom>
+                  </etablissement>
+                <etablissements>ent>
         404:
           description: pas d'établissements.
         500:

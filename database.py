@@ -136,7 +136,7 @@ class Database:
     
     def get_etablissements_par_nbr(self):
         cursor = self.get_connection().cursor()
-        cursor.execute("select distinct * from poursuite order by nbr_infraction_etablsmnt desc")
+        cursor.execute("select distinct * from poursuite group by nom_etablsmnt order by nbr_infraction_etablsmnt desc")
         etablissements = cursor.fetchall()
         return [Poursuite(eta[0], eta[1], eta[2],
                        eta[3], eta[4], eta[5], 
