@@ -64,7 +64,18 @@ ca va nous retourner les poursuites qu'on voudrait avoir.
 ici je fais seulement une requete sql qui me retourne les etablissements avec les attributs : nom_etablsmnt et nbr_infraction_etablsmnt
 et j'applique ORDER BY nbr_infraction_etablsmnt a ma requetes pour trier mes resultats selon le nombre des poursuites.
 et je fais GROUP BY nom_etablsmnt pour eviter les doublons.
+Exemple de route pour tester cette fonctionnalité sur YARC:
+        http://127.0.0.1:5000/nbr_infractions_etablissements
 
 # C2
 Pour cette fonctionnalité, j'utilise la meme fonction utilisée dans C1 pour retourner la liste des établissements avec le nombre de poursuites qu'ils ont eu.
 et la liste que je recois en json je la convertis en XML avec xml.etree.ElementTree .
+Exemple de route pour tester cette fonctionnalité sur YARC:
+        http://127.0.0.1:5000/nbr_infractions_etablissements_xml
+
+# C3
+Pour cette fonctionnalité, j'utilise la meme fonction utilisée dans C1 pour retourner la liste des établissements avec le nombre de poursuites qu'ils ont eu.
+et la liste que je recois en json je la convertis en CSV avec la bibliotheque CSV .
+
+Exemple de route pour tester cette fonctionnalité sur YARC:
+        http://127.0.0.1:5000/nbr_infractions_etablissements_csv

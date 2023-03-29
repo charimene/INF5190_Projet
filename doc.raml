@@ -153,7 +153,25 @@ types:
                     <nombre>17</nombre>
                     <nom>RESTAURANT JADE QUARTIER CHINOIS</nom>
                   </etablissement>
-                <etablissements>ent>
+                <etablissements>
+        404:
+          description: pas d'établissements.
+        500:
+          description: problème au niveau du serveur.
+  /nbr_infractions_etablissements_csv:
+    get:
+      description: 
+        Avoir la liste des établissements et le nombre de poursuites qu'ils ont eu. la liste retournée est ordonnée par ordre décroissant selon le nbr de poursuites.
+        Les données sont retournée en format CSV.
+      responses:
+        200:
+          body:
+            application/CSV:
+              example:
+                Nombre,Nom
+                19,SUPER MARCHE TROPIC
+                17,RESTAURANT JADE QUARTIER CHINOIS
+                16,L'EUROMARCHE LATINA (1980)
         404:
           description: pas d'établissements.
         500:
