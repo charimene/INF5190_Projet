@@ -34,21 +34,21 @@ class Database:
 
     def get_poursuite(self, id_poursuite):
         cursor = self.get_connection().cursor()
-        cursor.execute("select id, id_etablsmnt, nom_etablsmnt, proprietaire, adresse, ville, statut, date_poursuite, date_jugement, motif, montant from poursuite where id = ?", (id_poursuite,))
+        cursor.execute("select id, id_etablsmnt, nom_etablsmnt, proprietaire, adresse, ville, statut, date_poursuite, date_jugement, motif, montant, nbr_infraction_etablsmnt from poursuite where id = ?", (id_poursuite,))
         poursuite = cursor.fetchone()
         if poursuite is None:
             return None
         else:
-            return Poursuite(poursuite[0], poursuite[1], poursuite[2], poursuite[3], poursuite[4], poursuite[5], poursuite[6], poursuite[7], poursuite[8], poursuite[9], poursuite[10])
+            return Poursuite(poursuite[0], poursuite[1], poursuite[2], poursuite[3], poursuite[4], poursuite[5], poursuite[6], poursuite[7], poursuite[8], poursuite[9], poursuite[10], poursuite[11])
         
 
     def save_poursuite(self, poursuite):
         connection = self.get_connection()
-        connection.execute("insert into poursuite(id, id_etablsmnt, nom_etablsmnt, proprietaire, adresse, ville, statut, date_poursuite, date_jugement, motif, montant) "
-                               "values(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
+        connection.execute("insert into poursuite(id, id_etablsmnt, nom_etablsmnt, proprietaire, adresse, ville, statut, date_poursuite, date_jugement, motif, montant, nbr_infraction_etablsmnt) "
+                               "values(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
                                (poursuite.id, poursuite.id_etablsmnt, poursuite.nom_etablsmnt, poursuite.proprietaire,
                                 poursuite.adresse, poursuite.ville, poursuite.statut, 
-                                poursuite.date_poursuite, poursuite.date_jugement, poursuite.motif, poursuite.montant))
+                                poursuite.date_poursuite, poursuite.date_jugement, poursuite.motif, poursuite.montant, poursuite.nbr_infraction_etablsmnt))
         connection.commit()
 
 
@@ -56,12 +56,12 @@ class Database:
         cursor = self.get_connection().cursor()
         cursor.execute("select id, id_etablsmnt, nom_etablsmnt, proprietaire,"
                        "adresse, ville, statut, date_poursuite, date_jugement,"
-                       "motif, montant from poursuite ")
+                       "motif, montant, nbr_infraction_etablsmnt from poursuite ")
         poursuites = cursor.fetchall()
         return [Poursuite(poursuite[0], poursuite[1], poursuite[2],
                        poursuite[3], poursuite[4], poursuite[5], 
                        poursuite[6], poursuite[7], poursuite[8],
-                       poursuite[9], poursuite[10]) for poursuite in poursuites]
+                       poursuite[9], poursuite[10], poursuite[11]) for poursuite in poursuites]
    
 
     def search_contravenant_par_proprietaire(self, mot_cle):
@@ -112,10 +112,31 @@ class Database:
         cursor = self.get_connection().cursor()
         cursor.execute("select id, id_etablsmnt, nom_etablsmnt, proprietaire,"
                        "adresse, ville, statut, date_poursuite, date_jugement,"
-                       "motif, montant from poursuite where lower(nom_etablsmnt) = lower(?) ",(nom_etablissement,))
+                       "motif, montant, nbr_infraction_etablsmnt from poursuite where lower(nom_etablsmnt) = lower(?) ",(nom_etablissement,))
         poursuites = cursor.fetchall()
         return [Poursuite(poursuite[0], poursuite[1], poursuite[2],
                        poursuite[3], poursuite[4], poursuite[5], 
                        poursuite[6], poursuite[7], poursuite[8],
-                       poursuite[9], poursuite[10]) for poursuite in poursuites]
+                       poursuite[9], poursuite[10], poursuite[11]) for poursuite in poursuites]
+
+
+    def get_nbr_poursuite(self, id_etablissement):
+        cursor = self.get_connection().cursor()
+        cursor.execute("select count(*) from poursuite where id_etablsmnt = ?",(id_etablissement,))
+        nbr = cursor.fetchone()
+        return nbr[0]
+    
+
+    def update_nbr_poursuite(self, id_etablissement, nbr_poursuite):
+        connection = self.get_connection()
+        connection.execute("update poursuite set nbr_infraction_etablsmnt = ? where nbr_infraction_etablsmnt = 1 and id_etablsmnt = ? ",(nbr_poursuite, id_etablissement))
+        connection.commit()
+    
+    
+    def get_etablissements_par_nbr(self):
+        cursor = self.get_connection().cursor()
+        cursor.execute("select distinct nom_etablsmnt, nbr_infraction_etablsmnt from poursuite order by nbr_infraction_etablsmnt desc")
+        etablissements = cursor.fetchall()
+        return [{"nom": etablsmnt[0], "nbr": etablsmnt[1]} for etablsmnt in etablissements]
+    
 

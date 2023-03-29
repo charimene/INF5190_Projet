@@ -56,3 +56,7 @@ ca va nous retourner les poursuites qu'on voudrait avoir.
         http://127.0.0.1:5000/poursuites?nom=CAFE%20NAPOLITAN%20%2F%20BAR%20SHENANIGANS
 
 3- Juste pour précision : tous ces traitements se font automatiqument en javascript quand on lance une recherche par nom, c'est a dire tous les caracteres spéciaux vont etre interpretés correctement avec du javascript.
+
+
+# C1
+Pour cette fonctionnaité, il y a l'attribut "nbr_infraction_etablsmnt" que je viendrai modifier pour chaque entree qui sauvegarde le nbr de poursuite lié a l'établissement en question.

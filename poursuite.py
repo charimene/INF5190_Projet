@@ -14,7 +14,7 @@
 
 
 class Poursuite:
-    def __init__(self, id, id_etablsmnt, nom_etablsmnt, proprietaire, adresse, ville, statut, date_poursuite, date_jugement, motif, montant):
+    def __init__(self, id, id_etablsmnt, nom_etablsmnt, proprietaire, adresse, ville, statut, date_poursuite, date_jugement, motif, montant, nbr_infraction):
         self.id = id
         self.id_etablsmnt = id_etablsmnt
         self.nom_etablsmnt = nom_etablsmnt
@@ -26,6 +26,7 @@ class Poursuite:
         self.date_jugement = date_jugement
         self.motif = motif
         self.montant = montant
+        self.nbr_infraction_etablsmnt = nbr_infraction
 
 
     def asDictionary(self):
@@ -40,3 +41,9 @@ class Poursuite:
                 "date_jugement": self.date_jugement,
                 "motif": self.motif,
                 "montant": self.montant}
+    
+    # def set_nbr_infraction(self, nbr):
+    #     self.nbr_infraction_etablsmnt = nbr
+    
+    # def get_nbr_infraction(self):
+    #     return self.nbr_infraction_etablsmnt

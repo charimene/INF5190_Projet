@@ -104,3 +104,31 @@ types:
                 ]
         404:
           description: pas de poursuite.
+  /nbr_infractions_etablissements:
+    get:
+      description: 
+        Avoir la liste des établissements et le nombre de poursuites qu'ils ont eu. la liste retournée est ordonnée par ordre décroissant selon le nbr de poursuites.
+      responses:
+        200:
+          body:
+            application/json:
+              type: []
+              example:
+                [
+                  {
+                    "nbr": 19,
+                    "nom": "SUPER MARCHE TROPIC"
+                  },
+                  {
+                    "nbr": 17,
+                    "nom": "RESTAURANT JADE QUARTIER CHINOIS"
+                  },
+                  {
+                    "nbr": 17,
+                    "nom": "BUFFALO BILL WINGS"
+                  }
+                ]
+        404:
+          description: pas d'établissements.
+        500:
+          description: problème au niveau du serveur.

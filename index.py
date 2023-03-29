@@ -35,6 +35,7 @@ def construire_db():
     telecharger_donnees()
     convertir_csv2xml()
     inserer_donnees_db()
+    nbr_poursuite_etablissement()
 
 
 def get_db():
@@ -82,67 +83,6 @@ def verifier_chaine_caractere(chaine):
     return resultat
 
 
-# La fonction verifier_date verifie si la chaine passee en parametre est
-# une date correcte selon le format aaaa-mm-jj
-# def verifier_format_date(chaine):
-#     expression_valide = r"^\d{4}\-(0?[1-9]|1[012])\-(0?[1-9]|[12][0-9]|3[01])$"
-#     regex = re.compile(expression_valide)
-#     if regex.match(chaine) is not None:
-#         resultat = True
-#     else:
-#         resultat = False
-
-#     return resultat
-
-
-# La fonction verifier_date verifie si la chaine passee en parametre
-# est une date actuelle ou future
-# def verifier_date(chaine):
-#     date_obj = datetime.strptime(chaine, "%Y-%m-%d")
-#     date = date_obj.date()
-#     date_systeme = date.today()
-#     if (date < date_systeme):
-#         resultat = False
-#     else:
-#         resultat = True
-#     return resultat
-
-
-# La fonction verifier_texte_article verifie si l'article ne
-# depasse pas les 500 caracteres
-# def verifier_texte_article(article):
-#     if (len(article) > 500):
-#         resultat = False
-#     else:
-#         resultat = True
-#     return resultat
-
-
-# La fonction verifier_date verifie si la chaine passee en parametre
-# est une date du jour ou d'avant
-# def verifier_date_si_actuelle_ou_passee(chaine):
-#     date_obj = datetime.strptime(chaine, "%Y-%m-%d")
-#     date = date_obj.date()
-#     date_systeme = date.today()
-#     if (date > date_systeme):
-#         resultat = False
-#     else:
-#         resultat = True
-#     return resultat
-
-
-# La fonction prend en paramètres une liste d'articles et parcourt
-# cette dernière pour ne retourner que les articles qui ont été
-# publiés à la date du jour ou avant.
-# def get_article_jour(articles):
-#     liste_article = []
-#     for article in articles:
-#         if verifier_date_si_actuelle_ou_passee(article["date"]):
-#             liste_article.append(article)
-#         if len(liste_article) == 5:
-#             break
-#     return liste_article
-
 
 def telecharger_donnees():
     url = "https://data.montreal.ca/dataset/05a9e718-6810-4e73-8bb9-5955efeb91a0/resource/7f939a08-be8a-45e1-b208-d8744dca8fc6/download/violations.csv"
@@ -176,15 +116,6 @@ def convertir_csv2xml():
     fichier_xml = et.ElementTree(racine_fichier)
     fichier_xml.write("donnees/donnees.xml", encoding="UTF-8", xml_declaration=True)
 
-# # cette fonction teste si l'id de  passé en parametre existe deja dans notre DB
-# # Si l'id de l'etablissement existe dans notre DB, la fonction retourne True, sinon ca retourne false
-# def contre_existe(id_contrevenant):
-#     resultat = False
-#     contrevenant = get_db().get_contrevenant(id_contrevenant)
-#     if contrevenant is not None:
-#         resultat = True
-#     return resultat
-
 
 # cette fonction teste si l'id de la poursuite passé en parametre existe deja dans notre DB
 # Si l'id de la poursuite existe dans notre DB, la fonction retourne True, sinon ca retourne false
@@ -213,6 +144,7 @@ def inserer_donnees_db():
         date_jugement = i.find("date_jugement").text
         motif=i.find("description").text
         montant = i.find("montant").text
+        nbr_infraction = 1
         
         # on vient ajouter le meme établissement qu'une seule fois dans la table etblissement de base de donnees
         # il existe surement plusieurs poursuites associées au meme établissement.
@@ -222,8 +154,17 @@ def inserer_donnees_db():
 
         if not poursuite_existe(id_poursuite):
             poursuite = Poursuite(id_poursuite, id_etablismnt, nom, proprietaire, adresse, ville, 
-                                  statut, date_poursuite, date_jugement, motif, montant)
+                                  statut, date_poursuite, date_jugement, motif, montant, nbr_infraction)
             poursuite_db = get_db().save_poursuite(poursuite)
+
+
+# fonction qui va compter le nombre de poursuite a chaque établissement et le met a jour dans la base de donnees.
+def nbr_poursuite_etablissement():
+    liste_poursuites = get_db().get_poursuites()
+    for p in liste_poursuites:
+        id_etablissement = p.id_etablsmnt
+        nbr_infraction = get_db().get_nbr_poursuite(id_etablissement)
+        get_db().update_nbr_poursuite(id_etablissement, nbr_infraction)
 
 
 @app.route('/', methods=['GET'])
@@ -309,12 +250,16 @@ def get_poursuites():
         if poursuites is None:
             return "", 404
         else:
-            return jsonify([poursuite.asDictionary() for poursuite in poursuites])
+            return jsonify([poursuite.asDictionary() for poursuite in poursuites]), 200
 
 
-# @app.route('/rechercheDate', methods=['POST'])
-# def donnees_recherche_par_date():
-#     date_du = request.form['date_du']
-#     date_au = request.form['date_au']
-
-
+@app.route('/nbr_infractions_etablissements', methods=['GET'])
+def get_liste_etablissements():
+    # nbr_poursuite_etablissement()
+    etablissements = get_db().get_etablissements_par_nbr()
+    if etablissements is None:
+        return "", 404
+    else:
+        # return jsonify([{"Nom de l'établissenment": etablsmnt.nom, 'Nombre de poursuites': etablsmnt.nbr} for etablsmnt in etablissements]), 200
+        return  jsonify(etablissements), 200
+                       

@@ -9,5 +9,6 @@ create table poursuite(
   date_poursuite text,
   date_jugement text,
   motif varchar(500),
-  montant float
+  montant float,
+  nbr_infraction_etablsmnt integer
 );

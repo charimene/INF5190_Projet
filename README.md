@@ -16,5 +16,13 @@ Licence du template téléchargé : https://themewagon.com/license/
 Pour l’installer RAML :
     npm i -g raml2html
 
+- installation de la db:
+    sqlite3 poursuites.db < db.sql 
+    
 Pour générer le document doc.html pour la documentation du service REST, depuis la racine du proojet executer la commande suivante:
     raml2html doc.raml > templates/doc.html
+
+
+    Apres compilation : FLASK_APP=index.py flask run
+    le chargement du fichier et la conversion et la creation de la db prennent environ 32 sec 
+    Apres la navigation se fait normalement.
