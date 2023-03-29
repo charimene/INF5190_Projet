@@ -14,6 +14,7 @@ from flask_json_schema import JsonValidationError
 # from schemas import donnees_insert_schema
 # from .schemas import person_update_schema
 import json
+import io
 # import sched
 # import time
 
@@ -282,3 +283,22 @@ def get_liste_etablissements_xml():
         etablissements_xml = et.tostring(racine, encoding='UTF-8', xml_declaration=True)
         
         return etablissements_xml, 200
+    
+@app.route('/nbr_infractions_etablissements_csv', methods=['GET'])
+def get_liste_etablissements_csv():
+    etablissements = get_liste_etablissements() 
+    if(etablissements is None):
+        return "", 404
+    else:
+        json_data = etablissements.json
+
+        etablissements_csv = io.StringIO()
+        csv_ecriture = csv.writer(etablissements_csv)
+
+        csv_ecriture.writerow(["Nombre", "Nom"])
+
+        for item in json_data:
+            csv_ecriture.writerow([item['nombre'], item['nom']])
+        
+        etablissements_csv_str = etablissements_csv.getvalue()
+        return etablissements_csv_str, 200
