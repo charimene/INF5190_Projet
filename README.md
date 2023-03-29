@@ -26,3 +26,6 @@ Pour générer le document doc.html pour la documentation du service REST, depui
     Apres compilation : FLASK_APP=index.py flask run
     le chargement du fichier et la conversion et la creation de la db prennent environ 32 sec 
     Apres la navigation se fait normalement.
+
+
+il faut pas oublier de remettre le fichier de requirements des installations avec freeze

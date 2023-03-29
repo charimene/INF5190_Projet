@@ -16,6 +16,7 @@
 import sqlite3
 from datetime import datetime, date
 from poursuite import Poursuite
+import json
 
 class Database:
     def __init__(self):
@@ -135,8 +136,12 @@ class Database:
     
     def get_etablissements_par_nbr(self):
         cursor = self.get_connection().cursor()
-        cursor.execute("select distinct nom_etablsmnt, nbr_infraction_etablsmnt from poursuite order by nbr_infraction_etablsmnt desc")
+        cursor.execute("select distinct * from poursuite order by nbr_infraction_etablsmnt desc")
         etablissements = cursor.fetchall()
-        return [{"nom": etablsmnt[0], "nbr": etablsmnt[1]} for etablsmnt in etablissements]
-    
+        return [Poursuite(eta[0], eta[1], eta[2],
+                       eta[3], eta[4], eta[5], 
+                       eta[6], eta[7], eta[8],
+                       eta[9], eta[10], eta[11]) for eta in etablissements]
+        # return [{"nom": etablsmnt[0], "nbr": etablsmnt[1]} for etablsmnt in etablissements]
+
 

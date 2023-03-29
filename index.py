@@ -255,11 +255,27 @@ def get_poursuites():
 
 @app.route('/nbr_infractions_etablissements', methods=['GET'])
 def get_liste_etablissements():
-    # nbr_poursuite_etablissement()
     etablissements = get_db().get_etablissements_par_nbr()
     if etablissements is None:
         return "", 404
     else:
-        # return jsonify([{"Nom de l'établissenment": etablsmnt.nom, 'Nombre de poursuites': etablsmnt.nbr} for etablsmnt in etablissements]), 200
-        return  jsonify(etablissements), 200
-                       
+        return jsonify([eta.asDictionaryNbr() for eta in etablissements])
+        
+
+@app.route('/nbr_infractions_etablissements_xml', methods=['GET'])
+def get_liste_etablissements_xml():
+    etablissements = get_liste_etablissements() 
+    json_data = etablissements.json
+
+    racine = et.Element('etablissements')
+
+    for item in json_data:
+        etablissement = et.SubElement(racine, "etablissement")
+        nbr_balise = et.SubElement(etablissement, "nombre")
+        nbr_balise.text = str(item['nombre'])
+        nom_balise = et.SubElement(etablissement, "nom")
+        nom_balise.text = str(item["nom"])
+
+    etablissements_xml = et.tostring(racine, encoding='UTF-8', xml_declaration=True)
+    
+    return etablissements_xml

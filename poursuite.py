@@ -42,8 +42,8 @@ class Poursuite:
                 "motif": self.motif,
                 "montant": self.montant}
     
-    # def set_nbr_infraction(self, nbr):
-    #     self.nbr_infraction_etablsmnt = nbr
-    
-    # def get_nbr_infraction(self):
-    #     return self.nbr_infraction_etablsmnt
+    def asDictionaryNbr(self):
+        return{
+            "nom": self.nom_etablsmnt,
+            "nombre" : self.nbr_infraction_etablsmnt
+        }
