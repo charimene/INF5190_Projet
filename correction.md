@@ -8,6 +8,8 @@ les fonctionnalitées de A1 sont executées lors de l'appel de la route principa
 - L'application fait telecharger les données a partir de l'url dans un doc CSV.
 - Ensuite, le document CSV va etre converti en document XML et qui va etre valider par le validator valider.xsd.
 - Lecture apartir du fichier XML et extraction de donnees de chaque poursuite et les inserer dans les 2 tables qui constituent la base de données.
+- Apres je vais modifier l'attribut "nbr_infraction_etablsmnt" de chaque entree pour sauvegarder le nbr de poursuite lié a l'établissement en question.
+
 ## A2
 Cette fonctionnalité sert a chercher des contravenants selon:
 - le nom de leurs établissements. 
@@ -59,4 +61,10 @@ ca va nous retourner les poursuites qu'on voudrait avoir.
 
 
 # C1
-Pour cette fonctionnaité, il y a l'attribut "nbr_infraction_etablsmnt" que je viendrai modifier pour chaque entree qui sauvegarde le nbr de poursuite lié a l'établissement en question.
+ici je fais seulement une requete sql qui me retourne les etablissements avec les attributs : nom_etablsmnt et nbr_infraction_etablsmnt
+et j'applique ORDER BY nbr_infraction_etablsmnt a ma requetes pour trier mes resultats selon le nombre des poursuites.
+et je fais GROUP BY nom_etablsmnt pour eviter les doublons.
+
+# C2
+Pour cette fonctionnalité, j'utilise la meme fonction utilisée dans C1 pour retourner la liste des établissements avec le nombre de poursuites qu'ils ont eu.
+et la liste que je recois en json je la convertis en XML avec xml.etree.ElementTree .
