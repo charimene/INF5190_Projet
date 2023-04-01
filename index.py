@@ -11,18 +11,15 @@ from datetime import datetime, date, timedelta
 import re
 from flask_json_schema import JsonSchema
 from flask_json_schema import JsonValidationError
-# from schemas import donnees_insert_schema
+from schemas import demande_inspection_schema
 # from .schemas import person_update_schema
 import json
 import io
-# import sched
-# import time
-
 import urllib.request
 import csv
 import xml.etree.ElementTree as et
-# from etablissement import Etablissement
 from poursuite import Poursuite
+from inspection import Inspection
 
 
 app = Flask(__name__, static_url_path="", static_folder="static")
@@ -302,3 +299,11 @@ def get_liste_etablissements_csv():
         
         etablissements_csv_str = etablissements_csv.getvalue()
         return etablissements_csv_str, 200
+
+@app.route('/inspection', methods=["POST"])
+# @schema.validate(demande_inspection_schema)
+def create_inspection():
+    donnees = request.get_json()
+    inspection = Inspection(None, donnees["nom_etablissement"], donnees["adresse"], donnees["ville"], donnees["date_visite_client"], donnees["nom_client"], donnees["prenom_client"], donnees["plainte"])
+    inspection = get_db().save_inspection(inspection)
+    return jsonify(inspection.asDictionary()), 201

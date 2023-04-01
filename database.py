@@ -145,3 +145,10 @@ class Database:
         # return [{"nom": etablsmnt[0], "nbr": etablsmnt[1]} for etablsmnt in etablissements]
 
 
+    def save_inspection(self, inspection):
+        connection = self.get_connection()
+        connection.execute("insert into inspection(nom_etablissement, adresse, ville, date_visite_client, nom_client, prenom_client, plainte) "
+                            "values(?, ?, ?, ?, ?, ?, ?)",
+                            (inspection.nom_etablissement, inspection.adresse, inspection.ville, inspection.date_visite_client,inspection.nom_client, inspection.prenom_client, inspection.plainte))
+        connection.commit()
+        return inspection

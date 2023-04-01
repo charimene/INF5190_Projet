@@ -48,3 +48,5 @@ person_update_schema = {
     },
     'additionalProperties': False
 }
+
+demande_inspection_schema ={}
