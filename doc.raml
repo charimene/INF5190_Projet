@@ -176,3 +176,23 @@ types:
           description: pas d'établissements.
         500:
           description: problème au niveau du serveur.
+  /inspection:
+    post:
+      description: 
+        Service qui permet de creer une demande d'inspection qui conserne un etablissement et la sauvegarder dans la base de données.
+      responses:
+        201:
+          body:
+            application/JSON:
+              example:
+                {
+                  "adresse": "rue AAA ",
+                  "date_visite_client": "12/02/2022",
+                  "nom_client": "charifi",
+                  "nom_etablissement": "AAAA",
+                  "plainte": "description: pliante plainte",
+                  "prenom_client": "imene",
+                  "ville": "Montréal"
+                }
+        400:
+          description: Erreur lorsque les données envoyées au service REST ne respectent pas le json_schema.

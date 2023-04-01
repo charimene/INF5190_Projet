@@ -301,9 +301,9 @@ def get_liste_etablissements_csv():
         return etablissements_csv_str, 200
 
 @app.route('/inspection', methods=["POST"])
-# @schema.validate(demande_inspection_schema)
+@schema.validate(demande_inspection_schema)
 def create_inspection():
     donnees = request.get_json()
-    inspection = Inspection(None, donnees["nom_etablissement"], donnees["adresse"], donnees["ville"], donnees["date_visite_client"], donnees["nom_client"], donnees["prenom_client"], donnees["plainte"])
+    inspection = Inspection(donnees["nom_etablissement"], donnees["adresse"], donnees["ville"], donnees["date_visite_client"], donnees["nom_client"], donnees["prenom_client"], donnees["plainte"])
     inspection = get_db().save_inspection(inspection)
     return jsonify(inspection.asDictionary()), 201

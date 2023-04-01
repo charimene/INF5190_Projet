@@ -12,41 +12,32 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-donnees_insert_schema = {
+
+demande_inspection_schema ={
     'type': 'object',
-    'required': ['firstname', 'lastname', 'age'],
+    'required': ['nom_etablissement', 'adresse', 'ville', 'date_visite_client', 'nom_client', 'prenom_client', 'plainte'],
     'properties': {
-        'firstname': {
+        'nom_etablissement': {
             'type': 'string'
         },
-        'lastname': {
+        'adresse': {
             'type': 'string'
         },
-        'age': {
-            'type': 'number'
+        'ville': {
+            'type': 'string'
+        },
+        'date_visite_client': {
+            'type': 'string'
+        },
+        'nom_client': {
+            'type': 'string'
+        },
+        'prenom_client': {
+            'type': 'string'
+        },
+        'plainte': {
+            'type': 'string'
         }
     },
     'additionalProperties': False
 }
-
-person_update_schema = {
-    'type': 'object',
-    'required': ['firstname', 'lastname', 'age', 'id'],
-    'properties': {
-        'id': {
-            'type': 'number'
-        },
-        'firstname': {
-            'type': 'string'
-        },
-        'lastname': {
-            'type': 'string'
-        },
-        'age': {
-            'type': 'number'
-        }
-    },
-    'additionalProperties': False
-}
-
-demande_inspection_schema ={}
