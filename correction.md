@@ -81,3 +81,21 @@ Exemple de route pour tester cette fonctionnalité sur YARC:
         http://127.0.0.1:5000/nbr_infractions_etablissements_csv
 
 # D1
+une page de plainte doit permettre à un visiteur sur le site web de faire une plainte à propos d’un restaurant. L'application offre un formulaire "demande d'inspection en haut a droite de la page "
+ce dernier invoque le service REST de création d’une demande d’inspection.
+
+Pour tester cette fonctionnalité sur YARC :
+
+l'URL : http://127.0.0.1:5000/inspection
+avec le payload suivant : 
+{
+"nom_etablissement":"AAAAé",
+"adresse":"rue AAAé ",
+"ville":"Montréal",
+"date_visite_client":"12/02/2022",
+"nom_client":"string",
+"prenom_client":"imene",
+"plainte" :"description. pliante est une lainte"
+}
+
+# D2

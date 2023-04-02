@@ -1,0 +1,67 @@
+{% extends "layout.html" %}
+{% block content %}  
+<div class="row justify-content-center">
+    <!-- Intro News Tabs Area -->
+    <div class="col-12 col-lg-12">
+        <div class="intro-news-tab">
+
+            <!-- Intro News Filter -->
+            <!-- <div class="lien">
+                <a href="/admin_nouveau"> <span class="fas fa-plus"></span> Ajouter un Article</a>
+            </div> -->
+            <div class="intro-news-filter d-flex justify-content-between">
+                <h6>Formulaire de demande d'inspection</h6>
+            </div>
+
+            <div class="tab-content">
+                <div>
+                    <div class="row">
+                        <div class="col-12 col-sm-12">
+                            <!-- <span id="resultat" class="erreur_class"></span> -->
+                            <div id="resultat">
+                         
+                            <form id="form_add_inspection">
+                                <div class="form-group">
+                                  <label for="nom_etablsmn">Nom d'établissement</label>
+                                  <input type="text" class="form-control" id="nom_etablsmn" name="nom_etablsmn" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="adresse">Adresse</label>
+                                    <input type="text" class="form-control" id="adresse" name="adresse" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="ville">Ville</label>
+                                    <input type="text" class="form-control" id="ville" name="ville" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="date_visite_client">Date visiste du client</label>
+                                    <input type="date" class="form-control" id="date_visite_client" name="date_visite_client" placeholder="AAAA-MM-JJ" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="nom_client">Nom du client</label>
+                                    <input type="text" class="form-control" id="nom_client" name="nom_client" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="prenom_client">Prenom Client</label>
+                                    <input type="text" class="form-control" id="prenom_client" name="prenom_client" required>
+                                </div>
+                                <div class="form-group">
+                                  <label for="plainte">Description</label>
+                                  <textarea class="form-control" id="plainte" name="plainte" rows="6" required></textarea>
+                                </div>
+                                <!-- <div class="form-group row">
+                                    <div class="col-sm-10"> -->
+                                <button type="submit" class="btn btn-primary bouton">Ajouter</button>
+                                    <!-- </div> -->
+                                </div>
+                            </form>
+                            </div>
+                        </div> 
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="vendor/js/script_inspct.js"></script>
+{% endblock %}

@@ -307,3 +307,9 @@ def create_inspection():
     inspection = Inspection(donnees["nom_etablissement"], donnees["adresse"], donnees["ville"], donnees["date_visite_client"], donnees["nom_client"], donnees["prenom_client"], donnees["plainte"])
     inspection = get_db().save_inspection(inspection)
     return jsonify(inspection.asDictionary()), 201
+
+
+@app.route('/demande_inspection', methods=["GET","POST"])
+def demande_inspection():
+    return render_template("ajout_inspection.html")
+    

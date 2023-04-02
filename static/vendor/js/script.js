@@ -4,7 +4,7 @@ function validerDate(date){
     }else{
         return false;
     }
-}
+};
 
 
 function nbr_occurence(json_donnees, id_etablissement){
@@ -16,7 +16,7 @@ function nbr_occurence(json_donnees, id_etablissement){
         }
       }
     return nbr; 
-}
+};
 
 
 function calculer_nbr_occurences(json_donnees){
@@ -30,7 +30,7 @@ function calculer_nbr_occurences(json_donnees){
         donnees[i].nbr = nbr // on ajoute l'attribut nbr dans nos données json qui contient le nbr d'occurence pour chaque etablissemnt de la liste des resultats.
     }
     return JSON.stringify(donnees);
-}
+};
 
 // fonction qui affiche les donnees dans un tableau html 
 function afficherEnTableau(donneesAvecNbr){
@@ -63,7 +63,7 @@ function afficherEnTableau(donneesAvecNbr){
         ligne_nbr.textContent = nbr;
     }
     espace_resultat.appendChild(tableau);
-}
+};
 
 // fonction qui fait une requete AJAx pour chercher les contrevenants entre 2 dates
 document.getElementById("recherche_dates").addEventListener("submit", function(event) {
@@ -89,7 +89,7 @@ document.getElementById("recherche_dates").addEventListener("submit", function(e
         var donnee_json;
         const url = "/contrevenants?du=" + du + "&au=" + au; // l'URL a retourner
         xhr.open('GET', url, true); 
-        xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded'); 
+        xhr.setRequestHeader('Content-Type', 'application/json'); 
 
         xhr.onreadystatechange = function() {
             if (xhr.readyState === XMLHttpRequest.DONE) { // verifie si la requete est terminee
@@ -129,7 +129,7 @@ document.getElementById("recherche_nom").addEventListener("submit", function(eve
         var donnee_json;
         const url = "/poursuites?nom=" + option_choisie; // l'URL a retourner
         xhr.open('GET', url, true); 
-        xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded'); 
+        xhr.setRequestHeader('Content-Type', 'application/json'); 
 
         xhr.onreadystatechange = function() {
             if (xhr.readyState === XMLHttpRequest.DONE) { // verifie si la requete est terminee
@@ -242,6 +242,7 @@ function afficherPoursuitesEnHTML(donnee_json){
         sous_div2.appendChild(span10);
 
         espace_resultat.appendChild(div);
-    }
-    
-}
+    }   
+};
+
+
