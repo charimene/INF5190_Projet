@@ -99,3 +99,5 @@ avec le payload suivant :
 }
 
 # D2
+Pour des raisons de tests, j'ai rajouté la route : http://127.0.0.1:5000/inspections
+qui permet de lister toutes les inspections.

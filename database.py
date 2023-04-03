@@ -16,6 +16,7 @@
 import sqlite3
 from datetime import datetime, date
 from poursuite import Poursuite
+from inspection import Inspection
 import json
 
 class Database:
@@ -152,3 +153,12 @@ class Database:
                             (inspection.nom_etablissement, inspection.adresse, inspection.ville, inspection.date_visite_client,inspection.nom_client, inspection.prenom_client, inspection.plainte))
         connection.commit()
         return inspection
+
+
+    def get_inspections(self):
+        cursor = self.get_connection().cursor()
+        cursor.execute("select * from inspection")
+        inspections = cursor.fetchall()
+        return [Inspection(inspection[0], inspection[1], inspection[2],
+                       inspection[3], inspection[4], inspection[5],
+                       inspection[6]) for inspection in inspections]

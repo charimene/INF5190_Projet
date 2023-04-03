@@ -196,3 +196,34 @@ types:
                 }
         400:
           description: Erreur lorsque les données envoyées au service REST ne respectent pas le json_schema.
+  /inspections:
+    get:
+      description: 
+        Service qui permet de lister toutes les demandes d'inspection qui ont été demandées.
+      responses:
+        200:
+          body:
+            application/JSON:
+              example:
+                [
+                  {
+                    "adresse": "Rue AAA",
+                    "date_visite_client": "12/02/2022",
+                    "nom_client": "bel",
+                    "nom_etablissement": "resto A",
+                    "plainte": "prenom_AAA",
+                    "prenom_client": "nom_AAA",
+                    "ville": "Adresse AAA"
+                  },
+                  {
+                    "adresse": "Rue BBB",
+                    "date_visite_client": "12/02/2022",
+                    "nom_client": "jacques",
+                    "nom_etablissement": "resto B",
+                    "plainte": "prenom_BBB",
+                    "prenom_client": "nom_BBB",
+                    "ville": "Adresse BBB"
+                  }
+                ]
+        404:
+          description: Pas d'inspections.

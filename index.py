@@ -313,3 +313,8 @@ def create_inspection():
 def demande_inspection():
     return render_template("ajout_inspection.html")
     
+@app.route('/inspections', methods=["GET"])
+def get_inspections():
+    inspections = get_db().get_inspections()
+    return jsonify([inspection.asDictionary() for inspection in inspections])
+
