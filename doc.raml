@@ -196,6 +196,14 @@ types:
                 }
         400:
           description: Erreur lorsque les données envoyées au service REST ne respectent pas le json_schema.
+    /{id}:
+      delete:
+        description: Supprimer l'inspection dont le id égale au id passé en parametre.
+        responses:
+          200:
+            description: la suppression s'est effectuée avec succès.
+          404:
+            description: l'id spécifié est inexistant.
   /inspections:
     get:
       description: 

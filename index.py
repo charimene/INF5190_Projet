@@ -304,7 +304,7 @@ def get_liste_etablissements_csv():
 @schema.validate(demande_inspection_schema)
 def create_inspection():
     donnees = request.get_json()
-    inspection = Inspection(donnees["nom_etablissement"], donnees["adresse"], donnees["ville"], donnees["date_visite_client"], donnees["nom_client"], donnees["prenom_client"], donnees["plainte"])
+    inspection = Inspection(None, donnees["nom_etablissement"], donnees["adresse"], donnees["ville"], donnees["date_visite_client"], donnees["nom_client"], donnees["prenom_client"], donnees["plainte"])
     inspection = get_db().save_inspection(inspection)
     return jsonify(inspection.asDictionary()), 201
 
@@ -313,8 +313,18 @@ def create_inspection():
 def demande_inspection():
     return render_template("ajout_inspection.html")
     
+
 @app.route('/inspections', methods=["GET"])
 def get_inspections():
     inspections = get_db().get_inspections()
     return jsonify([inspection.asDictionary() for inspection in inspections])
 
+
+@app.route('/inspection/<id>', methods=["DELETE"])
+def supprimer_inspection(id):
+    inspection = get_db().get_inspection(id)
+    if inspection is None:
+        return "", 404
+    else:
+        get_db().delete_inspection(id)
+        return "", 200

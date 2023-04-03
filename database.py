@@ -161,4 +161,19 @@ class Database:
         inspections = cursor.fetchall()
         return [Inspection(inspection[0], inspection[1], inspection[2],
                        inspection[3], inspection[4], inspection[5],
-                       inspection[6]) for inspection in inspections]
+                       inspection[6], inspection[7]) for inspection in inspections]
+
+
+    def get_inspection(self, id):
+        cursor = self.get_connection().cursor()
+        cursor.execute("select * from inspection where id = ?", (id,))
+        inspection = cursor.fetchone()
+        if inspection is None:
+            return None
+        else:
+            return Inspection(inspection[0], inspection[1], inspection[2], inspection[3], inspection[4], inspection[5], inspection[6], inspection[7])
+        
+    def delete_inspection(self, id):
+        connection = self.get_connection()
+        connection.execute("delete from inspection where id = ?", (id,))
+        connection.commit()

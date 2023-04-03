@@ -1,5 +1,6 @@
 class Inspection:
-    def __init__(self, nom_etablissement, adresse, ville, date_visite_client, nom_client, prenom_client, plainte):
+    def __init__(self, id, nom_etablissement, adresse, ville, date_visite_client, nom_client, prenom_client, plainte):
+        self.id = id
         self.nom_etablissement = nom_etablissement
         self.adresse = adresse
         self.ville = ville
@@ -10,7 +11,8 @@ class Inspection:
 
 
     def asDictionary(self):
-        return {"nom_etablissement": self.nom_etablissement,
+        return {"id": self.id,
+                "nom_etablissement": self.nom_etablissement,
                 "adresse": self.adresse,
                 "ville": self.ville,
                 "date_visite_client": self.date_visite_client,

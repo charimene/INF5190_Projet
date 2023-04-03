@@ -17,6 +17,9 @@ demande_inspection_schema ={
     'type': 'object',
     'required': ['nom_etablissement', 'adresse', 'ville', 'date_visite_client', 'nom_client', 'prenom_client', 'plainte'],
     'properties': {
+        'id': {
+            'type': 'number'
+        },
         'nom_etablissement': {
             'type': 'string'
         },

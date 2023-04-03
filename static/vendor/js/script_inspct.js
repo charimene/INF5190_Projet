@@ -46,6 +46,7 @@ document.getElementById("form_add_inspection").addEventListener("submit", functi
     if(entree_valides(nom_etablsmn, adresse, ville, date_visite_client, nom_client, prenom_client, plainte)){
         const xhr = new XMLHttpRequest();
         var donnee_json;
+        var id_new = None;
         const url = "/inspection"; // l'URL a retourner
         xhr.open('POST', url, true); 
         xhr.setRequestHeader('Content-Type', 'application/json'); 
