@@ -33,6 +33,8 @@ document.getElementById("form_add_inspection").addEventListener("submit", functi
 
     // l'endroit ou on affiche le resultat
     var resultat = document.getElementById("resultat");
+    var erreur = document.getElementById("erreur");
+    var confirme = document.getElementById("succes");
 
     var nom_etablsmn = document.getElementById("nom_etablsmn").value;
     var adresse = document.getElementById("adresse").value;
@@ -46,7 +48,6 @@ document.getElementById("form_add_inspection").addEventListener("submit", functi
     if(entree_valides(nom_etablsmn, adresse, ville, date_visite_client, nom_client, prenom_client, plainte)){
         const xhr = new XMLHttpRequest();
         var donnee_json;
-        var id_new = None;
         const url = "/inspection"; // l'URL a retourner
         xhr.open('POST', url, true); 
         xhr.setRequestHeader('Content-Type', 'application/json'); 
@@ -57,20 +58,20 @@ document.getElementById("form_add_inspection").addEventListener("submit", functi
             nom_client:nom_client,
             prenom_client:prenom_client,
             plainte :plainte};
-
         xhr.onreadystatechange = function() {
             if (xhr.readyState === XMLHttpRequest.DONE) { // verifie si la requete est terminee
                 if (xhr.status === 201) { // verifie si la requête a reussi
                     donnee_json = xhr.responseText; // resultaat de la requete
-                    resultat.innerHTML="";
-                    resultat.innerHTML = donnee_json;   
+                    //resultat.innerHTML="";
+                    confirme.innerText = "Votre demande a bien été ajoutée!";
+                    resultat.innerText = donnee_json;   
                 } else {
-                    resultat.innerHTML = "Un problème est survenu au niveau du serveur";
+                    erreur.innerText = "Un problème est survenu au niveau du serveur";
                 }
             }
         };
         xhr.send(JSON.stringify(parametres));
     }else{
-        resultat.innerHTML = "Données sont pas valides !";
+        erreur.innerText = "Données sont pas valides !";
     }
 });

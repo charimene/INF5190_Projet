@@ -1602,3 +1602,8 @@ img {
 table thead{
   font-weight: bold;
 }
+
+.confirm{
+  font-weight: bold;
+  font-size: 16px;
+}

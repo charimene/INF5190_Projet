@@ -100,7 +100,7 @@ avec le payload suivant :
 
 # D2
 Pour des raisons de tests, j'ai rajouté la route : http://127.0.0.1:5000/inspections
-qui permet de lister toutes les inspections.
+qui permet de lister toutes les inspections. et de verifier les inspections qu'on rajoute et celles qu'on supprime.
 
 Cette fonctionnalité fait supprimer une infraction dont le id est passé dans la route.
 Exemple de route pour supprimer une inspection : http://127.0.0.1:5000/inspection/1
