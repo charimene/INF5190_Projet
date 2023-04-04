@@ -16,6 +16,7 @@ from schemas import demande_inspection_schema
 import json
 import io
 import urllib.request
+from urllib.request import Request, urlopen
 import csv
 import xml.etree.ElementTree as et
 from poursuite import Poursuite
@@ -85,8 +86,12 @@ def verifier_chaine_caractere(chaine):
 def telecharger_donnees():
     url = "https://data.montreal.ca/dataset/05a9e718-6810-4e73-8bb9-5955efeb91a0/resource/7f939a08-be8a-45e1-b208-d8744dca8fc6/download/violations.csv"
 
-    requete = urllib.request.urlopen(url)  
-    donnees_csv = requete.read()
+    #J'ai ajoute l'agent Mozilla pour eviter l'erreur urllib.error.httperror : erreur http 403
+    request_site = Request(url, headers={"User-Agent": "Mozilla/5.0"})
+    donnees_csv = urlopen(request_site).read()
+
+    # requete = urllib.request.urlopen(url)  
+    # donnees_csv = requete.read()
 
     encodage_csv = donnees_csv.decode('utf-8')
 
