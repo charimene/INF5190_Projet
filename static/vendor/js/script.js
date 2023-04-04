@@ -45,8 +45,11 @@ function afficherEnTableau(donneesAvecNbr){
     var enteteTab = entete.insertRow();
     var colonneNom = enteteTab.insertCell();
     var colonneNbr = enteteTab.insertCell();
+    var colonneOperation = enteteTab.insertCell();
     colonneNom.textContent = "Nom de l'établissement";
     colonneNbr.textContent = 'Nombre de poursuites';
+    colonneOperation.textContent = 'Opérations';
+    colonneOperation.setAttribute('class', 'col_op');
 
     var corps = document.createElement('tbody'); // creation de la balise tbody (balise enfant de table)
     tableau.appendChild(corps);
@@ -54,13 +57,20 @@ function afficherEnTableau(donneesAvecNbr){
     for (var i = 0; i < contrevenants.length; i++) {
         nom = contrevenants[i].nom_etablsmnt;
         nbr = contrevenants[i].nbr;
+        id = contrevenants[i].id;
 
         ligne = corps.insertRow();
         ligne_nom = ligne.insertCell();
         ligne_nbr = ligne.insertCell();
+        ligne_operation = ligne.insertCell();
 
         ligne_nom.textContent = nom;
         ligne_nbr.textContent = nbr;
+
+        var span = document.createElement('span'); 
+        span.innerHTML = "<button id='btnModifier' class='btn btn-primary bouton'>Modifier</button>  <button id='btnSupprimer' class='btn btn-primary bouton'>Supprimer</button>";
+        ligne_operation.appendChild(span);
+        
     }
     espace_resultat.appendChild(tableau);
 };

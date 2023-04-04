@@ -104,3 +104,5 @@ qui permet de lister toutes les inspections. et de verifier les inspections qu'o
 
 Cette fonctionnalité fait supprimer une infraction dont le id est passé dans la route.
 Exemple de route pour supprimer une inspection : http://127.0.0.1:5000/inspection/1
+
+# D3
