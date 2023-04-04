@@ -177,3 +177,21 @@ class Database:
         connection = self.get_connection()
         connection.execute("delete from inspection where id = ?", (id,))
         connection.commit()
+
+
+    def get_inspections_dun_etablissement(self, id):
+        cursor = self.get_connection().cursor()
+        cursor.execute("select * from poursuite where id_etablsmnt = ?", (id,))
+        poursuites = cursor.fetchall()
+        return [Poursuite(p[0], p[1], p[2],
+                       p[3], p[4], p[5], 
+                       p[6], p[7], p[8],
+                       p[9], p[10], p[11]) for p in poursuites]
+    
+
+    def delete_etablissement(self, id):
+        #la suppression d'un etablissement quelcoque revient a supprimer toutes les poursuites qui 
+        #comme reference l'etablissement en question.
+        connection = self.get_connection()
+        connection.execute("delete from poursuite where id_etablsmnt = ?", (id,))
+        connection.commit()

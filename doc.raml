@@ -37,201 +37,217 @@ types:
       montant: 
         type: number
         required: true
-/api:
-  /contrevenants:
-    get:
-      description: Avoir la liste des contravenants qui ont obtenu des contraventions entre 2 dates.
-      parametre_requete: 
-        du:
-          type: text
-          required: true
-          description: Date de début pour la recherche (format: YYYY-MM-DD)
-        au:
-          type: text
-          required: true
-          description: Date de fin pour la recherche (format: YYYY-MM-DD) 
-      responses:
-        200:
-          body:
-            application/json:
-              type: Poursuite[]
-              example:
-                [
-                  {
-                    "adresse": "2101 Av. Dollard, Local 33, LaSalle, Québec",
-                    "date_jugement": "20221109",
-                    "date_poursuite": "20220309",
-                    "id": 8512,
-                    "id_etablsmnt": 123679,
-                    "montant": 500,
-                    "motif": "Les personnes affectées à la préparation des produits, au lavage ou au nettoyage du matériel et de l'équipement doivent: porter un bonnet ou une résille propre qui recouvre entièrement les cheveux; porter un couvre-barbe propre qui recouvre entièrement la barbe.",
-                    "nom_etablsmnt": "DEJEUNER MICKAEL",
-                    "proprietaire": "9344-4131 QUEBEC INC.",
-                    "statut": "Fermé",
-                    "ville": "LaSalle"
-                  }
-                ]
-        404:
-          description: pas de contrevenants.
-  /poursuites:
-    get:
-      description: Avoir la liste des poursuites qui ont été faites pour l'établissement en parametre.
-      parametre_requete: 
-        nom:
-          type: text
-          required: true
-          description: Le nom de l'établissement pour lequel on veut afficher les poursuites qu'il a subi.
-      responses:
-        200:
-          body:
-            application/json:
-              type: Poursuite[]
-              example:
-                [
-                  {
-                    "adresse": "2101 Av. Dollard, Local 33, LaSalle, Québec",
-                    "date_jugement": "20221109",
-                    "date_poursuite": "20220309",
-                    "id": 8512,
-                    "id_etablsmnt": 123679,
-                    "montant": 500,
-                    "motif": "Les personnes affectées à la préparation des produits, au lavage ou au nettoyage du matériel et de l'équipement doivent: porter un bonnet ou une résille propre qui recouvre entièrement les cheveux; porter un couvre-barbe propre qui recouvre entièrement la barbe.",
-                    "nom_etablsmnt": "DEJEUNER MICKAEL",
-                    "proprietaire": "9344-4131 QUEBEC INC.",
-                    "statut": "Fermé",
-                    "ville": "LaSalle"
-                  }
-                ]
-        404:
-          description: pas de poursuite.
-  /nbr_infractions_etablissements:
-    get:
-      description: 
-        Avoir la liste des établissements et le nombre de poursuites qu'ils ont eu. la liste retournée est ordonnée par ordre décroissant selon le nbr de poursuites.
-        Les données sont retournées en format json.
-      responses:
-        200:
-          body:
-            application/json:
-              type: []
-              example:
-                [
-                  {
-                    "nbr": 19,
-                    "nom": "SUPER MARCHE TROPIC"
-                  },
-                  {
-                    "nbr": 17,
-                    "nom": "RESTAURANT JADE QUARTIER CHINOIS"
-                  },
-                  {
-                    "nbr": 17,
-                    "nom": "BUFFALO BILL WINGS"
-                  }
-                ]
-        404:
-          description: pas d'établissements.
-        500:
-          description: problème au niveau du serveur.
-  /nbr_infractions_etablissements_xml:
-    get:
-      description: 
-        Avoir la liste des établissements et le nombre de poursuites qu'ils ont eu. la liste retournée est ordonnée par ordre décroissant selon le nbr de poursuites.
-        Les données sont retournée en format XML.
-      responses:
-        200:
-          body:
-            application/xml:
-              example:
-                <?xml version='1.0' encoding='UTF-8'?>
-                <etablissements>
-                  <etablissement>
-                    <nombre>19</nombre>
-                    <nom>SUPER MARCHE TROPIC</nom>  
-                    </etablissement>
-                  <etablissement>
-                    <nombre>17</nombre>
-                    <nom>RESTAURANT JADE QUARTIER CHINOIS</nom>
-                  </etablissement>
-                <etablissements>
-        404:
-          description: pas d'établissements.
-        500:
-          description: problème au niveau du serveur.
-  /nbr_infractions_etablissements_csv:
-    get:
-      description: 
-        Avoir la liste des établissements et le nombre de poursuites qu'ils ont eu. la liste retournée est ordonnée par ordre décroissant selon le nbr de poursuites.
-        Les données sont retournée en format CSV.
-      responses:
-        200:
-          body:
-            application/CSV:
-              example:
-                Nombre,Nom
-                19,SUPER MARCHE TROPIC
-                17,RESTAURANT JADE QUARTIER CHINOIS
-                16,L'EUROMARCHE LATINA (1980)
-        404:
-          description: pas d'établissements.
-        500:
-          description: problème au niveau du serveur.
-  /inspection:
-    post:
-      description: 
-        Service qui permet de creer une demande d'inspection qui conserne un etablissement et la sauvegarder dans la base de données.
-      responses:
-        201:
-          body:
-            application/JSON:
-              example:
+
+/contrevenants:
+  get:
+    description: Avoir la liste des contravenants qui ont obtenu des contraventions entre 2 dates.
+    parametre_requete: 
+      du:
+        type: text
+        required: true
+        description: Date de début pour la recherche (format: YYYY-MM-DD)
+      au:
+        type: text
+        required: true
+        description: Date de fin pour la recherche (format: YYYY-MM-DD) 
+    responses:
+      200:
+        body:
+          application/json:
+            type: Poursuite[]
+            example:
+              [
                 {
-                  "adresse": "rue AAA ",
-                  "date_visite_client": "12/02/2022",
-                  "nom_client": "charifi",
-                  "nom_etablissement": "AAAA",
-                  "plainte": "description: pliante plainte",
-                  "prenom_client": "imene",
-                  "ville": "Montréal"
+                  "adresse": "2101 Av. Dollard, Local 33, LaSalle, Québec",
+                  "date_jugement": "20221109",
+                  "date_poursuite": "20220309",
+                  "id": 8512,
+                  "id_etablsmnt": 123679,
+                  "montant": 500,
+                  "motif": "Les personnes affectées à la préparation des produits, au lavage ou au nettoyage du matériel et de l'équipement doivent: porter un bonnet ou une résille propre qui recouvre entièrement les cheveux; porter un couvre-barbe propre qui recouvre entièrement la barbe.",
+                  "nom_etablsmnt": "DEJEUNER MICKAEL",
+                  "proprietaire": "9344-4131 QUEBEC INC.",
+                  "statut": "Fermé",
+                  "ville": "LaSalle"
                 }
-        400:
-          description: Erreur lorsque les données envoyées au service REST ne respectent pas le json_schema.
-    /{id}:
-      delete:
-        description: Supprimer l'inspection dont le id égale au id passé en parametre.
-        responses:
-          200:
-            description: la suppression s'est effectuée avec succès.
-          404:
-            description: l'id spécifié est inexistant.
-  /inspections:
-    get:
-      description: 
-        Service qui permet de lister toutes les demandes d'inspection qui ont été demandées.
+              ]
+      404:
+        description: pas de contrevenants.
+/contrevenant:
+  /{id}:
+    delete:
+      description: Supprimer les poursuites dont le id_etablsmnt égale au id passé en parametre.
       responses:
         200:
-          body:
-            application/JSON:
-              example:
-                [
-                  {
-                    "adresse": "Rue AAA",
-                    "date_visite_client": "12/02/2022",
-                    "nom_client": "bel",
-                    "nom_etablissement": "resto A",
-                    "plainte": "prenom_AAA",
-                    "prenom_client": "nom_AAA",
-                    "ville": "Adresse AAA"
-                  },
-                  {
-                    "adresse": "Rue BBB",
-                    "date_visite_client": "12/02/2022",
-                    "nom_client": "jacques",
-                    "nom_etablissement": "resto B",
-                    "plainte": "prenom_BBB",
-                    "prenom_client": "nom_BBB",
-                    "ville": "Adresse BBB"
-                  }
-                ]
+          description: la suppression s'est effectuée avec succès.
         404:
-          description: Pas d'inspections.
+          description: l'id spécifié est inexistant.
+    put:
+      description: modifie les informations de l'etablissement dont le id égale au id passé en parametre.
+      responses:
+        200:
+          description: la modification s'est effectuée avec succès.
+        404:
+          description: l'id spécifié est inexistant.
+/poursuites:
+  get:
+    description: Avoir la liste des poursuites qui ont été faites pour l'établissement en parametre.
+    parametre_requete: 
+      nom:
+        type: text
+        required: true
+        description: Le nom de l'établissement pour lequel on veut afficher les poursuites qu'il a subi.
+    responses:
+      200:
+        body:
+          application/json:
+            type: Poursuite[]
+            example:
+              [
+                {
+                  "adresse": "2101 Av. Dollard, Local 33, LaSalle, Québec",
+                  "date_jugement": "20221109",
+                  "date_poursuite": "20220309",
+                  "id": 8512,
+                  "id_etablsmnt": 123679,
+                  "montant": 500,
+                  "motif": "Les personnes affectées à la préparation des produits, au lavage ou au nettoyage du matériel et de l'équipement doivent: porter un bonnet ou une résille propre qui recouvre entièrement les cheveux; porter un couvre-barbe propre qui recouvre entièrement la barbe.",
+                  "nom_etablsmnt": "DEJEUNER MICKAEL",
+                  "proprietaire": "9344-4131 QUEBEC INC.",
+                  "statut": "Fermé",
+                  "ville": "LaSalle"
+                }
+              ]
+      404:
+        description: pas de poursuite.
+/nbr_infractions_etablissements:
+  get:
+    description: 
+      Avoir la liste des établissements et le nombre de poursuites qu'ils ont eu. la liste retournée est ordonnée par ordre décroissant selon le nbr de poursuites.
+      Les données sont retournées en format json.
+    responses:
+      200:
+        body:
+          application/json:
+            type: []
+            example:
+              [
+                {
+                  "nbr": 19,
+                  "nom": "SUPER MARCHE TROPIC"
+                },
+                {
+                  "nbr": 17,
+                  "nom": "RESTAURANT JADE QUARTIER CHINOIS"
+                },
+                {
+                  "nbr": 17,
+                  "nom": "BUFFALO BILL WINGS"
+                }
+              ]
+      404:
+        description: pas d'établissements.
+      500:
+        description: problème au niveau du serveur.
+/nbr_infractions_etablissements_xml:
+  get:
+    description: 
+      Avoir la liste des établissements et le nombre de poursuites qu'ils ont eu. la liste retournée est ordonnée par ordre décroissant selon le nbr de poursuites.
+      Les données sont retournée en format XML.
+    responses:
+      200:
+        body:
+          application/xml:
+            example:
+              <?xml version='1.0' encoding='UTF-8'?>
+              <etablissements>
+                <etablissement>
+                  <nombre>19</nombre>
+                  <nom>SUPER MARCHE TROPIC</nom>  
+                </etablissement>
+                <etablissement>
+                  <nombre>17</nombre>
+                  <nom>RESTAURANT JADE QUARTIER CHINOIS</nom>
+                </etablissement>
+              <etablissements>
+      404:
+        description: pas d'établissements.
+      500:
+        description: problème au niveau du serveur.
+/nbr_infractions_etablissements_csv:
+  get:
+    description: 
+      Avoir la liste des établissements et le nombre de poursuites qu'ils ont eu. la liste retournée est ordonnée par ordre décroissant selon le nbr de poursuites.
+      Les données sont retournée en format CSV.
+    responses:
+      200:
+        body:
+          application/CSV:
+            example:
+              Nombre,Nom
+              19,SUPER MARCHE TROPIC
+              17,RESTAURANT JADE QUARTIER CHINOIS
+              16,L'EUROMARCHE LATINA (1980)
+      404:
+        description: pas d'établissements.
+      500:
+        description: problème au niveau du serveur.
+/inspection:
+  post:
+    description: 
+      Service qui permet de creer une demande d'inspection qui conserne un etablissement et la sauvegarder dans la base de données.
+    responses:
+      201:
+        body:
+          application/JSON:
+            example:
+              {
+                "adresse": "rue AAA ",
+                "date_visite_client": "12/02/2022",
+                "nom_client": "charifi",
+                "nom_etablissement": "AAAA",
+                "plainte": "description: pliante plainte",
+                "prenom_client": "imene",
+                "ville": "Montréal"
+              }
+      400:
+        description: Erreur lorsque les données envoyées au service REST ne respectent pas le json_schema.
+  /{id}:
+    delete:
+      description: Supprimer l'inspection dont le id égale au id passé en parametre.
+      responses:
+        200:
+          description: la suppression s'est effectuée avec succès.
+        404:
+          description: l'id spécifié est inexistant.
+/inspections:
+  get:
+    description: 
+      Service qui permet de lister toutes les demandes d'inspection qui ont été demandées.
+    responses:
+      200:
+        body:
+          application/JSON:
+            example:
+              [
+                {
+                  "adresse": "Rue AAA",
+                  "date_visite_client": "12/02/2022",
+                  "nom_client": "bel",
+                  "nom_etablissement": "resto A",
+                  "plainte": "prenom_AAA",
+                  "prenom_client": "nom_AAA",
+                  "ville": "Adresse AAA"
+                },
+                {
+                  "adresse": "Rue BBB",
+                  "date_visite_client": "12/02/2022",
+                  "nom_client": "jacques",
+                  "nom_etablissement": "resto B",
+                  "plainte": "prenom_BBB",
+                  "prenom_client": "nom_BBB",
+                  "ville": "Adresse BBB"
+                }
+              ]
+      404:
+        description: Pas d'inspections.

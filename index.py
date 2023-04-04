@@ -82,7 +82,6 @@ def verifier_chaine_caractere(chaine):
     return resultat
 
 
-
 def telecharger_donnees():
     url = "https://data.montreal.ca/dataset/05a9e718-6810-4e73-8bb9-5955efeb91a0/resource/7f939a08-be8a-45e1-b208-d8744dca8fc6/download/violations.csv"
 
@@ -333,3 +332,15 @@ def supprimer_inspection(id):
     else:
         get_db().delete_inspection(id)
         return "", 200
+    
+
+@app.route('/contrevenant/<id>', methods=["DELETE"])
+def supprimer_contrevenant(id):
+    # chercher toutes les poursuites d'un etablissement dont le id egale au id passe dans la route
+    contrevenants = get_db().get_inspections_dun_etablissement(id)
+    if contrevenants is None:
+        return "", 404
+    else:
+        get_db().delete_etablissement(id)
+        return "", 200
+    
