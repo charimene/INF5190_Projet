@@ -57,7 +57,7 @@ function afficherEnTableau(donneesAvecNbr){
     for (var i = 0; i < contrevenants.length; i++) {
         nom = contrevenants[i].nom_etablsmnt;
         nbr = contrevenants[i].nbr;
-        id = contrevenants[i].id;
+        id = contrevenants[i].id_etablsmnt;
 
         ligne = corps.insertRow();
         ligne_nom = ligne.insertCell();
@@ -68,7 +68,7 @@ function afficherEnTableau(donneesAvecNbr){
         ligne_nbr.textContent = nbr;
 
         var span = document.createElement('span'); 
-        span.innerHTML = "<button id='btnModifier' class='btn btn-primary bouton'>Modifier</button>  <button id='btnSupprimer' class='btn btn-primary bouton'>Supprimer</button>";
+        span.innerHTML = "<button id='btnModifier"+id+"' class='btn btn-primary bouton'>Modifier</button>  <button id='btnSupprimer"+id+"' class='btn btn-primary bouton'>Supprimer</button>";
         ligne_operation.appendChild(span);
         
     }
