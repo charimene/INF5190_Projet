@@ -338,23 +338,35 @@ def supprimer_inspection(id):
 @app.route('/contrevenant/<id>', methods=["DELETE"])
 def supprimer_contrevenant(id):
     # chercher toutes les poursuites d'un etablissement dont le id egale au id passe dans la route
-    contrevenants = get_db().get_inspections_dun_etablissement(id)
-    if contrevenants is None:
+    poursuites = get_db().get_poursuites_dun_etablissement(id)
+    if poursuites is None:
         return "", 404
     else:
         get_db().delete_etablissement(id)
         return "", 200
     
+
 @app.route('/contrevenant/<id>', methods=["PUT"])
-@schema.validate(maj_etablissement_schema)
+# @schema.validate(maj_etablissement_schema)
 def modifier_contrevenant(id):
     # chercher toutes les poursuites d'un etablissement dont le id egale au id passe dans la route
-    contrevenants = get_db().get_inspections_dun_etablissement(id)
-    if contrevenants is None:
+    poursuites = get_db().get_poursuites_dun_etablissement(id)
+    if poursuites is None:
         return "", 404
     else:
         donnees = request.get_json()
         get_db().modifier_etablissement(id, donnees["nom_etablsmnt"], donnees["proprietaire"], donnees["adresse"],
-                                        donnees["ville"], donnees["statut"], donnees["nbr_infraction_etablsmnt"])
+                                        donnees["ville"], donnees["statut"])
         return "", 200
     
+
+@app.route('/modifier_etablissement', methods=["GET","POST"])
+def modifier_etablsmnt():
+    id = request.args.get('id')
+    nom_etblsmn = request.args.get('nom')
+    proprietaire = request.args.get('proprietaire')
+    adresse = request.args.get('adresse')
+    ville = request.args.get('ville')
+    statut = request.args.get('statut')
+    return render_template("modifier_etablissement.html",id=id, nom=nom_etblsmn, p=proprietaire,
+                           ad=adresse, v=ville, s=statut)

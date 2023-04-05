@@ -58,6 +58,10 @@ function afficherEnTableau(donneesAvecNbr){
         nom = contrevenants[i].nom_etablsmnt;
         nbr = contrevenants[i].nbr;
         id = contrevenants[i].id_etablsmnt;
+        pro = contrevenants[i].proprietaire;
+        ville = contrevenants[i].ville;
+        adresse = contrevenants[i].adresse;
+        statut = contrevenants[i].status;
 
         ligne = corps.insertRow();
         ligne_nom = ligne.insertCell();
@@ -68,7 +72,8 @@ function afficherEnTableau(donneesAvecNbr){
         ligne_nbr.textContent = nbr;
 
         var span = document.createElement('span'); 
-        span.innerHTML = "<button onclick='modifierEtablissement("+id+")' class='btn btn-primary bouton'>Modifier</button>  <button onclick='supprimerEtablissement("+id+")' class='btn btn-primary bouton'>Supprimer</button>";
+        // onclick='modifierEtablissement("+id+")'
+        span.innerHTML = "<a href='/modifier_etablissement?id="+id+"&nom="+nom+"&proprietaire="+pro+"&adresse="+adresse+"&ville="+ville+"&statut="+statut+"&nbr="+nbr+"'><button class='btn btn-primary bouton'>Modifier</button></a>  <button onclick='supprimerEtablissement("+id+")' class='btn btn-primary bouton'>Supprimer</button>";
         ligne_operation.appendChild(span);
         
     }
@@ -257,23 +262,24 @@ function afficherPoursuitesEnHTML(donnee_json){
 
 function supprimerEtablissement(id){
     xhr = new XMLHttpRequest();
-    var donnee_json;
+    // var donnee_json;
     var erreur = document.getElementById("erreur");
     var section_res = document.getElementById("section_resultat");
     const url = "/contrevenant/"+ id; // l'URL a retourner
     xhr.open('DELETE', url, true); 
     xhr.setRequestHeader('Content-Type', 'application/json'); 
 
-        xhr.onreadystatechange = function() {
-            if (xhr.readyState === XMLHttpRequest.DONE) { // verifie si la requete est terminee
-                if (xhr.status === 200) { // verifie si la requête a reussi
-                    // donnee_json = xhr.responseText; // resultaat de la requete
-                    section_res.innerText = "L'opération de suppression s'est déroulée avec succès.";
+    xhr.onreadystatechange = function() {
+        if (xhr.readyState === XMLHttpRequest.DONE) { // verifie si la requete est terminee
+            if (xhr.status === 200) { // verifie si la requête a reussi
+                // donnee_json = xhr.responseText; // resultaat de la requete
+                section_res.innerText = "L'opération de suppression s'est déroulée avec succès.";
                     
-                } else {
-                    erreur.innerHTML = "Un problème est survenu au niveau du serveur qui a empecher la supression! veuillez reessayer!";
-                }
+            } else {
+                erreur.innerHTML = "Un problème est survenu au niveau du serveur qui a empecher la supression! veuillez reessayer!";
             }
-        };
-        xhr.send();
-}
+        }
+    };
+    xhr.send();
+};
+

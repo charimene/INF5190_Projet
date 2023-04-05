@@ -179,7 +179,7 @@ class Database:
         connection.commit()
 
 
-    def get_inspections_dun_etablissement(self, id):
+    def get_poursuites_dun_etablissement(self, id):
         cursor = self.get_connection().cursor()
         cursor.execute("select * from poursuite where id_etablsmnt = ?", (id,))
         poursuites = cursor.fetchall()
@@ -196,9 +196,7 @@ class Database:
         connection.execute("delete from poursuite where id_etablsmnt = ?", (id,))
         connection.commit()
 
-    def modifier_etablissement(self, id, nom_etablsmnt, proprietaire, adresse, ville, statut, 
-                               nbr_infraction_etablsmnt):
-        
+    def modifier_etablissement(self, id, nom_etablsmnt, proprietaire, adresse, ville, statut):
         connection = self.get_connection()
-        connection.execute("update poursuite set nom_etablsmnt = ?, proprietaire = ?, adresse = ?, ville = ?, statut = ?, nbr_infraction_etablsmnt = ? where id_etablsmnt = ? ",(nom_etablsmnt, proprietaire, adresse, ville, statut, nbr_infraction_etablsmnt, id))
+        connection.execute("update poursuite set nom_etablsmnt = ?, proprietaire = ?, adresse = ?, ville = ?, statut = ? where id_etablsmnt = ? ",(nom_etablsmnt, proprietaire, adresse, ville, statut, id))
         connection.commit()

@@ -1,0 +1,62 @@
+{% extends "layout.html" %}
+{% block content %}  
+<div class="row justify-content-center">
+    <!-- Intro News Tabs Area -->
+    <div class="col-12 col-lg-12">
+        <div class="intro-news-tab">
+
+            <!-- Intro News Filter -->
+            <!-- <div class="lien">
+                <a href="/admin_nouveau"> <span class="fas fa-plus"></span> Ajouter un Article</a>
+            </div> -->
+            <div class="intro-news-filter d-flex justify-content-between">
+                <h6>Formulaire de modification d'un contrevenant</h6>
+            </div>
+
+            <div class="tab-content">
+                <div>
+                    <div class="row">
+                        <div class="col-12 col-sm-12">
+                            <!-- <span id="resultat" class="erreur_class"></span> -->
+                            <span id="succes" class="confirm"></span>
+                            <div id="resultat">
+                                <span id="erreur" class="erreur_class"></span>
+                                <form id="form_edit_etablsmn">
+                                    <input type="hidden" id="id" name="id" value="{{id}}">
+                                    <div class="form-group">
+                                        <label for="nom_etablsmn">Nom d'établissement</label>
+                                        <input type="text" class="form-control" id="nom_etablsmn" name="nom_etablsmn" value="{{ nom }}" required>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="propietaire">Propriétaire</label>
+                                        <input type="text" class="form-control" id="propietaire" name="propietaire" value="{{p}}" required>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="adresse">Adresse</label>
+                                        <input type="text" class="form-control" id="adresse" name="adresse"  value="{{ ad }}" required>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="ville">Ville</label>
+                                        <input type="text" class="form-control" id="ville" name="ville"  value="{{ v }}" required>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="statut">Statut</label>
+                                        <input type="text" class="form-control" id="statut" name="statut"  value="{{ s }}" required>
+                                    </div>
+                                    <!-- <div class="form-group">
+                                        <label for="nbr_infraction">Nombre d'infractions reçue</label>
+                                        <input type="text" class="form-control" id="nbr_infraction" name="nbr_infraction"  value="{{ nbr }}" required>
+                                    </div> -->
+                                    <button type="submit" class="btn btn-primary bouton">Mette à jour</button>
+                                    <!-- </div> -->
+                                </form>
+                            </div>
+                        </div> 
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="vendor/js/script_edit.js"></script>
+{% endblock %}

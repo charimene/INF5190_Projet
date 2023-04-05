@@ -75,3 +75,4 @@ document.getElementById("form_add_inspection").addEventListener("submit", functi
         erreur.innerText = "Données sont pas valides !";
     }
 });
+
