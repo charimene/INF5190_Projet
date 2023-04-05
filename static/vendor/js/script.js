@@ -61,7 +61,7 @@ function afficherEnTableau(donneesAvecNbr){
         pro = contrevenants[i].proprietaire;
         ville = contrevenants[i].ville;
         adresse = contrevenants[i].adresse;
-        statut = contrevenants[i].status;
+        statut = contrevenants[i].statut;
 
         ligne = corps.insertRow();
         ligne_nom = ligne.insertCell();
@@ -73,7 +73,9 @@ function afficherEnTableau(donneesAvecNbr){
 
         var span = document.createElement('span'); 
         // onclick='modifierEtablissement("+id+")'
-        span.innerHTML = "<a href='/modifier_etablissement?id="+id+"&nom="+nom+"&proprietaire="+pro+"&adresse="+adresse+"&ville="+ville+"&statut="+statut+"&nbr="+nbr+"'><button class='btn btn-primary bouton'>Modifier</button></a>  <button onclick='supprimerEtablissement("+id+")' class='btn btn-primary bouton'>Supprimer</button>";
+        parametre = "id="+id+"&nom="+encodeURIComponent(nom)+"&proprietaire="+encodeURIComponent(pro)+"&adresse="+encodeURIComponent(adresse)+"&ville="+encodeURIComponent(ville)+"&statut="+statut;
+        // parametre = encodeURIComponent(parametre);
+        span.innerHTML = "<a href='/modifier_etablissement?"+parametre+"'><button class='btn btn-primary bouton'>Modifier</button></a>  <button onclick='supprimerEtablissement("+id+")' class='btn btn-primary bouton'>Supprimer</button>";
         ligne_operation.appendChild(span);
         
     }

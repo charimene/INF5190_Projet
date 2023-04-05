@@ -106,3 +106,25 @@ Cette fonctionnalité fait supprimer une infraction dont le id est passé dans l
 Exemple de route pour supprimer une inspection : http://127.0.0.1:5000/inspection/1
 
 # D3
+On peut voir et utiliser cette fonctionnalité soit en testant les services REST avec l'outil YARC, soit en utilisant le petit formualaire de recherche "Recherche par Date".
+## avec l'outil YARC:
+on peut tester les services qui suppriment et qui modifient un établissement.
+- Le service rest qui supprime par exemple  l'etablissenent dont l'id = 4941 avec la route suivante et avec la méthode DELETE : 
+http://127.0.0.1:5000/contrevenant/4941
+
+- Le service Rest qui modifie par exemple un etablissement dont l'id = 4941 avec la route suivante et avec la méthode PUT:
+http://127.0.0.1:5000/contrevenant/4941
+en spécifiant dans le payload les nouvelles informations de l'établissement :
+        {
+                "nom_etablsmnt":"belle province v2",
+                "proprietaire":"propietaire belle ",
+                "adresse":"Montréal2555",
+                "ville":"montreal",
+                "statut":"ouvert"
+        }
+Ce service est validé par json-schema "maj_etablissement_schema"
+
+## avec l'application:
+- Se rendre sur la page : http://127.0.0.1:5000/
+- utiliser le formulaire "Recherche par date" et en entrant par exemple : les dates suivantes :
+   2022-01-01  et 2023-01-01 : on obtient la liste des etablissements qui ont recu des poursuites dans cette periode, et pour chaque etablissement on peut le supprimer de notre base de donnees ou bien modifier ses informations par un formulaire.

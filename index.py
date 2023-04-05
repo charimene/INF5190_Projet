@@ -347,7 +347,7 @@ def supprimer_contrevenant(id):
     
 
 @app.route('/contrevenant/<id>', methods=["PUT"])
-# @schema.validate(maj_etablissement_schema)
+@schema.validate(maj_etablissement_schema)
 def modifier_contrevenant(id):
     # chercher toutes les poursuites d'un etablissement dont le id egale au id passe dans la route
     poursuites = get_db().get_poursuites_dun_etablissement(id)

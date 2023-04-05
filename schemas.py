@@ -71,9 +71,6 @@ maj_etablissement_schema ={
         },
         'statut': {
             'type': 'string'
-        },
-        'nbr_infraction_etablsmnt': {
-            'type': 'number'
         }
     },
     'additionalProperties': False
