@@ -195,3 +195,10 @@ class Database:
         connection = self.get_connection()
         connection.execute("delete from poursuite where id_etablsmnt = ?", (id,))
         connection.commit()
+
+    def modifier_etablissement(self, id, nom_etablsmnt, proprietaire, adresse, ville, statut, 
+                               nbr_infraction_etablsmnt):
+        
+        connection = self.get_connection()
+        connection.execute("update poursuite set nom_etablsmnt = ?, proprietaire = ?, adresse = ?, ville = ?, statut = ?, nbr_infraction_etablsmnt = ? where id_etablsmnt = ? ",(nom_etablsmnt, proprietaire, adresse, ville, statut, nbr_infraction_etablsmnt, id))
+        connection.commit()

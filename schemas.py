@@ -44,3 +44,37 @@ demande_inspection_schema ={
     },
     'additionalProperties': False
 }
+
+{
+"nom_etablsmnt":"TTT2222555",
+"proprietaire":"rue TTT2225555 ",
+"adresse":"Montréal2555",
+"ville":"montreal",
+"statut":"ouvert",
+"nbr_infraction_etablsmnt":5
+}
+
+maj_etablissement_schema ={
+    'type': 'object',
+    'properties': {
+        'nom_etablsmnt': {
+            'type': 'string'
+        },
+        'proprietaire': {
+            'type': 'string'
+        },
+        'adresse': {
+            'type': 'string'
+        },
+        'ville': {
+            'type': 'string'
+        },
+        'statut': {
+            'type': 'string'
+        },
+        'nbr_infraction_etablsmnt': {
+            'type': 'number'
+        }
+    },
+    'additionalProperties': False
+}

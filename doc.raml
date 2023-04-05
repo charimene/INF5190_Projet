@@ -84,6 +84,17 @@ types:
           description: l'id spécifié est inexistant.
     put:
       description: modifie les informations de l'etablissement dont le id égale au id passé en parametre.
+      body:
+      application/json:
+        example:
+          {
+            "nom_etablsmnt":"nouveau nom",
+            "proprietaire":"propietaire nom ",
+            "adresse":"rue bondien",
+            "ville":"montreal",
+            "statut":"ouvert",
+            "nbr_infraction_etablsmnt":5
+          }
       responses:
         200:
           description: la modification s'est effectuée avec succès.
@@ -196,6 +207,19 @@ types:
   post:
     description: 
       Service qui permet de creer une demande d'inspection qui conserne un etablissement et la sauvegarder dans la base de données.
+    body:
+      application/json:
+        type: Inspection
+        example:
+          {
+            "nom_etablissement":"TTT2222555",
+            "adresse":"rue TTT2225555 ",
+            "ville":"Montréal2555",
+            "date_visite_client":"12/02/2025",
+            "nom_client":"jhhhhh22555",
+            "prenom_client":"imene225555",
+            "plainte" :"mo. pliante èàé.,'plainte2222555555"
+          }
     responses:
       201:
         body:

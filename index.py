@@ -12,6 +12,7 @@ import re
 from flask_json_schema import JsonSchema
 from flask_json_schema import JsonValidationError
 from schemas import demande_inspection_schema
+from schemas import maj_etablissement_schema
 # from .schemas import person_update_schema
 import json
 import io
@@ -342,5 +343,18 @@ def supprimer_contrevenant(id):
         return "", 404
     else:
         get_db().delete_etablissement(id)
+        return "", 200
+    
+@app.route('/contrevenant/<id>', methods=["PUT"])
+@schema.validate(maj_etablissement_schema)
+def modifier_contrevenant(id):
+    # chercher toutes les poursuites d'un etablissement dont le id egale au id passe dans la route
+    contrevenants = get_db().get_inspections_dun_etablissement(id)
+    if contrevenants is None:
+        return "", 404
+    else:
+        donnees = request.get_json()
+        get_db().modifier_etablissement(id, donnees["nom_etablsmnt"], donnees["proprietaire"], donnees["adresse"],
+                                        donnees["ville"], donnees["statut"], donnees["nbr_infraction_etablsmnt"])
         return "", 200
     
