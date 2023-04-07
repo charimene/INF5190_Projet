@@ -11,11 +11,12 @@ les fonctionnalitées de A1 sont executées lors de l'appel de la route principa
 - Apres je vais modifier l'attribut "nbr_infraction_etablsmnt" de chaque entree pour sauvegarder le nbr de poursuite lié a l'établissement en question.
 
 ## A2
-Cette fonctionnalité sert a chercher des contravenants selon:
+Cette fonctionnalité, grace au formualire de recherche "Rechercher des contrevenants" sert a chercher des contravenants selon:
 - le nom de leurs établissements. 
 - le nom de leurs propriétaires.
 - la rue de leurs établissements(adresse).
 L'interface permet de choisir la préférence de l'utilisateur (recherche par Nom est placée par defaut).
+
 ## A4
 Cette fonctionnalité offre un service REST qui permet de faire un GET pour avoir les poursuites qui ont été faites entre deux dates spécidiées dans les parametres de l'URL.
 Exemple :
@@ -57,27 +58,27 @@ ca va nous retourner les poursuites qu'on voudrait avoir.
 * Un autre exemple avec le caractere "/" pour le nom : "CAFE NAPOLITAN / BAR SHENANIGANS"
         http://127.0.0.1:5000/poursuites?nom=CAFE%20NAPOLITAN%20%2F%20BAR%20SHENANIGANS
 
-3- Juste pour précision : tous ces traitements se font automatiqument en javascript quand on lance une recherche par nom, c'est a dire tous les caracteres spéciaux vont etre interpretés correctement avec du javascript.
+3- précision : tous ces traitements se font automatiqument en javascript quand on lance une recherche par nom, c'est a dire tous les caracteres spéciaux vont etre interpretés correctement avec du javascript.
 
 
 # C1
 ici je fais seulement une requete sql qui me retourne les etablissements avec les attributs : nom_etablsmnt et nbr_infraction_etablsmnt
 et j'applique ORDER BY nbr_infraction_etablsmnt a ma requetes pour trier mes resultats selon le nombre des poursuites.
 et je fais GROUP BY nom_etablsmnt pour eviter les doublons.
-Exemple de route pour tester cette fonctionnalité sur YARC:
+Exemple de route pour tester cette fonctionnalité sur YARC avec méthode Get:
         http://127.0.0.1:5000/nbr_infractions_etablissements
 
 # C2
 Pour cette fonctionnalité, j'utilise la meme fonction utilisée dans C1 pour retourner la liste des établissements avec le nombre de poursuites qu'ils ont eu.
 et la liste que je recois en json je la convertis en XML avec xml.etree.ElementTree .
-Exemple de route pour tester cette fonctionnalité sur YARC:
+Exemple de route pour tester cette fonctionnalité sur YARC avec méthode Get:
         http://127.0.0.1:5000/nbr_infractions_etablissements_xml
 
 # C3
 Pour cette fonctionnalité, j'utilise la meme fonction utilisée dans C1 pour retourner la liste des établissements avec le nombre de poursuites qu'ils ont eu.
 et la liste que je recois en json je la convertis en CSV avec la bibliotheque CSV .
 
-Exemple de route pour tester cette fonctionnalité sur YARC:
+Exemple de route pour tester cette fonctionnalité sur YARC avec méthode Get:
         http://127.0.0.1:5000/nbr_infractions_etablissements_csv
 
 # D1
@@ -88,15 +89,15 @@ Pour tester cette fonctionnalité sur YARC :
 
 l'URL : http://127.0.0.1:5000/inspection
 avec le payload suivant : 
-{
-"nom_etablissement":"AAAAé",
-"adresse":"rue AAAé ",
-"ville":"Montréal",
-"date_visite_client":"12/02/2022",
-"nom_client":"string",
-"prenom_client":"imene",
-"plainte" :"description. pliante est une lainte"
-}
+        {
+                "nom_etablissement":"AAAAé",
+                "adresse":"rue AAAé ",
+                "ville":"Montréal",
+                "date_visite_client":"12/02/2022",
+                "nom_client":"string",
+                "prenom_client":"imene",
+                "plainte" :"description. pliante est une lainte"
+        }
 
 # D2
 Pour des raisons de tests, j'ai rajouté la route : http://127.0.0.1:5000/inspections
