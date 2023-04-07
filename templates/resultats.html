@@ -2,7 +2,7 @@
 {% block content %}  
 <div class="row justify-content-center">
     <!-- Intro News Tabs Area -->
-    <div class="col-12 col-lg-8">
+    <div class="col-12 col-lg-12">
         <div class="intro-news-tab">
 
             <!-- Intro News Filter -->
@@ -15,7 +15,6 @@
                     <div class="row">
                         <span id="erreur" class="erreur_class"></span>
                         <div id="section_resultat">
-                            
                         
                         {% if error %}
                             <p class="erreur_class">{{error}}.</p>
@@ -49,11 +48,11 @@
     </div>
 
     <!-- Sidebar Widget -->
-    <div class="col-12 col-sm-9 col-md-6 col-lg-4">
-        <div class="sidebar-area">
+    <!-- <div class="col-12 col-sm-9 col-md-6 col-lg-4">
+        <div class="sidebar-area"> -->
 
             <!-- Newsletter Widget -->
-            <div class="single-widget-area newsletter-widget mb-30">
+            <!-- <div class="single-widget-area newsletter-widget mb-30">
                 <h4>Rechercher des contrevenants </h4>
                 <form action="/recherche" method="post">
                     <input type="search" name="nl-search" id="nlsearch" placeholder="Entrez vos Mots clés">
@@ -74,9 +73,9 @@
                     <button type="submit" class="btn newsbox-btn w-100">Rechercher</button>
                 </form>
                 <p class="mt-30">Vous devez choisir le filtre que vous voulez appliquer sur la recherche que vous voulez effectuer.</p>
-            </div>
+            </div> -->
 
-            <div class="single-widget-area newsletter-widget mb-30">
+            <!-- <div class="single-widget-area newsletter-widget mb-30">
                 <h4>Recherche par Date </h4>
                 <form id="recherche_dates">
                     <input type="search" name="du" id="date_du" placeholder="Date de début">
@@ -84,10 +83,10 @@
                     <button type="submit" class="btn newsbox-btn w-100">Rechercher</button>
                 </form>
                 <p class="mt-30">Veuillez fournir deux dates afin d'identifier les contrevenants qui sont survenues entre ces deux dates.</p>
-            </div>
+            </div> -->
 
-        </div>
-    </div>
+        <!-- </div>
+    </div> -->
 </div>
 <!-- <script src="vendor/js/script.js"></script> -->
 {% endblock %}

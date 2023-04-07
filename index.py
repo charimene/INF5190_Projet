@@ -377,7 +377,7 @@ def modifier_etablsmnt():
 def create_user():
     donnees = request.get_json()
 
-    # pour transfomer la liste d'etablissement en chaine de caractere
+    # pour transfomer la liste d'etablissement en chaine de caracteres
     liste_etablissements=json.dumps(donnees["etablissement_a_surveiller"])
 
     salt = uuid.uuid4().hex
