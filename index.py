@@ -13,7 +13,7 @@ from flask_json_schema import JsonSchema
 from flask_json_schema import JsonValidationError
 from schemas import demande_inspection_schema
 from schemas import maj_etablissement_schema
-# from .schemas import person_update_schema
+from schemas import create_user_schema
 import json
 import io
 import urllib.request
@@ -22,7 +22,7 @@ import csv
 import xml.etree.ElementTree as et
 from poursuite import Poursuite
 from inspection import Inspection
-
+from user import User
 
 app = Flask(__name__, static_url_path="", static_folder="static")
 schema = JsonSchema(app)
@@ -370,3 +370,19 @@ def modifier_etablsmnt():
     statut = request.args.get('statut')
     return render_template("modifier_etablissement.html",id=id, nom=nom_etblsmn, p=proprietaire,
                            ad=adresse, v=ville, s=statut)
+
+
+@app.route('/user', methods=["POST"])
+@schema.validate(create_user_schema)
+def create_user():
+    donnees = request.get_json()
+
+    # pour transfomer la liste d'etablissement en chaine de caractere
+    liste_etablissements=json.dumps(donnees["etablissement_a_surveiller"])
+
+    salt = uuid.uuid4().hex
+    hash = hashlib.sha512(str(donnees["mot_de_passe"] + salt).encode("utf-8")).hexdigest()
+
+    user = User(None, donnees["nom"], donnees["prenom"], donnees["courriel"],liste_etablissements, salt, hash)
+    user = get_db().save_user(user)
+    return jsonify(user.asDictionary()), 201

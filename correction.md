@@ -128,3 +128,30 @@ Ce service est validé par json-schema "maj_etablissement_schema"
 - Se rendre sur la page : http://127.0.0.1:5000/
 - utiliser le formulaire "Recherche par date" et en entrant par exemple : les dates suivantes :
    2022-01-01  et 2023-01-01 : on obtient la liste des etablissements qui ont recu des poursuites dans cette periode, et pour chaque etablissement on peut le supprimer de notre base de donnees ou bien modifier ses informations par un formulaire.
+
+# E1:
+- cette fonctionnlité permet de creer un nouveau profil d'utilisateur grace au service Rest : 
+http://127.0.0.1:5000/user
+avec par exemple les données suivantes en entrée:
+        {
+                "nom": "Imene",
+                "prenom":"cha",
+                "courriel": "imenecha@example.com",
+                "etablissement_a_surveiller": ["Etablissement A", "Etablissement B", "Etablissement C"],
+                "mot_de_passe": "mot de passe"
+        }
+
+ceci va ajouter creer un user de type User avec les informations données.
+**Précisions** 
+- la liste des etablissments a surveiller je la transforme en chaine de caractere avant de l'inserer dans la base de données.
+- le mot de passe pour des raisons de sécurité, on va venir générer un salt aléatoire qu'on ajoute au mot de passe entré, et on sauvgarde le hash 512 de cette addition dans la base de données.
+ce service Rest, comme confirmation, il va retourner les informations sauegardées en json : 
+        {
+                "courriel": "imenecha@example.com",
+                "etablissement_a_surveiller": "[\"Etablissement A\", \"Etablissement B\", \"Etablissement C\"]",
+                "mdp_hash": "240d920c0d0f711a7c7684f6516802464ad782282cb912940461ad07b80a5a80db00fb9ebee1cfcae86427de0a1e727cdfbe28e8e6e8dcfc0432e6573b5db504",
+                "nom": "Imene",
+                "prenom": "cha",
+                "salt": "06fc4e72aa5145b8aae7582d740b639e"
+        }
+- Ce service rest est validé par le json schema : "create_user_schema"

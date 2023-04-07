@@ -23,3 +23,13 @@ create table inspection(
   prenom_client varchar(50),
   plainte varchar(500)
 );
+
+create table user (
+  id integer primary key,
+  nom varchar(100),
+  prenom varchar(100),
+  courriel varchar(100),
+  etablissement_a_surveiller text,
+  salt varchar(32),
+  mdp_hash varchar(128)
+);

@@ -75,3 +75,43 @@ maj_etablissement_schema ={
     },
     'additionalProperties': False
 }
+
+create_user_schema={
+    'type': 'object',
+    'properties': {
+        'nom': {
+            'type': 'string'
+        },
+        'prenom': {
+            'type': 'string'
+        },
+        'courriel': {
+            'type': 'string',
+            'format': 'email'
+        },
+        'etablissement_a_surveiller': {
+            'type': 'array', 
+            'items': {
+                'type': 'string'
+            }
+        },
+        'mot_de_passe': {
+            'type': 'string'
+        }
+    },
+    "required": ["nom", "prenom", "courriel", "etablissement_a_surveiller", "mot_de_passe"],
+    "additionalProperties": False
+}
+
+schema = {
+    "type": "object",
+    "properties": {
+        "nom": {"type": "string"},
+        "prenom": {"type": "string"},
+        "courriel": {"type": "string", "format": "email"},
+        "etablissement_a_surveiller": {"type": "array", "items": {"type": "string"}},
+        "mot_de_passe": {"type": "string"}
+    },
+    "required": ["nom", "prenom", "courriel", "etablissement_a_surveiller", "mot_de_passe"],
+    "additionalProperties": False
+}

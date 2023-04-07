@@ -17,6 +17,7 @@ import sqlite3
 from datetime import datetime, date
 from poursuite import Poursuite
 from inspection import Inspection
+from user import User
 import json
 
 class Database:
@@ -200,3 +201,11 @@ class Database:
         connection = self.get_connection()
         connection.execute("update poursuite set nom_etablsmnt = ?, proprietaire = ?, adresse = ?, ville = ?, statut = ? where id_etablsmnt = ? ",(nom_etablsmnt, proprietaire, adresse, ville, statut, id))
         connection.commit()
+
+    def save_user(self, user):
+        connection = self.get_connection()
+        connection.execute("insert into user(nom, prenom, courriel, etablissement_a_surveiller, salt, mdp_hash) "
+                            "values(?, ?, ?, ?, ?, ?)",
+                            (user.nom, user.prenom, user.courriel, user.etablissement_a_surveiller, user.salt, user.mdp_hash))
+        connection.commit()
+        return user

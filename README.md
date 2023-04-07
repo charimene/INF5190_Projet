@@ -13,19 +13,40 @@ Licence du template téléchargé : https://themewagon.com/license/
 
 # Installation 
 
-Pour l’installer RAML :
+- Pour l’installer RAML :
     npm i -g raml2html
 
-- installation de la db:
+- installation de la db apartir du dossier db/:
     sqlite3 poursuites.db < db.sql 
     
-Pour générer le document doc.html pour la documentation du service REST, depuis la racine du proojet executer la commande suivante:
+- Pour générer le document doc.html pour la documentation du service REST, depuis la racine du proojet executer la commande suivante:
     raml2html doc.raml > templates/doc.html
 
+- Compilation et execution : 
+    FLASK_APP=index.py flask run
 
-    Apres compilation : FLASK_APP=index.py flask run
-    le chargement du fichier et la conversion et la creation de la db prennent environ 32 sec 
-    Apres la navigation se fait normalement.
+# Remarque
+
+- Apres compilation : FLASK_APP=index.py flask run
+le chargement du fichier et la conversion et la creation de la db prennent environ 32 sec.
+Apres ca, la navigation se fait normalement.
 
 
-il faut pas oublier de remettre le fichier de requirements des installations avec freeze
+# Fonctionnalités developpées :
+
+- A1 (10XP)
+- A2 (10Xp)
+- A4 (10Xp)
+- A5 (10Xp)
+- A6 (10Xp)
+- C1 (10Xp)
+- C2 (5 Xp)
+- C3 (5 Xp)
+- D1 (15Xp)
+- D2 (5Xp)
+- D3 (15Xp)
+- E1 (15Xp)
+
+Pour un Total de : 120 XP
+
+Le détail des fonctionnalités developpées se trouve dans le fichier 'correction.md'
