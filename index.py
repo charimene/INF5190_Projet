@@ -28,8 +28,8 @@ app = Flask(__name__, static_url_path="", static_folder="static")
 schema = JsonSchema(app)
 
 
-# Le bout de code de la fonction construire_db() qui s'execute une seule fois au debut de
-# démarrage de l'application    
+# Le bout de code de la fonction construire_db() qui s'execute une
+# seule fois au debut de démarrage de l'application
 @app.before_first_request
 def construire_db():
     telecharger_donnees()
@@ -86,11 +86,12 @@ def verifier_chaine_caractere(chaine):
 def telecharger_donnees():
     url = "https://data.montreal.ca/dataset/05a9e718-6810-4e73-8bb9-5955efeb91a0/resource/7f939a08-be8a-45e1-b208-d8744dca8fc6/download/violations.csv"
 
-    #J'ai ajoute l'agent Mozilla pour eviter l'erreur urllib.error.httperror : erreur http 403
+    # J'ai ajoute l'agent Mozilla pour eviter l'erreur urllib.error.httperror :
+    # erreur http 403
     request_site = Request(url, headers={"User-Agent": "Mozilla/5.0"})
     donnees_csv = urlopen(request_site).read()
 
-    # requete = urllib.request.urlopen(url)  
+    # requete = urllib.request.urlopen(url)
     # donnees_csv = requete.read()
 
     encodage_csv = donnees_csv.decode('utf-8')
@@ -103,10 +104,11 @@ def telecharger_donnees():
 def convertir_csv2xml():
     fichier_csv = open("donnees/donnees.csv", newline='')
     lignes = csv.DictReader(fichier_csv)
-    # racine du fichier par la balise library qui sert a valider le fichier xml créé par le fichier
+    # racine du fichier par la balise library qui sert a valider le fichier
+    # xml créé par le fichier
     # xsd : valider.xsd
     racine_fichier = et.Element("library")
-    racine_fichier.set("xmlns:xsi", "http://www.w3.org/2001/XMLSchema-instance")   
+    racine_fichier.set("xmlns:xsi", "http://www.w3.org/2001/XMLSchema-instance")
     racine_fichier.set("xsi:noNamespaceSchemaLocation", "valider.xsd")
 
     poursuites = et.SubElement(racine_fichier, "poursuites")
@@ -117,11 +119,14 @@ def convertir_csv2xml():
             champ.text = val
 
     fichier_xml = et.ElementTree(racine_fichier)
-    fichier_xml.write("donnees/donnees.xml", encoding="UTF-8", xml_declaration=True)
+    fichier_xml.write("donnees/donnees.xml", encoding="UTF-8",
+                      xml_declaration=True)
 
 
-# cette fonction teste si l'id de la poursuite passé en parametre existe deja dans notre DB
-# Si l'id de la poursuite existe dans notre DB, la fonction retourne True, sinon ca retourne false
+# cette fonction teste si l'id de la poursuite passé en parametre existe deja
+# dans notre DB
+# Si l'id de la poursuite existe dans notre DB, la fonction retourne True,
+# sinon ca retourne false
 def poursuite_existe(id_poursuite):
     resultat = False
     poursuite = get_db().get_poursuite(id_poursuite)
@@ -135,33 +140,36 @@ def inserer_donnees_db():
     racine = fichier_xml.getroot()
     poursuites = racine[0]
     for i in poursuites.findall("poursuite"):
-        id_etablismnt=i.find("business_id").text
+        id_etablismnt = i.find("business_id").text
         nom = i.find("etablissement").text
         proprietaire = i.find("proprietaire").text
         adresse = i.find("adresse").text
         ville = i.find("ville").text
         statut = i.find("statut").text
-        
-        id_poursuite=i.find("id_poursuite").text
+
+        id_poursuite = i.find("id_poursuite").text
         date_poursuite = i.find("date").text
         date_jugement = i.find("date_jugement").text
-        motif=i.find("description").text
+        motif = i.find("description").text
         montant = i.find("montant").text
         nbr_infraction = 1
-        
-        # on vient ajouter le meme établissement qu'une seule fois dans la table etblissement de base de donnees
-        # il existe surement plusieurs poursuites associées au meme établissement.
-        # if not etablsmnt_existe(id_etablismnt):
-        #     etablissement = Etablissement(id_etablismnt, nom, proprietaire, adresse, ville, statut)
-        #     etablssmnt_db = get_db().save_etablissmnt(etablissement)
+
+        # on vient ajouter le meme établissement qu'une seule fois dans l
+        # a table etblissement de base de donnees
+        # il existe surement plusieurs poursuites associées
+        # a un meme établissement.
 
         if not poursuite_existe(id_poursuite):
-            poursuite = Poursuite(id_poursuite, id_etablismnt, nom, proprietaire, adresse, ville, 
-                                  statut, date_poursuite, date_jugement, motif, montant, nbr_infraction)
+            poursuite = Poursuite(id_poursuite, id_etablismnt, nom,
+                                  proprietaire, adresse, ville,
+                                  statut, date_poursuite,
+                                  date_jugement, motif, montant,
+                                  nbr_infraction)
             poursuite_db = get_db().save_poursuite(poursuite)
 
 
-# fonction qui va compter le nombre de poursuite a chaque établissement et le met a jour dans la base de donnees.
+# fonction qui va compter le nombre de poursuite a chaque établissement
+# et le met a jour dans la base de donnees.
 def nbr_poursuite_etablissement():
     liste_poursuites = get_db().get_poursuites()
     for p in liste_poursuites:
@@ -172,11 +180,11 @@ def nbr_poursuite_etablissement():
 
 @app.route('/', methods=['GET'])
 def page_accueil():
-    # variable qui contient les noms des établissemnts qui ont fait l'objet de poursuites.
+    # variable qui contient les noms des établissemnts qui ont fait
+    # l'objet de poursuites.
     etablissements_liste = noms_etablissements()
-    return render_template('accueil.html', etablissements_liste=etablissements_liste), 200
-    #nbr = get_db().nbr_poursuite()
-    # return render_template('accueil.html'), 200
+    return render_template('accueil.html',
+                           etablissements_liste=etablissements_liste), 200
 
 
 @app.route('/recherche', methods=['POST'])
@@ -202,20 +210,21 @@ def donnees_recherche():
     elif (filtre == "rue"):
         contravenants = get_db().search_contravenant_par_rue(mot_cle)
         return render_template('resultats.html', resultats=contravenants), 200
-    
+
 
 @app.route('/contrevenants', methods=["GET"])
 def get_contrevenants():
-    contrevenants_liste=[]
+    contrevenants_liste = []
     # récuperer les dates passées en parametres
     date_du = request.args.get('du')
     date_au = request.args.get('au')
 
     # normaliser les dates recues en parametres selon leur format en DB
-    # on eneleve les - 
+    # on eneleve les "-"
     date_du = date_du.replace('-', "")
     date_au = date_au.replace('-', "")
-    # convertir les dates en chaine de caracteres en type date pour pouvoir les comparer
+    # convertir les dates en chaine de caracteres en type date pour
+    # pouvoir les comparer
     datedu = datetime.strptime(date_du, '%Y%m%d')
     dateau = datetime.strptime(date_au, "%Y%m%d")
     date_du_parametre = datedu.date()
@@ -224,36 +233,39 @@ def get_contrevenants():
     # contrevenants = get_db().get_poursuites()
     contrevenants = get_db().get_poursuites()
     for c in contrevenants:
-        # recuperer la date de la poursuite  
+        # recuperer la date de la poursuite
         date_poursuite = c.date_poursuite
 
         # converitr la date de la poursuite en type date
         datec = datetime.strptime(date_poursuite, "%Y%m%d")
         date_c = datec.date()
-        
-        # comparer les dates et ajouter celle qui est entre les 2 dates passées en parmetres
+
+        # comparer les dates et ajouter celle qui est entre les 2 dates
+        # passées en parmetres
         if date_c >= date_du_parametre and date_c <= date_au_parametre:
             contrevenants_liste.append(c)
 
     if len(contrevenants_liste) == 0:
         return "", 404
     else:
-        return jsonify([contrevenant.asDictionary() for contrevenant in contrevenants_liste])
+        return jsonify([contrevenant.asDictionary()
+                        for contrevenant in contrevenants_liste])
 
 
 @app.route('/poursuites', methods=["GET"])
 def get_poursuites():
-    contrevenants_liste=[]
+    contrevenants_liste = []
     # récuperer le nom passé en parametres
     nom_etablissement = request.args.get('nom')
 
     # valider l'argument passé en parametre
-    if(verifier_chaine_caractere(nom_etablissement)):
+    if (verifier_chaine_caractere(nom_etablissement)):
         poursuites = get_db().get_poursuites_etablissement(nom_etablissement)
         if poursuites is None:
             return "", 404
         else:
-            return jsonify([poursuite.asDictionary() for poursuite in poursuites]), 200
+            return jsonify([poursuite.asDictionary()
+                            for poursuite in poursuites]), 200
 
 
 @app.route('/nbr_infractions_etablissements', methods=['GET'])
@@ -262,13 +274,14 @@ def get_liste_etablissements():
     if etablissements is None:
         return "", 404
     else:
-        return jsonify([eta.asDictionaryNbr() for eta in etablissements])
-        
+        return jsonify([eta.asDictionaryNbr()
+                        for eta in etablissements])
+
 
 @app.route('/nbr_infractions_etablissements_xml', methods=['GET'])
 def get_liste_etablissements_xml():
-    etablissements = get_liste_etablissements() 
-    if(etablissements is None):
+    etablissements = get_liste_etablissements()
+    if (etablissements is None):
         return "", 404
     else:
         json_data = etablissements.json
@@ -282,14 +295,16 @@ def get_liste_etablissements_xml():
             nom_balise = et.SubElement(etablissement, "nom")
             nom_balise.text = str(item["nom"])
 
-        etablissements_xml = et.tostring(racine, encoding='UTF-8', xml_declaration=True)
-        
+        etablissements_xml = et.tostring(racine, encoding='UTF-8',
+                                         xml_declaration=True)
+
         return etablissements_xml, 200
-    
+
+
 @app.route('/nbr_infractions_etablissements_csv', methods=['GET'])
 def get_liste_etablissements_csv():
-    etablissements = get_liste_etablissements() 
-    if(etablissements is None):
+    etablissements = get_liste_etablissements()
+    if (etablissements is None):
         return "", 404
     else:
         json_data = etablissements.json
@@ -301,28 +316,34 @@ def get_liste_etablissements_csv():
 
         for item in json_data:
             csv_ecriture.writerow([item['nombre'], item['nom']])
-        
+
         etablissements_csv_str = etablissements_csv.getvalue()
         return etablissements_csv_str, 200
+
 
 @app.route('/inspection', methods=["POST"])
 @schema.validate(demande_inspection_schema)
 def create_inspection():
     donnees = request.get_json()
-    inspection = Inspection(None, donnees["nom_etablissement"], donnees["adresse"], donnees["ville"], donnees["date_visite_client"], donnees["nom_client"], donnees["prenom_client"], donnees["plainte"])
+    inspection = Inspection(None, donnees["nom_etablissement"],
+                            donnees["adresse"], donnees["ville"],
+                            donnees["date_visite_client"],
+                            donnees["nom_client"], donnees["prenom_client"],
+                            donnees["plainte"])
     inspection = get_db().save_inspection(inspection)
     return jsonify(inspection.asDictionary()), 201
 
 
-@app.route('/demande_inspection', methods=["GET","POST"])
+@app.route('/demande_inspection', methods=["GET", "POST"])
 def demande_inspection():
     return render_template("ajout_inspection.html")
-    
+
 
 @app.route('/inspections', methods=["GET"])
 def get_inspections():
     inspections = get_db().get_inspections()
-    return jsonify([inspection.asDictionary() for inspection in inspections])
+    return jsonify([inspection.asDictionary()
+                    for inspection in inspections])
 
 
 @app.route('/inspection/<id>', methods=["DELETE"])
@@ -333,34 +354,38 @@ def supprimer_inspection(id):
     else:
         get_db().delete_inspection(id)
         return "", 200
-    
+
 
 @app.route('/contrevenant/<id>', methods=["DELETE"])
 def supprimer_contrevenant(id):
-    # chercher toutes les poursuites d'un etablissement dont le id egale au id passe dans la route
+    # chercher toutes les poursuites d'un etablissement dont
+    # le id egale au id passe dans la route
     poursuites = get_db().get_poursuites_dun_etablissement(id)
     if poursuites is None:
         return "", 404
     else:
         get_db().delete_etablissement(id)
         return "", 200
-    
+
 
 @app.route('/contrevenant/<id>', methods=["PUT"])
 @schema.validate(maj_etablissement_schema)
 def modifier_contrevenant(id):
-    # chercher toutes les poursuites d'un etablissement dont le id egale au id passe dans la route
+    # chercher toutes les poursuites d'un etablissement dont
+    # le id egale au id passe dans la route
     poursuites = get_db().get_poursuites_dun_etablissement(id)
     if poursuites is None:
         return "", 404
     else:
         donnees = request.get_json()
-        get_db().modifier_etablissement(id, donnees["nom_etablsmnt"], donnees["proprietaire"], donnees["adresse"],
+        get_db().modifier_etablissement(id, donnees["nom_etablsmnt"],
+                                        donnees["proprietaire"],
+                                        donnees["adresse"],
                                         donnees["ville"], donnees["statut"])
         return "", 200
-    
 
-@app.route('/modifier_etablissement', methods=["GET","POST"])
+
+@app.route('/modifier_etablissement', methods=["GET", "POST"])
 def modifier_etablsmnt():
     id = request.args.get('id')
     nom_etblsmn = request.args.get('nom')
@@ -368,7 +393,8 @@ def modifier_etablsmnt():
     adresse = request.args.get('adresse')
     ville = request.args.get('ville')
     statut = request.args.get('statut')
-    return render_template("modifier_etablissement.html",id=id, nom=nom_etblsmn, p=proprietaire,
+    return render_template("modifier_etablissement.html", id=id,
+                           nom=nom_etblsmn, p=proprietaire,
                            ad=adresse, v=ville, s=statut)
 
 
@@ -378,11 +404,14 @@ def create_user():
     donnees = request.get_json()
 
     # pour transfomer la liste d'etablissement en chaine de caracteres
-    liste_etablissements=json.dumps(donnees["etablissement_a_surveiller"])
+    liste_etablissements = json.dumps(donnees["etablissement_a_surveiller"])
 
     salt = uuid.uuid4().hex
-    hash = hashlib.sha512(str(donnees["mot_de_passe"] + salt).encode("utf-8")).hexdigest()
+    hash = hashlib.sha512(
+        str(donnees["mot_de_passe"] + salt).encode("utf-8")).hexdigest()
 
-    user = User(None, donnees["nom"], donnees["prenom"], donnees["courriel"],liste_etablissements, salt, hash)
+    user = User(None, donnees["nom"], donnees["prenom"],
+                donnees["courriel"], liste_etablissements,
+                salt, hash)
     user = get_db().save_user(user)
     return jsonify(user.asDictionary()), 201

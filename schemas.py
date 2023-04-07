@@ -13,9 +13,11 @@
 # limitations under the License.
 
 
-demande_inspection_schema ={
+demande_inspection_schema = {
     'type': 'object',
-    'required': ['nom_etablissement', 'adresse', 'ville', 'date_visite_client', 'nom_client', 'prenom_client', 'plainte'],
+    'required': ['nom_etablissement', 'adresse', 'ville',
+                 'date_visite_client', 'nom_client',
+                 'prenom_client', 'plainte'],
     'properties': {
         'id': {
             'type': 'number'
@@ -45,16 +47,8 @@ demande_inspection_schema ={
     'additionalProperties': False
 }
 
-{
-"nom_etablsmnt":"TTT2222555",
-"proprietaire":"rue TTT2225555 ",
-"adresse":"Montréal2555",
-"ville":"montreal",
-"statut":"ouvert",
-"nbr_infraction_etablsmnt":5
-}
 
-maj_etablissement_schema ={
+maj_etablissement_schema = {
     'type': 'object',
     'properties': {
         'nom_etablsmnt': {
@@ -76,7 +70,7 @@ maj_etablissement_schema ={
     'additionalProperties': False
 }
 
-create_user_schema={
+create_user_schema = {
     'type': 'object',
     'properties': {
         'nom': {
@@ -90,7 +84,7 @@ create_user_schema={
             'format': 'email'
         },
         'etablissement_a_surveiller': {
-            'type': 'array', 
+            'type': 'array',
             'items': {
                 'type': 'string'
             }
@@ -99,19 +93,7 @@ create_user_schema={
             'type': 'string'
         }
     },
-    "required": ["nom", "prenom", "courriel", "etablissement_a_surveiller", "mot_de_passe"],
-    "additionalProperties": False
-}
-
-schema = {
-    "type": "object",
-    "properties": {
-        "nom": {"type": "string"},
-        "prenom": {"type": "string"},
-        "courriel": {"type": "string", "format": "email"},
-        "etablissement_a_surveiller": {"type": "array", "items": {"type": "string"}},
-        "mot_de_passe": {"type": "string"}
-    },
-    "required": ["nom", "prenom", "courriel", "etablissement_a_surveiller", "mot_de_passe"],
+    "required": ["nom", "prenom", "courriel",
+                 "etablissement_a_surveiller", "mot_de_passe"],
     "additionalProperties": False
 }
